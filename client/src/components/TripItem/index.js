@@ -1,0 +1,126 @@
+import React from "react";
+import PropTypes from "prop-types";
+import { Button, Heading, Icon, Pane, Text, majorScale } from "evergreen-ui";
+import dateFns from "date-fns";
+
+import Item from "../Item";
+import { convertMinsToHrsMins } from "../../constants";
+
+const lightColor = "#1070CA";
+
+const renderDate = (date, name) => (
+  <>
+    <Heading marginBottom="0.3rem" size={700} fontWeight={400}>
+      {dateFns.format(date, "hh:mm")}
+    </Heading>
+
+    <Text>{name}</Text>
+  </>
+);
+
+const renderDuration = (duration, direction) => (
+  <Pane
+    paddingX={majorScale(4)}
+    display="flex"
+    justifyContent="center"
+    flexDirection="column"
+  >
+    <Text textAlign="center" color={lightColor}>
+      {convertMinsToHrsMins(duration, "h")}
+    </Text>
+
+    <Pane display="flex" alignItems="center" justifyContent="center">
+      {direction === "from" ? (
+        <>
+          <Pane
+            width="3rem"
+            height={2}
+            backgroundColor={lightColor}
+            display="inline-block"
+            marginRight={-2}
+          />
+          <Icon icon="arrow-right" color={lightColor} />
+        </>
+      ) : (
+        <>
+          <Icon icon="arrow-left" color={lightColor} />
+          <Pane
+            width="3rem"
+            height={2}
+            backgroundColor={lightColor}
+            display="inline-block"
+            marginLeft={-2}
+          />
+        </>
+      )}
+    </Pane>
+  </Pane>
+);
+
+const TripItem = ({
+  arrival_date,
+  currency,
+  departure_date,
+  duration,
+  from,
+  price,
+  to,
+}) => (
+  <Item>
+    <Pane flexGrow={1} alignItems="center" justifyContent="center">
+      <Pane display="flex" alignItems="center" justifyContent="center">
+        <Pane flexGrow={1} textAlign="right">
+          {renderDate(departure_date, from.name)}
+        </Pane>
+        {renderDuration(duration, "from")}
+        <Pane flexGrow={1} textAlign="left">
+          {renderDate(arrival_date, to.name)}
+        </Pane>
+      </Pane>
+
+      <Pane
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        marginTop={majorScale(2)}
+      >
+        <Pane flexGrow={1} textAlign="right">
+          {renderDate(arrival_date, to.name)}
+        </Pane>
+        {renderDuration(duration, "to")}
+        <Pane flexGrow={1} textAlign="left">
+          {renderDate(departure_date, from.name)}
+        </Pane>
+      </Pane>
+    </Pane>
+
+    {/* ticket */}
+    <Pane display="flex" flexDirection="column" justifyContent="center">
+      <Heading
+        size={700}
+        textAlign="center"
+        marginBottom="0.5rem"
+        fontWeight={600}
+      >
+        {price} {currency}
+      </Heading>
+      <Button appearance="primary">Select ticket</Button>
+    </Pane>
+  </Item>
+);
+
+TripItem.propTypes = {
+  arrival_date: PropTypes.string.isRequired,
+  currency: PropTypes.string.isRequired,
+  departure_date: PropTypes.string.isRequired,
+  duration: PropTypes.number.isRequired,
+  from: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+  price: PropTypes.string.isRequired,
+  to: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+export default TripItem;

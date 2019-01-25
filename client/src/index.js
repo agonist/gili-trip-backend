@@ -1,12 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-// import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// Your top level component
+import App from "./App";
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-// serviceWorker.unregister();
+// Export your top level component as JSX (for static rendering)
+export default App;
+
+// Render your app
+if (typeof document !== "undefined") {
+  const renderMethod = module.hot
+    ? ReactDOM.render
+    : ReactDOM.hydrate || ReactDOM.render;
+  const render = Comp => {
+    renderMethod(<Comp />, document.getElementById("root"));
+  };
+
+  // Render!
+  render(App);
+  // Hot Module Replacement
+  if (module.hot) {
+    // eslint-disable-next-line global-require
+    module.hot.accept("./App", () => render(require("./App").default));
+  }
+}
