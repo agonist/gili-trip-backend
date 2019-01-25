@@ -13,6 +13,7 @@ skip_before_action :verify_authenticity_token
         final_price += @trips_price
     end
 
+
     @booking.final_price = final_price
     if @booking.save
         render json: @booking
