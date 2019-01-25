@@ -1,5 +1,4 @@
 class Api::V1::BookingsController < ApiController
-skip_before_action :verify_authenticity_token
 
   def create
     @booking = Booking.new(booking_params)
