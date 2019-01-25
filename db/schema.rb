@@ -41,4 +41,86 @@ ActiveRecord::Schema.define(version: 2019_01_25_102708) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "bookings", force: :cascade do |t|
+    t.string "booking_status"
+    t.string "payment_status"
+    t.decimal "final_price"
+    t.datetime "booking_date"
+    t.string "booking_email"
+    t.string "booking_whatsapp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "operators", force: :cascade do |t|
+    t.string "name"
+    t.string "logo"
+    t.string "website"
+    t.string "contact_email"
+    t.string "contact_phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "passengers", force: :cascade do |t|
+    t.string "firstname"
+    t.string "lastname"
+    t.string "email"
+    t.string "contact_number"
+    t.string "whatsapp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tickets", force: :cascade do |t|
+    t.bigint "booking_id"
+    t.bigint "trip_id"
+    t.datetime "date"
+    t.text "passengers", default: [], array: true
+    t.integer "quantity"
+    t.string "pickup_name"
+    t.string "pickup_address"
+    t.string "pickup_room_number"
+    t.string "pickup_city"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_tickets_on_booking_id"
+    t.index ["trip_id"], name: "index_tickets_on_trip_id"
+  end
+
+  create_table "trips", force: :cascade do |t|
+    t.string "name"
+    t.bigint "from_id"
+    t.bigint "to_id"
+    t.bigint "operator_id"
+    t.string "status"
+    t.decimal "price"
+    t.string "currency"
+    t.datetime "departure_date"
+    t.datetime "arrival_date"
+    t.integer "duration"
+    t.bigint "vehicle_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["from_id"], name: "index_trips_on_from_id"
+    t.index ["operator_id"], name: "index_trips_on_operator_id"
+    t.index ["to_id"], name: "index_trips_on_to_id"
+    t.index ["vehicle_id"], name: "index_trips_on_vehicle_id"
+  end
+
+  create_table "vehicles", force: :cascade do |t|
+    t.string "kind"
+    t.string "subtype"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "tickets", "bookings"
 end

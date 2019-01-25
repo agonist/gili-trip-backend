@@ -1,0 +1,16 @@
+class CreateTickets < ActiveRecord::Migration[5.2]
+  def change
+    create_table :tickets do |t|
+      t.references :booking, foreign_key: true
+      t.references :trip
+      t.datetime :date
+      t.text :passengers, array: true, default: []
+      t.integer :quantity
+      t.string :pickup_name
+      t.string :pickup_address
+      t.string :pickup_room_number
+      t.string :pickup_city
+      t.timestamps
+    end
+  end
+end
