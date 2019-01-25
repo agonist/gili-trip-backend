@@ -34,10 +34,15 @@ test:
 # You can use this database configuration with:
 #
 #   production:
-#     url: <%= ENV['DATABASE_URL'] %>
 #
+staging:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
+  username: gilitrip
+  password: <%= ENV['GILITRIP_DATABASE_PASSWORD'] %>
+
 production:
   <<: *default
-  database: gilitrip_production
+  url: <%= ENV['DATABASE_URL'] %>
   username: gilitrip
   password: <%= ENV['GILITRIP_DATABASE_PASSWORD'] %>
