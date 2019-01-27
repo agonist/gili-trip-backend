@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 2019_01_25_102708) do
     t.datetime "booking_date"
     t.string "booking_email"
     t.string "booking_whatsapp"
+    t.string "braintree_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

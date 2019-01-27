@@ -65,6 +65,8 @@ GEM
     bcrypt (3.1.12)
     bootsnap (1.3.2)
       msgpack (~> 1.0)
+    braintree (2.94.0)
+      builder (>= 2.0.0)
     builder (3.2.3)
     byebug (10.0.2)
     case_transform (0.2)
@@ -84,6 +86,10 @@ GEM
       railties (>= 4.1.0, < 6.0)
       responders
       warden (~> 1.2.3)
+    dotenv (2.6.0)
+    dotenv-rails (2.6.0)
+      dotenv (= 2.6.0)
+      railties (>= 3.2, < 6.0)
     erubi (1.8.0)
     execjs (2.7.0)
     ffi (1.10.0)
@@ -216,8 +222,10 @@ DEPENDENCIES
   active_model_serializers
   activeadmin
   bootsnap (>= 1.1.0)
+  braintree
   byebug
   devise
+  dotenv-rails
   listen (>= 3.0.5, < 3.2)
   pg (>= 0.18, < 2.0)
   puma (~> 3.11)

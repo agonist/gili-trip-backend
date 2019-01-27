@@ -7,7 +7,7 @@ class CreateBookings < ActiveRecord::Migration[5.2]
       t.datetime :booking_date
       t.string :booking_email
       t.string :booking_whatsapp
-
+      t.string  :braintree_token
       t.timestamps
     end
   end
