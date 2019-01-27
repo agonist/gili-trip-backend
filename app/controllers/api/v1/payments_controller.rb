@@ -5,7 +5,7 @@ class Api::V1::PaymentsController < ApiController
     @booking.braintree_token =  Braintree::ClientToken.generate
 
     if @booking.save
-        render json: @booking.braintree_token
+        render json: {:token => @booking.braintree_token}
     else
         render json: @booking.errors, status: :unprocessable_entity
     end
