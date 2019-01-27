@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_25_102708) do
+ActiveRecord::Schema.define(version: 2019_01_27_175549) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,9 +48,9 @@ ActiveRecord::Schema.define(version: 2019_01_25_102708) do
     t.datetime "booking_date"
     t.string "booking_email"
     t.string "booking_whatsapp"
-    t.string "braintree_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "braintree_token"
   end
 
   create_table "locations", force: :cascade do |t|
