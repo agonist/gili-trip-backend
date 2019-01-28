@@ -11,14 +11,7 @@ class Api::V1::PaymentsController < ApiController
   ]
 
   def generate_braintree_token
-    @booking = Booking.find(params[:booking_id])
-    @booking.braintree_token =  gateway.client_token.generate
-
-    if @booking.save
-      render json: {:token => @booking.braintree_token}
-    else
-      render json: @booking.errors, status: :unprocessable_entity
-    end
+      render json: {:token => gateway.client_token.generate}
   end
 
   def checkout
@@ -36,6 +29,8 @@ class Api::V1::PaymentsController < ApiController
     )
 
     if result.success? || result.transaction
+      @booking.payment_status = "success"
+
       render json: {:message => "congrats checkout went well"}
     else
       error_messages = result.errors.map { |error| "Error: #{error.code}: #{error.message}" }
