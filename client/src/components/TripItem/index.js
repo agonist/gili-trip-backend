@@ -8,14 +8,18 @@ import { convertMinsToHrsMins } from "../../constants";
 
 const lightColor = "#1070CA";
 
+const locationItemProps = {
+  width: "30%",
+};
+
 const renderDate = (date, name) => (
-  <>
+  <React.Fragment>
     <Heading marginBottom="0.3rem" size={700} fontWeight={400}>
       {dateFns.format(date, "hh:mm")}
     </Heading>
 
     <Text>{name}</Text>
-  </>
+  </React.Fragment>
 );
 
 const renderDuration = (duration, direction) => (
@@ -31,7 +35,7 @@ const renderDuration = (duration, direction) => (
 
     <Pane display="flex" alignItems="center" justifyContent="center">
       {direction === "from" ? (
-        <>
+        <React.Fragment>
           <Pane
             width="3rem"
             height={2}
@@ -40,9 +44,9 @@ const renderDuration = (duration, direction) => (
             marginRight={-2}
           />
           <Icon icon="arrow-right" color={lightColor} />
-        </>
+        </React.Fragment>
       ) : (
-        <>
+        <React.Fragment>
           <Icon icon="arrow-left" color={lightColor} />
           <Pane
             width="3rem"
@@ -51,7 +55,7 @@ const renderDuration = (duration, direction) => (
             display="inline-block"
             marginLeft={-2}
           />
-        </>
+        </React.Fragment>
       )}
     </Pane>
   </Pane>
@@ -69,11 +73,11 @@ const TripItem = ({
   <Item>
     <Pane flexGrow={1} alignItems="center" justifyContent="center">
       <Pane display="flex" alignItems="center" justifyContent="center">
-        <Pane flexGrow={1} textAlign="right">
+        <Pane textAlign="right" {...locationItemProps}>
           {renderDate(departure_date, from.name)}
         </Pane>
         {renderDuration(duration, "from")}
-        <Pane flexGrow={1} textAlign="left">
+        <Pane textAlign="left" {...locationItemProps}>
           {renderDate(arrival_date, to.name)}
         </Pane>
       </Pane>
@@ -84,11 +88,11 @@ const TripItem = ({
         justifyContent="center"
         marginTop={majorScale(2)}
       >
-        <Pane flexGrow={1} textAlign="right">
+        <Pane textAlign="right" {...locationItemProps}>
           {renderDate(arrival_date, to.name)}
         </Pane>
         {renderDuration(duration, "to")}
-        <Pane flexGrow={1} textAlign="left">
+        <Pane textAlign="left" {...locationItemProps}>
           {renderDate(departure_date, from.name)}
         </Pane>
       </Pane>
