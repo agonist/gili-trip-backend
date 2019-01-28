@@ -4,7 +4,6 @@ class CreateTickets < ActiveRecord::Migration[5.2]
       t.references :booking, foreign_key: true, type: :uuid
       t.references :trip
       t.datetime :date
-      t.text :passengers, array: true, default: []
       t.integer :quantity
       t.string :pickup_name
       t.string :pickup_address
