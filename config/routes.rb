@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       resources :bookings
       resources :locations
       get '/payments/token', to: 'payments#generate_braintree_token'
-      get '/payments/checkout', to: 'payments#checkout'
+      post '/payments/checkout', to: 'payments#checkout'
      end
     end
 
