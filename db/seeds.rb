@@ -6,8 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+AdminUser.create!(email: 'admin@gilitrip.com', password: 'ImTheBoatMaster42!', password_confirmation: 'ImTheBoatMaster42')
 
-Location.create(id: 1, name: 'Bali (Padangbai)')
+Location.create(id: 1,name: 'Bali (Padangbai)')
 Location.create(id: 2,name: 'Lombok')
 Location.create(id: 3,name: 'Gili Trawangan')
 Location.create(id: 4,name: 'Gili Air')
