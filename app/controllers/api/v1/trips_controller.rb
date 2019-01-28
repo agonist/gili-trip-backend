@@ -7,6 +7,11 @@ class Api::V1::TripsController < ApiController
      render json: @trips
   end
 
+  def get_trips
+    @trips = Trip.where(:from_id => params[:from], :to_id => params[:to])
+     render json: @trips
+  end
+
   def show
     render json: @trip
   end

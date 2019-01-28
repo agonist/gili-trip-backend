@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   namespace :api do
      namespace :v1 do
       resources :trips
+      get '/trips/:from/:to', to: 'trips#get_trips'
       resources :bookings
       resources :locations
       get '/payments/token', to: 'payments#generate_braintree_token'
