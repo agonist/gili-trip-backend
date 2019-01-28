@@ -7,11 +7,11 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
 
-Location.create(name: 'Bali (Padangbai)')
-Location.create(name: 'Lombok')
-Location.create(name: 'Gili Trawangan')
-Location.create(name: 'Gili Air')
-Location.create(name: 'Gili Meno')
+Location.create(id: 1, name: 'Bali (Padangbai)')
+Location.create(id: 2,name: 'Lombok')
+Location.create(id: 3,name: 'Gili Trawangan')
+Location.create(id: 4,name: 'Gili Air')
+Location.create(id: 5,name: 'Gili Meno')
 
 Vehicle.create(kind: 'Boat', subtype: 'Eka Jaya 23', description: 'It\'s going to be fast')
 Vehicle.create(kind: 'Boat', subtype: 'Eka Jaya 25', description: 'Feel your flow')

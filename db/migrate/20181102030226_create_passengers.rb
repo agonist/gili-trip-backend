@@ -1,6 +1,6 @@
 class CreatePassengers < ActiveRecord::Migration[5.2]
   def change
-    create_table :passengers do |t|
+    create_table :passengers, id: :uuid do |t|
       t.string :firstname
       t.string :lastname
       t.string :email

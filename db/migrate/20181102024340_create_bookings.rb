@@ -1,6 +1,6 @@
 class CreateBookings < ActiveRecord::Migration[5.2]
   def change
-    create_table :bookings do |t|
+    create_table :bookings, id: :uuid do |t|
       t.string :booking_status
       t.string :payment_status
       t.decimal :final_price

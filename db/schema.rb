@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_27_175549) do
+ActiveRecord::Schema.define(version: 2019_01_25_102708) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "active_admin_comments", force: :cascade do |t|
@@ -41,7 +42,7 @@ ActiveRecord::Schema.define(version: 2019_01_27_175549) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  create_table "bookings", force: :cascade do |t|
+  create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "booking_status"
     t.string "payment_status"
     t.decimal "final_price"
@@ -50,7 +51,6 @@ ActiveRecord::Schema.define(version: 2019_01_27_175549) do
     t.string "booking_whatsapp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "braintree_token"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 2019_01_27_175549) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "passengers", force: :cascade do |t|
+  create_table "passengers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "firstname"
     t.string "lastname"
     t.string "email"
@@ -79,8 +79,8 @@ ActiveRecord::Schema.define(version: 2019_01_27_175549) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "tickets", force: :cascade do |t|
-    t.bigint "booking_id"
+  create_table "tickets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "booking_id"
     t.bigint "trip_id"
     t.datetime "date"
     t.text "passengers", default: [], array: true

@@ -1,7 +1,7 @@
 class CreateTickets < ActiveRecord::Migration[5.2]
   def change
-    create_table :tickets do |t|
-      t.references :booking, foreign_key: true
+    create_table :tickets, id: :uuid do |t|
+      t.references :booking, foreign_key: true, type: :uuid
       t.references :trip
       t.datetime :date
       t.text :passengers, array: true, default: []

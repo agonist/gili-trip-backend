@@ -5,9 +5,10 @@ class Api::V1::BookingsController < ApiController
     @booking.booking_status = "pending"
     @booking.payment_status = "pending"
     @booking.booking_date = Time.now
-
+    puts "#{@booking}"
     final_price = 0
     @booking.tickets.each do |ticketparams|
+        puts "TRIP ID :::::  #{ticketparams.trip_id}"
         @trips_price = Trip.find(ticketparams.trip_id).price * ticketparams.quantity
         final_price += @trips_price
     end
