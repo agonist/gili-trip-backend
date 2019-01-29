@@ -15,8 +15,12 @@ class Api::V1::PaymentsController < ApiController
   end
 
   def checkout
-
     @booking = Booking.find(params[:booking_id])
+
+    if @booking.payment_status == "success"
+      render json: {:message => "This trip has already been paid"}
+    end
+
     amount = @booking.final_price
     nonce = params["payment_method_nonce"]
 
@@ -31,7 +35,12 @@ class Api::V1::PaymentsController < ApiController
     if result.success? || result.transaction
       @booking.payment_status = "success"
 
-      render json: {:message => "congrats checkout went well"}
+      if @booking.save
+          render json: @booking
+      else
+          render json: @booking.errors, status: :unprocessable_entity
+      end
+
     else
       error_messages = result.errors.map { |error| "Error: #{error.code}: #{error.message}" }
       render json: error_messages, status: :unprocessable_entity
