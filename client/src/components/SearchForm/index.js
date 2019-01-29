@@ -14,13 +14,14 @@ import {
   majorScale,
 } from "evergreen-ui";
 
-import { DATE_FORMAT, TODAY_DATE, TRAVEL_TYPES } from "../../constants";
-
-//
+import {
+  DATE_FORMAT,
+  LOCATIONS,
+  TODAY_DATE,
+  TRAVEL_TYPES,
+} from "../../constants";
 
 const formatLocations = locations => locations.map(({ name }) => name);
-
-//
 
 const itemHeight = majorScale(5);
 
@@ -48,7 +49,7 @@ const swapMutator = (_, { fields, formState }) => {
   from.change(values.to);
 };
 
-const SearchForm = ({ formData, isLoading, locations, onSubmit }) => (
+const SearchForm = ({ formData, isLoading, onSubmit }) => (
   <Form
     onSubmit={onSubmit}
     mutators={{ swap: swapMutator }}
@@ -83,7 +84,7 @@ const SearchForm = ({ formData, isLoading, locations, onSubmit }) => (
                   <Autocomplete
                     {...input}
                     itemSize={itemHeight}
-                    items={formatLocations(locations)}
+                    items={formatLocations(LOCATIONS)}
                     selectedItem={input.value}
                   >
                     {({ getInputProps, getRef, inputValue, openMenu }) => (
@@ -119,7 +120,7 @@ const SearchForm = ({ formData, isLoading, locations, onSubmit }) => (
                   <Autocomplete
                     {...input}
                     itemSize={itemHeight}
-                    items={formatLocations(locations)}
+                    items={formatLocations(LOCATIONS)}
                     selectedItem={input.value}
                   >
                     {({ getInputProps, getRef, inputValue, openMenu }) => (

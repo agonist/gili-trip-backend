@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import qs from "query-string";
-import { Pane, Spinner } from "evergreen-ui";
+import { Spinner } from "evergreen-ui";
 
 import Container from "../Container";
 import Header from "../Header";
@@ -10,71 +10,93 @@ import SearchForm from "../SearchForm";
 import Trips from "../Trips";
 
 import {
-  defaultHeight,
   formatFormDataForBrowser,
   navigateWithFormData,
 } from "../../constants";
 
-import { fetchLocations, fetchTrips } from "../../api";
+import { fetchTrips } from "../../api";
 
 class TripsPage extends React.Component {
   state = {
-    locations: [],
     trips: [],
-    isLoadingLocations: true,
-    isLoadingTrips: true,
+    isLoading: true,
   };
 
   componentDidMount() {
+    this.fetchTrips();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      arrival_date: currentArrival,
+      departure_date: currentDeparture,
+      from: currentFrom,
+      from: currentTo,
+    } = this.getFormDataFromURL();
+
+    const {
+      arrival_date: nextArrival,
+      departure_date: nextDeparture,
+      from: nextFrom,
+      from: nextTo,
+    } = this.getFormDataFromURL(nextProps.location);
+
+    const hasArrivalChanged = currentArrival !== nextArrival;
+    const hasDepartureChanged = currentDeparture !== nextDeparture;
+    const hasFromChanged = currentFrom || nextFrom;
+    const hasToChanged = currentTo || nextTo;
+
+    if (
+      hasArrivalChanged ||
+      hasDepartureChanged ||
+      hasFromChanged ||
+      hasToChanged
+    ) {
+      this.setState(
+        {
+          isLoading: true,
+        },
+        this.fetchTrips,
+      );
+    }
+  }
+
+  fetchTrips = () => {
     const params = this.getFormDataFromURL();
 
     const onFetchTripsSuccess = trips => {
       this.setState({
         trips,
-        isLoadingTrips: false,
+        isLoading: false,
       });
     };
 
-    const onFetchLocationsSuccess = locations => {
-      this.setState({
-        locations,
-        isLoadingLocations: false,
-      });
-    };
+    return fetchTrips(params).then(onFetchTripsSuccess);
+  };
 
-    fetchLocations().then(onFetchLocationsSuccess);
-    fetchTrips(params).then(onFetchTripsSuccess);
-  }
-
-  getFormDataFromURL = () => {
-    const { location } = this.props;
-    const urlParams = qs.parse(location.search);
+  getFormDataFromURL = location => {
+    const { location: currentLocation } = this.props;
+    const search = location ? location.search : currentLocation.search;
+    const urlParams = qs.parse(search);
     return formatFormDataForBrowser(urlParams);
   };
 
   render() {
-    const { locations, trips, isLoadingLocations, isLoadingTrips } = this.state;
+    const { trips, isLoading } = this.state;
     const formData = this.getFormDataFromURL();
 
     return (
-      <div className="App">
-        <Header locations={locations}>
-          {isLoadingLocations ? (
-            <Pane display="flex">
-              <Spinner size={defaultHeight} />
-            </Pane>
-          ) : (
-            <SearchForm
-              formData={formData}
-              isLoading={isLoadingTrips}
-              locations={locations}
-              onSubmit={navigateWithFormData}
-            />
-          )}
+      <div className="Page Page--trips">
+        <Header>
+          <SearchForm
+            formData={formData}
+            isLoading={isLoading}
+            onSubmit={navigateWithFormData}
+          />
         </Header>
 
         <Container paddingY="2rem" backgroundColor="#fafafa">
-          {isLoadingTrips ? (
+          {isLoading ? (
             <Item>
               <Spinner />
             </Item>
@@ -90,7 +112,13 @@ class TripsPage extends React.Component {
 TripsPage.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
-  }).isRequired,
+  }),
+};
+
+TripsPage.defaultProps = {
+  location: {
+    search: "",
+  },
 };
 
 export default TripsPage;
