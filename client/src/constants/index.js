@@ -9,20 +9,24 @@ export const DATE_FORMAT = "MM/DD/YYYY";
 
 export const LOCATIONS = [
   {
-    id: 0,
+    id: 1,
     name: "Bali",
   },
   {
-    id: 1,
-    name: "Bangkok",
-  },
-  {
     id: 2,
-    name: "Brussels",
+    name: "Lombok",
   },
   {
     id: 3,
-    name: "Paris",
+    name: "Gili Trawangan",
+  },
+  {
+    id: 4,
+    name: "Gili Air",
+  },
+  {
+    id: 5,
+    name: "Gili Meno",
   },
 ];
 

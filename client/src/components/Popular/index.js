@@ -9,17 +9,17 @@ const items = [
   {
     id: 0,
     from: "Bali",
-    to: "Bangkok",
+    to: "Gili Trawanagan",
   },
   {
     id: 1,
-    from: "Paris",
-    to: "Brussels",
+    from: "Bali",
+    to: "Gili Air",
   },
   {
     id: 2,
-    from: "Bangkok",
-    to: "Paris",
+    from: "Bali",
+    to: "Lombok",
   },
 ];
 
