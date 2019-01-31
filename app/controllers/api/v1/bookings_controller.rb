@@ -23,13 +23,6 @@ class Api::V1::BookingsController < ApiController
 
   end
 
-  def update
-
-
-  end
-
-
-
   def booking_params
      booking = params.require(:booking)
      booking[:tickets_attributes] = booking.delete(:tickets) if booking.key?(:tickets)
