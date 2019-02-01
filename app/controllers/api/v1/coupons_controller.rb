@@ -2,14 +2,26 @@ class Api::V1::CouponsController < ApiController
 
   def validate
     @coupon = Coupon.where(:code => params[:code]).first
+    @booking =  Booking.find(params[:booking_id])
 
-    if @coupon.present?
-      response = { valid: is_valid?(@coupon),
-        discounted_price: discounted_price(params[:full_price], @coupon) }
-      else
-        response = { valid: false, discounted_price: params[:full_price] }
+    if @coupon.present? && !@booking.coupon.present?
+      if is_valid?(@coupon)
+        discounted_price = discounted_price(@booking.full_price, @coupon)
+        @booking.final_price = discounted_price
+        @booking.coupon = @coupon
+        @coupon.used += 1
+        @coupon.save
+        if @booking.save
+            render json: @booking
+        else
+            render json: @booking.errors, status: :unprocessable_entity
+        end
       end
-      render json: response
+
+      else
+        response = { valid: false, discounted_price: @booking.full_price }
+        render json: response
+      end
     end
 
     private
