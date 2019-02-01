@@ -8,26 +8,11 @@ export const defaultHeight = majorScale(5);
 export const DATE_FORMAT = "MM/DD/YYYY";
 
 export const LOCATIONS = [
-  {
-    id: 1,
-    name: "Bali",
-  },
-  {
-    id: 2,
-    name: "Lombok",
-  },
-  {
-    id: 3,
-    name: "Gili Trawangan",
-  },
-  {
-    id: 4,
-    name: "Gili Air",
-  },
-  {
-    id: 5,
-    name: "Gili Meno",
-  },
+  { id: 1, name: "Bali" },
+  { id: 2, name: "Lombok" },
+  { id: 3, name: "Gili Trawangan" },
+  { id: 4, name: "Gili Air" },
+  { id: 5, name: "Gili Meno" },
 ];
 
 export const TODAY_DATE = new Date();

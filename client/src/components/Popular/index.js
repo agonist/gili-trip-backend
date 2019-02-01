@@ -4,22 +4,30 @@ import { Heading, Pane } from "evergreen-ui";
 
 import Container from "../Container";
 import Item from "../PopularItem";
+import { LOCATIONS } from "../../constants";
+
+const getName = id => LOCATIONS.find(({ id: _id }) => _id === id).name;
 
 const items = [
   {
     id: 0,
-    from: "Bali",
-    to: "Gili Trawanagan",
+    from: getName(2),
+    to: getName(1),
   },
   {
     id: 1,
-    from: "Bali",
-    to: "Gili Air",
+    from: getName(2),
+    to: getName(5),
   },
   {
     id: 2,
-    from: "Bali",
-    to: "Lombok",
+    from: getName(3),
+    to: getName(4),
+  },
+  {
+    id: 3,
+    from: getName(1),
+    to: getName(5),
   },
 ];
 
@@ -30,14 +38,14 @@ const Popular = ({ onClick }) => (
     </Heading>
 
     <Pane display="flex">
-      {items.map(({ id, ...item }, i) => (
-        <React.Fragment key={id}>
-          <Item onClick={() => onClick(item)} {...item} />
+      {items.slice(0, 2).map(({ id, ...item }) => (
+        <Item key={id} onClick={() => onClick(item)} {...item} />
+      ))}
+    </Pane>
 
-          {i + 1 < items.length && (
-            <div style={{ width: "1rem", flexShrink: 0 }} />
-          )}
-        </React.Fragment>
+    <Pane display="flex">
+      {items.slice(2, 4).map(({ id, ...item }) => (
+        <Item key={id} onClick={() => onClick(item)} {...item} />
       ))}
     </Pane>
   </Container>
