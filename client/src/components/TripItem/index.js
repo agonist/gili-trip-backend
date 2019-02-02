@@ -4,7 +4,7 @@ import { Button, Heading, Icon, Pane, Text, majorScale } from "evergreen-ui";
 import dateFns from "date-fns";
 
 import Item from "../Item";
-import { convertMinsToHrsMins } from "../../constants";
+import { convertMinsToHrsMins } from "../../helpers";
 
 const lightColor = "#1070CA";
 

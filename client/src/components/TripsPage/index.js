@@ -9,11 +9,7 @@ import Item from "../Item";
 import SearchForm from "../SearchForm";
 import Trips from "../Trips";
 
-import {
-  formatFormDataForBrowser,
-  navigateWithFormData,
-} from "../../constants";
-
+import { formatFormDataForBrowser, navigateWithFormData } from "../../helpers";
 import { fetchTrips } from "../../api";
 
 class TripsPage extends React.Component {
