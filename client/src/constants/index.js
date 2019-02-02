@@ -1,11 +1,11 @@
 export const DATE_FORMAT = "MM/DD/YYYY";
 
 export const LOCATIONS = [
-  { id: 1, name: "Bali" },
-  { id: 2, name: "Lombok" },
-  { id: 3, name: "Gili Trawangan" },
-  { id: 4, name: "Gili Air" },
-  { id: 5, name: "Gili Meno" },
+  { id: "loc-1", name: "Bali" },
+  { id: "loc-2", name: "Lombok" },
+  { id: "loc-3", name: "Gili Trawangan" },
+  { id: "loc-4", name: "Gili Air" },
+  { id: "loc-5", name: "Gili Meno" },
 ];
 
 export const TODAY_DATE = new Date();
@@ -17,7 +17,7 @@ export const TRAVEL_TYPES = {
 
 export const TRIPS = [
   {
-    id: 6,
+    id: "trip-1",
     name: "Bali to Gili A",
     status: "available",
     price: "34.0",
@@ -26,15 +26,15 @@ export const TRIPS = [
     arrival_date: "2019-01-28T14:35:56.964Z",
     duration: 100,
     to: {
-      id: 4,
+      id: "loc-4",
       name: "Gili Air",
     },
     from: {
-      id: 1,
-      name: "Bali (Padangbai)",
+      id: "loc-1",
+      name: "Bali",
     },
     operator: {
-      id: 1,
+      id: "ope-1",
       name: "Eka Jaya",
       logo: "",
       website: "",
@@ -49,7 +49,7 @@ export const TRIPS = [
     },
   },
   {
-    id: 7,
+    id: "trip-2",
     name: "Bali to Gili A",
     status: "available",
     price: "34.0",
@@ -58,15 +58,15 @@ export const TRIPS = [
     arrival_date: "2019-01-28T14:35:56.970Z",
     duration: 100,
     to: {
-      id: 4,
-      name: "Gili Air",
+      id: "loc-2",
+      name: "Lombok",
     },
     from: {
-      id: 1,
-      name: "Bali (Padangbai)",
+      id: "loc-5",
+      name: "Gili Meno",
     },
     operator: {
-      id: 1,
+      id: "ope-1",
       name: "Eka Jaya",
       logo: "",
       website: "",

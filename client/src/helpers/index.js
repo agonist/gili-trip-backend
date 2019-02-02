@@ -11,7 +11,7 @@ export const getLocationId = name =>
   LOCATIONS.find(({ name: _name }) => name === _name).id;
 
 export const getLocationName = id =>
-  LOCATIONS.find(({ id: _id }) => Number(id) === _id).name;
+  LOCATIONS.find(({ id: _id }) => id === _id).name;
 
 export const formatDataForApi = ({
   departure_date,

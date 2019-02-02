@@ -10,24 +10,24 @@ const getName = id => LOCATIONS.find(({ id: _id }) => _id === id).name;
 
 const items = [
   {
-    id: 0,
-    from: getName(2),
-    to: getName(1),
+    id: "pop-1",
+    from: getName("loc-2"),
+    to: getName("loc-1"),
   },
   {
-    id: 1,
-    from: getName(2),
-    to: getName(5),
+    id: "pop-2",
+    from: getName("loc-2"),
+    to: getName("loc-5"),
   },
   {
-    id: 2,
-    from: getName(3),
-    to: getName(4),
+    id: "pop-3",
+    from: getName("loc-3"),
+    to: getName("loc-4"),
   },
   {
-    id: 3,
-    from: getName(1),
-    to: getName(5),
+    id: "pop-4",
+    from: getName("loc-1"),
+    to: getName("loc-5"),
   },
 ];
 

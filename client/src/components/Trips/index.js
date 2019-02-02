@@ -20,7 +20,7 @@ Trips.propTypes = {
       from: PropTypes.shape({
         name: PropTypes.string.isRequired,
       }),
-      id: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       operator: PropTypes.shape({
         name: PropTypes.string.isRequired,
