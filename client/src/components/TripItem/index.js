@@ -67,8 +67,10 @@ const TripItem = ({
   departure_date,
   duration,
   from,
+  handleSelectTicket,
   price,
   to,
+  canSelectTicket,
 }) => (
   <Item>
     <Pane flexGrow={1} alignItems="center" justifyContent="center">
@@ -98,18 +100,21 @@ const TripItem = ({
       </Pane>
     </Pane>
 
-    {/* ticket */}
-    <Pane display="flex" flexDirection="column" justifyContent="center">
-      <Heading
-        size={700}
-        textAlign="center"
-        marginBottom="0.5rem"
-        fontWeight={600}
-      >
-        {price} {currency}
-      </Heading>
-      <Button appearance="primary">Select ticket</Button>
-    </Pane>
+    {canSelectTicket && (
+      <Pane display="flex" flexDirection="column" justifyContent="center">
+        <Heading
+          size={700}
+          textAlign="center"
+          marginBottom="0.5rem"
+          fontWeight={600}
+        >
+          {price} {currency}
+        </Heading>
+        <Button appearance="primary" onClick={handleSelectTicket}>
+          Select ticket
+        </Button>
+      </Pane>
+    )}
   </Item>
 );
 
@@ -121,10 +126,17 @@ TripItem.propTypes = {
   from: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
+  handleSelectTicket: PropTypes.func,
   price: PropTypes.string.isRequired,
   to: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
+  canSelectTicket: PropTypes.bool,
+};
+
+TripItem.defaultProps = {
+  canSelectTicket: true,
+  handleSelectTicket: null,
 };
 
 export default TripItem;

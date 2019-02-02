@@ -3,15 +3,20 @@ import PropTypes from "prop-types";
 
 import Item from "../TripItem";
 
-const Trips = ({ trips }) => (
+const Trips = ({ handleSelectTicket, trips }) => (
   <div className="Trips">
     {trips.map(({ id, ...trip }) => (
-      <Item key={id} {...trip} />
+      <Item
+        key={id}
+        handleSelectTicket={() => handleSelectTicket(id)}
+        {...trip}
+      />
     ))}
   </div>
 );
 
 Trips.propTypes = {
+  handleSelectTicket: PropTypes.func.isRequired,
   trips: PropTypes.arrayOf(
     PropTypes.shape({
       arrival_date: PropTypes.string.isRequired,

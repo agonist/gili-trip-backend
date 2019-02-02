@@ -45,18 +45,20 @@ const Header = ({ children }) => (
         }}
       />
 
-      <Pane
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        width="100%"
-        padding={majorScale(3)}
-        minHeight={156}
-        backgroundColor="rgba(255, 255, 255, 0.8)"
-        borderRadius={6}
-      >
-        {children}
-      </Pane>
+      {children && (
+        <Pane
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          width="100%"
+          padding={majorScale(3)}
+          minHeight={156}
+          backgroundColor="rgba(255, 255, 255, 0.8)"
+          borderRadius={6}
+        >
+          {children}
+        </Pane>
+      )}
     </Container>
   </div>
 );

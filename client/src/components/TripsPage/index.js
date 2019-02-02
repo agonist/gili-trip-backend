@@ -28,14 +28,14 @@ class TripsPage extends React.Component {
       departure_date: currentDeparture,
       from: currentFrom,
       from: currentTo,
-    } = this.getFormDataFromURL();
+    } = this.getParamsFromURL();
 
     const {
       arrival_date: nextArrival,
       departure_date: nextDeparture,
       from: nextFrom,
       from: nextTo,
-    } = this.getFormDataFromURL(nextProps.location);
+    } = this.getParamsFromURL(nextProps.location);
 
     const hasArrivalChanged = currentArrival !== nextArrival;
     const hasDepartureChanged = currentDeparture !== nextDeparture;
@@ -58,7 +58,7 @@ class TripsPage extends React.Component {
   }
 
   fetchTrips = () => {
-    const params = this.getFormDataFromURL();
+    const params = this.getParamsFromURL();
 
     const onFetchTripsSuccess = trips => {
       this.setState({
@@ -70,7 +70,7 @@ class TripsPage extends React.Component {
     return fetchTrips(params).then(onFetchTripsSuccess);
   };
 
-  getFormDataFromURL = location => {
+  getParamsFromURL = location => {
     const { location: currentLocation } = this.props;
     const search = location ? location.search : currentLocation.search;
     const urlParams = qs.parse(search);
@@ -80,13 +80,23 @@ class TripsPage extends React.Component {
 
   render() {
     const { trips, isLoading } = this.state;
-    const formData = this.getFormDataFromURL();
+    const formData = this.getParamsFromURL();
+    const findTicket = id => trips.find(({ id: _id }) => id === _id);
 
-    const onSubmit = data =>
+    const handleSearchSubmit = data =>
       navigateWithData("/trips", {
         data,
         withParams: true,
       });
+
+    const handleBooking = ticketId => {
+      navigateWithData("/booking", {
+        data: {
+          ...formData,
+          ticket: findTicket(ticketId),
+        },
+      });
+    };
 
     return (
       <div className="Page Page--trips">
@@ -94,7 +104,7 @@ class TripsPage extends React.Component {
           <SearchForm
             formData={formData}
             isLoading={isLoading}
-            onSubmit={onSubmit}
+            onSubmit={handleSearchSubmit}
           />
         </Header>
 
@@ -104,7 +114,7 @@ class TripsPage extends React.Component {
               <Spinner />
             </Item>
           ) : (
-            <Trips trips={trips} />
+            <Trips trips={trips} handleSelectTicket={handleBooking} />
           )}
         </Container>
       </div>

@@ -3,6 +3,7 @@ import { Root, Routes } from "react-static";
 import { Router } from "@reach/router";
 
 import Trips from "../TripsPage";
+import Booking from "../BookingPage";
 
 import "react-day-picker/lib/style.css";
 import "./index.css";
@@ -12,6 +13,7 @@ const App = () => (
     <Root>
       <Router>
         <Trips path="/trips" />
+        <Booking path="/booking" />
         <Routes default />
       </Router>
     </Root>
