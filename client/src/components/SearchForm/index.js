@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import DayPicker from "react-day-picker";
 import { Form, Field } from "react-final-form";
-import date from "date-fns";
+import dateFns from "date-fns";
 import {
   Autocomplete,
   Button,
@@ -21,7 +21,7 @@ import {
   TRAVEL_TYPES,
 } from "../../constants";
 
-const formatLocations = locations => locations.map(({ name }) => name);
+const todayDate = new Date();
 
 const itemHeight = majorScale(5);
 
@@ -38,6 +38,12 @@ const radioProps = {
   size: 16,
   marginRight: majorScale(2),
 };
+
+const getLocation = id => LOCATIONS.find(({ id: _id }) => _id === id).name;
+
+const formatLocations = locations => locations.map(({ name }) => name);
+
+const formatDate = date => dateFns.format(date, DATE_FORMAT);
 
 const required = value => (value ? undefined : "Required");
 
@@ -93,7 +99,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
                         {...getInputProps({ onFocus: openMenu })}
                         label="From"
                         required
-                        placeholder="Bali, Gili T..."
+                        placeholder={`${getLocation(1)}, ${getLocation(2)}...`}
                         value={inputValue}
                         innerRef={getRef}
                         isInvalid={meta.error && meta.touched}
@@ -129,7 +135,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
                         {...getInputProps({ onFocus: openMenu })}
                         label="To"
                         required
-                        placeholder="Bali, Gili T..."
+                        placeholder={`${getLocation(4)}, ${getLocation(1)}...`}
                         value={inputValue}
                         innerRef={getRef}
                         isInvalid={meta.error && meta.touched}
@@ -160,10 +166,10 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
                       {...input}
                       {...inputProps}
                       label="Departure"
-                      placeholder="15/12/2018"
+                      placeholder={formatDate(todayDate)}
                       required
                       readOnly
-                      value={value && date.format(value, DATE_FORMAT)}
+                      value={value && formatDate(value)}
                       isInvalid={meta.error && meta.touched}
                     />
                   </Pane>
@@ -178,14 +184,18 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
               {({ input: { value, ...input }, meta }) => {
                 const inputValue = isArrivalDateDisabled
                   ? ""
-                  : value && date.format(value, DATE_FORMAT);
+                  : value && formatDate(value);
 
                 const renderPane = (
                   <Pane {...paneProps}>
                     <TextInputField
                       {...inputProps}
                       label="Arrival"
-                      placeholder={isArrivalDateDisabled ? "-" : "18/12/2018"}
+                      placeholder={
+                        isArrivalDateDisabled
+                          ? "-"
+                          : formatDate(dateFns.addDays(todayDate, 7))
+                      }
                       required={!isArrivalDateDisabled}
                       readOnly
                       disabled={isArrivalDateDisabled}

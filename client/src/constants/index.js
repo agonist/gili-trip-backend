@@ -24,17 +24,17 @@ export const TRAVEL_TYPES = {
 
 export const TRIPS = [
   {
-    id: 4,
-    name: "Bali to Gili M",
+    id: 6,
+    name: "Bali to Gili A",
     status: "available",
     price: "34.0",
     currency: "€",
-    departure_date: "2018-11-03T04:15:00.000Z",
-    arrival_date: "2018-11-03T11:28:24.779Z",
+    departure_date: "2018-11-03T10:30:00.000Z",
+    arrival_date: "2019-01-28T14:35:56.964Z",
     duration: 100,
     to: {
-      id: 6,
-      name: "Gili Meno",
+      id: 4,
+      name: "Gili Air",
     },
     from: {
       id: 1,
@@ -56,17 +56,17 @@ export const TRIPS = [
     },
   },
   {
-    id: 5,
-    name: "Bali to Gili M",
+    id: 7,
+    name: "Bali to Gili A",
     status: "available",
     price: "34.0",
     currency: "€",
-    departure_date: "2018-11-03T05:45:00.000Z",
-    arrival_date: "2018-11-03T14:29:24.784Z",
+    departure_date: "2018-11-03T12:00:00.000Z",
+    arrival_date: "2019-01-28T14:35:56.970Z",
     duration: 100,
     to: {
-      id: 6,
-      name: "Gili Meno",
+      id: 4,
+      name: "Gili Air",
     },
     from: {
       id: 1,
