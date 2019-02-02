@@ -13,7 +13,7 @@ export const getLocationId = name =>
 export const getLocationName = id =>
   LOCATIONS.find(({ id: _id }) => Number(id) === _id).name;
 
-export const formatFormDataForApi = ({
+export const formatDataForApi = ({
   departure_date,
   arrival_date,
   from,
@@ -27,29 +27,35 @@ export const formatFormDataForApi = ({
   ...data,
 });
 
-export const formatFormDataForBrowser = data => {
-  const { departure_date, arrival_date, from, to, ...formData } = data;
-
-  const formattedFormData = {
-    ...formData,
+export const formatDataForBrowser = ({
+  departure_date,
+  arrival_date,
+  from,
+  to,
+  ...data
+}) => {
+  const formattedData = {
+    ...data,
     departure_date: stringToDate(departure_date),
     from: getLocationName(from),
     to: getLocationName(to),
   };
 
   if (arrival_date) {
-    Object.assign(formattedFormData, {
+    Object.assign(formattedData, {
       arrival_date: stringToDate(arrival_date),
     });
   }
 
-  return formattedFormData;
+  return formattedData;
 };
 
-export const navigateWithFormData = formData => {
-  const data = formatFormDataForApi(formData);
-  const params = qs.stringify(data);
-  return navigate(`/trips/?${params}`, { replace: true });
+export const navigateWithData = (dest, { data, withParams }) => {
+  const formattedData = formatDataForApi(data);
+  const params = qs.stringify(formattedData);
+  const url = withParams ? `${dest}?${params}` : dest;
+
+  return navigate(url, { state: formattedData });
 };
 
 export const convertMinsToHrsMins = (mins, separator = ":") => {

@@ -9,7 +9,7 @@ import Item from "../Item";
 import SearchForm from "../SearchForm";
 import Trips from "../Trips";
 
-import { formatFormDataForBrowser, navigateWithFormData } from "../../helpers";
+import { formatDataForBrowser, navigateWithData } from "../../helpers";
 import { fetchTrips } from "../../api";
 
 class TripsPage extends React.Component {
@@ -74,12 +74,19 @@ class TripsPage extends React.Component {
     const { location: currentLocation } = this.props;
     const search = location ? location.search : currentLocation.search;
     const urlParams = qs.parse(search);
-    return formatFormDataForBrowser(urlParams);
+
+    return formatDataForBrowser(urlParams);
   };
 
   render() {
     const { trips, isLoading } = this.state;
     const formData = this.getFormDataFromURL();
+
+    const onSubmit = data =>
+      navigateWithData("/trips", {
+        data,
+        withParams: true,
+      });
 
     return (
       <div className="Page Page--trips">
@@ -87,7 +94,7 @@ class TripsPage extends React.Component {
           <SearchForm
             formData={formData}
             isLoading={isLoading}
-            onSubmit={navigateWithFormData}
+            onSubmit={onSubmit}
           />
         </Header>
 

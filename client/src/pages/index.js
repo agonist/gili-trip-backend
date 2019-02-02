@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import Popular from "../components/Popular";
 import SearchForm from "../components/SearchForm";
 
-import { navigateWithFormData } from "../helpers";
+import { navigateWithData } from "../helpers";
 
 class IndexPage extends React.Component {
   state = {
@@ -18,13 +18,16 @@ class IndexPage extends React.Component {
   render() {
     const { searchFormData } = this.state;
 
+    const onSubmit = data =>
+      navigateWithData("/trips", {
+        data,
+        withParams: true,
+      });
+
     return (
       <div className="Page Page--index">
         <Header>
-          <SearchForm
-            formData={searchFormData}
-            onSubmit={navigateWithFormData}
-          />
+          <SearchForm formData={searchFormData} onSubmit={onSubmit} />
         </Header>
 
         <Popular onClick={this.handlePopularItemClick} />
