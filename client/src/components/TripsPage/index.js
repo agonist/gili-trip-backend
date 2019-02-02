@@ -92,7 +92,6 @@ class TripsPage extends React.Component {
     const handleBooking = ticketId => {
       navigateWithData("/booking", {
         data: {
-          ...formData,
           ticket: findTicket(ticketId),
         },
       });

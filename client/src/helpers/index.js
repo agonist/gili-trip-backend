@@ -36,14 +36,29 @@ export const formatDataForBrowser = ({
 }) => {
   const formattedData = {
     ...data,
-    departure_date: stringToDate(departure_date),
-    from: getLocationName(from),
-    to: getLocationName(to),
   };
+
+  if (departure_date) {
+    Object.assign(formattedData, {
+      departure_date: stringToDate(departure_date),
+    });
+  }
 
   if (arrival_date) {
     Object.assign(formattedData, {
       arrival_date: stringToDate(arrival_date),
+    });
+  }
+
+  if (from) {
+    Object.assign(formattedData, {
+      from: getLocationName(from),
+    });
+  }
+
+  if (to) {
+    Object.assign(formattedData, {
+      to: getLocationName(to),
     });
   }
 
