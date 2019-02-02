@@ -2,24 +2,39 @@ import { navigate } from "@reach/router";
 import dateFns from "date-fns";
 import qs from "query-string";
 
-export const dateToString = date => date.toISOString();
+import { DATE_FORMAT, LOCATIONS } from "../constants";
+
+export const formatDate = date => dateFns.format(date, DATE_FORMAT);
 export const stringToDate = date => dateFns.parse(date);
+
+export const getLocationId = name =>
+  LOCATIONS.find(({ name: _name }) => name === _name).id;
+
+export const getLocationName = id =>
+  LOCATIONS.find(({ id: _id }) => Number(id) === _id).name;
 
 export const formatFormDataForApi = ({
   departure_date,
   arrival_date,
+  from,
+  to,
   ...data
 }) => ({
-  departure_date: dateToString(departure_date),
-  arrival_date: arrival_date && dateToString(arrival_date),
+  departure_date: formatDate(departure_date),
+  arrival_date: arrival_date && formatDate(arrival_date),
+  from: getLocationId(from),
+  to: getLocationId(to),
   ...data,
 });
 
 export const formatFormDataForBrowser = data => {
-  const { departure_date, arrival_date, ...formData } = data;
+  const { departure_date, arrival_date, from, to, ...formData } = data;
+
   const formattedFormData = {
     ...formData,
     departure_date: stringToDate(departure_date),
+    from: getLocationName(from),
+    to: getLocationName(to),
   };
 
   if (arrival_date) {
