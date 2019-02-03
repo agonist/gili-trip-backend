@@ -1,4 +1,4 @@
-export const DATE_FORMAT = "MM/DD/YYYY";
+export const DATE_FORMAT = "MM-DD-YYYY";
 
 export const LOCATIONS = [
   { id: "loc-1", name: "Bali" },
