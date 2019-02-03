@@ -24,7 +24,6 @@ const Separator = <Pane width={majorScale(5)} />;
 
 const BookingPage = ({ location: { state } }) => {
   const { ticket } = state;
-  const onSubmit = console.log;
 
   return (
     <div className="Page Page--trips">
@@ -46,7 +45,7 @@ const BookingPage = ({ location: { state } }) => {
         </Heading>
 
         <Item justifyContent="normal">
-          <Form onSubmit={onSubmit}>
+          <Form onSubmit={console.log}>
             {({ form, handleSubmit, pristine, submitting }) => (
               <form onSubmit={handleSubmit} style={{ flexGrow: 1 }}>
                 <Field name="booking_email" validate={required}>
@@ -56,6 +55,7 @@ const BookingPage = ({ location: { state } }) => {
                       required
                       label="Email"
                       placeholder="hello@gili.com"
+                      type="email"
                       width="100%"
                       isInvalid={meta.error && meta.touched}
                     />
@@ -69,6 +69,7 @@ const BookingPage = ({ location: { state } }) => {
                       required
                       label="Confirm email"
                       placeholder="hello@gili.com"
+                      type="email"
                       width="100%"
                       isInvalid={meta.error && meta.touched}
                     />
