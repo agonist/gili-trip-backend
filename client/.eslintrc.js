@@ -9,6 +9,7 @@ module.exports = {
   ],
   rules: {
     "camelcase": 0,
+    "import/prefer-default-export": 0,
     "jsx-a11y/anchor-is-valid": 0,
     "jsx-a11y/href-no-hash": 0,
     "prettier/prettier": "error",
