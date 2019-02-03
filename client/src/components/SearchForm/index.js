@@ -40,11 +40,9 @@ const radioProps = {
 };
 
 const getLocation = id => LOCATIONS.find(({ id: _id }) => _id === id).name;
-
+const hasArrivalDate = ({ travel_type }) => travel_type === TRAVEL_TYPES.ROUND;
 const formatLocations = locations => locations.map(({ name }) => name);
-
 const formatDate = date => dateFns.format(date, DATE_FORMAT);
-
 const required = value => (value ? undefined : "Required");
 
 const swapMutator = (_, { fields, formState }) => {
@@ -64,100 +62,130 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
       ...formData,
     }}
   >
-    {({ form, handleSubmit, submitting, values }) => {
-      const isArrivalDateDisabled = values.travel_type === TRAVEL_TYPES.ONE_WAY;
+    {({ form, handleSubmit, submitting, values }) => (
+      <form onSubmit={handleSubmit}>
+        <Pane display="flex">
+          <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ROUND}>
+            {({ input }) => (
+              <Radio label="Round trip" {...input} {...radioProps} />
+            )}
+          </Field>
 
-      return (
-        <form onSubmit={handleSubmit}>
-          <Pane display="flex">
-            <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ROUND}>
-              {({ input }) => (
-                <Radio label="Round trip" {...input} {...radioProps} />
-              )}
-            </Field>
+          <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ONE_WAY}>
+            {({ input }) => (
+              <Radio label="One way" {...input} {...radioProps} />
+            )}
+          </Field>
+        </Pane>
 
-            <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ONE_WAY}>
-              {({ input }) => (
-                <Radio label="One way" {...input} {...radioProps} />
-              )}
-            </Field>
+        <Pane display="flex" alignItems="flex-end">
+          <Field name="from" validate={required}>
+            {({ input, meta }) => (
+              <Pane flexGrow={1} {...paneProps}>
+                <Autocomplete
+                  {...input}
+                  itemSize={itemHeight}
+                  items={formatLocations(LOCATIONS)}
+                  selectedItem={input.value}
+                >
+                  {({ getInputProps, getRef, inputValue, openMenu }) => (
+                    <TextInputField
+                      {...inputProps}
+                      {...getInputProps({ onFocus: openMenu })}
+                      label="From"
+                      required
+                      placeholder={`${getLocation("loc-1")}, ${getLocation(
+                        "loc-2",
+                      )}...`}
+                      value={inputValue}
+                      innerRef={getRef}
+                      isInvalid={meta.error && meta.touched}
+                    />
+                  )}
+                </Autocomplete>
+              </Pane>
+            )}
+          </Field>
+
+          <Pane className="swap-locations" {...paneProps}>
+            <IconButton
+              icon="swap-horizontal"
+              height={itemHeight}
+              appearance="minimal"
+              type="button"
+              onClick={form.mutators.swap}
+            />
           </Pane>
 
-          <Pane display="flex" alignItems="flex-end">
-            <Field name="from" validate={required}>
-              {({ input, meta }) => (
-                <Pane flexGrow={1} {...paneProps}>
-                  <Autocomplete
+          <Field name="to" validate={required}>
+            {({ input, meta }) => (
+              <Pane flexGrow={1} {...paneProps}>
+                <Autocomplete
+                  {...input}
+                  itemSize={itemHeight}
+                  items={formatLocations(LOCATIONS)}
+                  selectedItem={input.value}
+                >
+                  {({ getInputProps, getRef, inputValue, openMenu }) => (
+                    <TextInputField
+                      {...inputProps}
+                      {...getInputProps({ onFocus: openMenu })}
+                      label="To"
+                      required
+                      placeholder={`${getLocation("loc-4")}, ${getLocation(
+                        "loc-1",
+                      )}...`}
+                      value={inputValue}
+                      innerRef={getRef}
+                      isInvalid={meta.error && meta.touched}
+                    />
+                  )}
+                </Autocomplete>
+              </Pane>
+            )}
+          </Field>
+
+          <Field name="departure_date" validate={required}>
+            {({ input: { value, ...input }, meta }) => (
+              <Popover
+                content={({ close }) => (
+                  <DayPicker
                     {...input}
-                    itemSize={itemHeight}
-                    items={formatLocations(LOCATIONS)}
-                    selectedItem={input.value}
-                  >
-                    {({ getInputProps, getRef, inputValue, openMenu }) => (
-                      <TextInputField
-                        {...inputProps}
-                        {...getInputProps({ onFocus: openMenu })}
-                        label="From"
-                        required
-                        placeholder={`${getLocation("loc-1")}, ${getLocation(
-                          "loc-2",
-                        )}...`}
-                        value={inputValue}
-                        innerRef={getRef}
-                        isInvalid={meta.error && meta.touched}
-                      />
-                    )}
-                  </Autocomplete>
-                </Pane>
-              )}
-            </Field>
-
-            <Pane className="swap-locations" {...paneProps}>
-              <IconButton
-                icon="swap-horizontal"
-                height={itemHeight}
-                appearance="minimal"
-                type="button"
-                onClick={form.mutators.swap}
-              />
-            </Pane>
-
-            <Field name="to" validate={required}>
-              {({ input, meta }) => (
-                <Pane flexGrow={1} {...paneProps}>
-                  <Autocomplete
+                    selectedDays={[value, values.arrival_date]}
+                    disabledDays={{ before: TODAY_DATE }}
+                    onDayClick={day => {
+                      input.onChange(day);
+                      close();
+                    }}
+                  />
+                )}
+              >
+                <Pane {...paneProps}>
+                  <TextInputField
                     {...input}
-                    itemSize={itemHeight}
-                    items={formatLocations(LOCATIONS)}
-                    selectedItem={input.value}
-                  >
-                    {({ getInputProps, getRef, inputValue, openMenu }) => (
-                      <TextInputField
-                        {...inputProps}
-                        {...getInputProps({ onFocus: openMenu })}
-                        label="To"
-                        required
-                        placeholder={`${getLocation("loc-4")}, ${getLocation(
-                          "loc-1",
-                        )}...`}
-                        value={inputValue}
-                        innerRef={getRef}
-                        isInvalid={meta.error && meta.touched}
-                      />
-                    )}
-                  </Autocomplete>
+                    {...inputProps}
+                    label="Departure"
+                    placeholder={formatDate(todayDate)}
+                    required
+                    readOnly
+                    value={value && formatDate(value)}
+                    isInvalid={meta.error && meta.touched}
+                  />
                 </Pane>
-              )}
-            </Field>
+              </Popover>
+            )}
+          </Field>
 
-            <Field name="departure_date" validate={required}>
+          {hasArrivalDate(values) && (
+            <Field name="arrival_date" validate={required}>
               {({ input: { value, ...input }, meta }) => (
                 <Popover
                   content={({ close }) => (
                     <DayPicker
-                      {...input}
-                      selectedDays={[value, values.arrival_date]}
-                      disabledDays={{ before: TODAY_DATE }}
+                      selectedDays={[value, values.departure_date]}
+                      disabledDays={{
+                        before: values.departure_date || TODAY_DATE,
+                      }}
                       onDayClick={day => {
                         input.onChange(day);
                         close();
@@ -167,85 +195,33 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
                 >
                   <Pane {...paneProps}>
                     <TextInputField
-                      {...input}
                       {...inputProps}
-                      label="Departure"
-                      placeholder={formatDate(todayDate)}
+                      label="Arrival"
+                      placeholder={formatDate(dateFns.addDays(todayDate, 7))}
                       required
                       readOnly
-                      value={value && formatDate(value)}
                       isInvalid={meta.error && meta.touched}
+                      value={value && formatDate(value)}
                     />
                   </Pane>
                 </Popover>
               )}
             </Field>
+          )}
 
-            <Field
-              name="arrival_date"
-              validate={isArrivalDateDisabled ? null : required}
+          <Pane className="submit" {...paneProps} flexShrink={0}>
+            <Button
+              height={itemHeight}
+              appearance="primary"
+              isLoading={submitting || isLoading}
+              type="submit"
             >
-              {({ input: { value, ...input }, meta }) => {
-                const inputValue = isArrivalDateDisabled
-                  ? ""
-                  : value && formatDate(value);
-
-                const renderPane = (
-                  <Pane {...paneProps}>
-                    <TextInputField
-                      {...inputProps}
-                      label="Arrival"
-                      placeholder={
-                        isArrivalDateDisabled
-                          ? "-"
-                          : formatDate(dateFns.addDays(todayDate, 7))
-                      }
-                      required={!isArrivalDateDisabled}
-                      readOnly
-                      disabled={isArrivalDateDisabled}
-                      isInvalid={meta.error && meta.touched}
-                      value={inputValue}
-                    />
-                  </Pane>
-                );
-
-                return isArrivalDateDisabled ? (
-                  renderPane
-                ) : (
-                  <Popover
-                    content={({ close }) => (
-                      <DayPicker
-                        selectedDays={[value, values.departure_date]}
-                        disabledDays={{
-                          before: values.departure_date || TODAY_DATE,
-                        }}
-                        onDayClick={day => {
-                          input.onChange(day);
-                          close();
-                        }}
-                      />
-                    )}
-                  >
-                    {renderPane}
-                  </Popover>
-                );
-              }}
-            </Field>
-
-            <Pane className="submit" {...paneProps} flexShrink={0}>
-              <Button
-                height={itemHeight}
-                appearance="primary"
-                isLoading={submitting || isLoading}
-                type="submit"
-              >
-                Search tickets
-              </Button>
-            </Pane>
+              Search tickets
+            </Button>
           </Pane>
-        </form>
-      );
-    }}
+        </Pane>
+      </form>
+    )}
   </Form>
 );
 

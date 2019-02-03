@@ -4,6 +4,8 @@ import qs from "query-string";
 
 import { DATE_FORMAT, LOCATIONS } from "../constants";
 
+export const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 export const formatDate = date => dateFns.format(date, DATE_FORMAT);
 export const stringToDate = date => dateFns.parse(date);
 
@@ -19,13 +21,37 @@ export const formatDataForApi = ({
   from,
   to,
   ...data
-}) => ({
-  departure_date: formatDate(departure_date),
-  arrival_date: arrival_date && formatDate(arrival_date),
-  from: getLocationId(from),
-  to: getLocationId(to),
-  ...data,
-});
+}) => {
+  const formattedData = {
+    ...data,
+  };
+
+  if (departure_date) {
+    Object.assign(formattedData, {
+      departure_date: formatDate(departure_date),
+    });
+  }
+
+  if (arrival_date) {
+    Object.assign(formattedData, {
+      arrival_date: formatDate(arrival_date),
+    });
+  }
+
+  if (from) {
+    Object.assign(formattedData, {
+      from: getLocationId(from),
+    });
+  }
+
+  if (to) {
+    Object.assign(formattedData, {
+      to: getLocationId(to),
+    });
+  }
+
+  return formattedData;
+};
 
 export const formatDataForBrowser = ({
   departure_date,
