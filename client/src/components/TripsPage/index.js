@@ -28,14 +28,14 @@ class TripsPage extends React.Component {
       departure_date: currentDeparture,
       from: currentFrom,
       from: currentTo,
-    } = this.getParamsFromURL();
+    } = this.getParams();
 
     const {
       arrival_date: nextArrival,
       departure_date: nextDeparture,
       from: nextFrom,
       from: nextTo,
-    } = this.getParamsFromURL(nextProps.location);
+    } = this.getParams(nextProps.location);
 
     const hasArrivalChanged = currentArrival !== nextArrival;
     const hasDepartureChanged = currentDeparture !== nextDeparture;
@@ -48,17 +48,20 @@ class TripsPage extends React.Component {
       hasFromChanged ||
       hasToChanged
     ) {
-      this.setState(
-        {
-          isLoading: true,
-        },
-        this.fetchTrips,
-      );
+      this.setState({ isLoading: true }, this.fetchTrips);
     }
   }
 
+  getParams = location => {
+    const { location: currentLocation } = this.props;
+    const search = location ? location.search : currentLocation.search;
+    const urlParams = qs.parse(search);
+
+    return formatDataForBrowser(urlParams);
+  };
+
   fetchTrips = () => {
-    const params = this.getParamsFromURL();
+    const params = this.getParams();
 
     const onFetchTripsSuccess = trips => {
       this.setState({
@@ -70,17 +73,9 @@ class TripsPage extends React.Component {
     return fetchTrips(params).then(onFetchTripsSuccess);
   };
 
-  getParamsFromURL = location => {
-    const { location: currentLocation } = this.props;
-    const search = location ? location.search : currentLocation.search;
-    const urlParams = qs.parse(search);
-
-    return formatDataForBrowser(urlParams);
-  };
-
   render() {
     const { trips, isLoading } = this.state;
-    const formData = this.getParamsFromURL();
+    const formData = this.getParams();
     const findTicket = id => trips.find(({ id: _id }) => id === _id);
 
     const handleSearchSubmit = data =>
