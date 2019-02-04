@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_01_105511) do
+ActiveRecord::Schema.define(version: 2019_02_04_113829) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -66,6 +66,15 @@ ActiveRecord::Schema.define(version: 2019_02_01_105511) do
     t.integer "used", default: 0
   end
 
+  create_table "date_ranges", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "operator_id"
+    t.date "from"
+    t.date "to"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["operator_id"], name: "index_date_ranges_on_operator_id"
+  end
+
   create_table "locations", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -78,16 +87,6 @@ ActiveRecord::Schema.define(version: 2019_02_01_105511) do
     t.string "website"
     t.string "contact_email"
     t.string "contact_phone"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "passengers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "firstname"
-    t.string "lastname"
-    t.string "email"
-    t.string "contact_number"
-    t.string "whatsapp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -121,6 +120,7 @@ ActiveRecord::Schema.define(version: 2019_02_01_105511) do
     t.bigint "vehicle_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "high_season"
     t.index ["from_id"], name: "index_trips_on_from_id"
     t.index ["operator_id"], name: "index_trips_on_operator_id"
     t.index ["to_id"], name: "index_trips_on_to_id"

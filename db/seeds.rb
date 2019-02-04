@@ -24,6 +24,8 @@ Vehicle.create(kind: 'Boat', subtype: 'Wahana Gili Ocean V', description: 'Becau
 Operator.create(name: 'Eka Jaya', logo: '', website: '', contact_email: '', contact_phone: '')
 Operator.create(name: 'Wahana Gili Ocean', logo: '', website: '', contact_email: '', contact_phone: '')
 
+DateRange.create(from: '2019-02-02', to: '2019-02-06', operator_id: 2)
+
 Trip.create(name: 'Bali to Gili T', from_id: 1, to_id: 3, operator_id: 1, status: 'available', price: '34', currency: "€", departure_date:  Time.parse("Nov 3 2018 11:00"), arrival_date:  Time.now, duration: '100', vehicle_id: '1')
 Trip.create(name: 'Bali to Gili T', from_id: 1, to_id: 3, operator_id: 1, status: 'available', price: '34', currency: "€", departure_date:  Time.parse("Nov 3 2018 12:30"), arrival_date:  Time.now, duration: '100', vehicle_id: '1')
 Trip.create(name: 'Bali to Gili T', from_id: 1, to_id: 3, operator_id: 1, status: 'available', price: '34', currency: "€", departure_date:  Time.parse("Nov 3 2018 15:30"), arrival_date:  Time.now, duration: '100', vehicle_id: '1')
@@ -36,3 +38,8 @@ Trip.create(name: 'Bali to Gili A', from_id: 1, to_id: 4, operator_id: 1, status
 Trip.create(name: 'Bali to Gili A', from_id: 1, to_id: 4, operator_id: 1, status: 'available', price: '34', currency: "€", departure_date:  Time.parse("Nov 3 2018 15:45"), arrival_date:  Time.now, duration: '100', vehicle_id: '1')
 
 Trip.create(name: 'Bali to Gili T', from_id: 1, to_id: 3, operator_id: 2, status: 'available', price: '34', currency: "€", departure_date:  Time.parse("Nov 3 2018 09:00"), arrival_date:  Time.now, duration: '100', vehicle_id: '5')
+Trip.create(name: 'Bali to Gili T', from_id: 1, to_id: 3, operator_id: 2, status: 'available', price: '34', currency: "€", departure_date:  Time.parse("Nov 3 2018 14:00"), arrival_date:  Time.now, duration: '100', vehicle_id: '5')
+Trip.create(name: 'Bali to Gili A', from_id: 1, to_id: 4, operator_id: 2, status: 'available', price: '34', currency: "€", departure_date:  Time.parse("Nov 3 2018 09:00"), arrival_date:  Time.now, duration: '100', vehicle_id: '5')
+Trip.create(name: 'Bali to Gili A', from_id: 1, to_id: 4, operator_id: 2, status: 'available', price: '34', currency: "€", departure_date:  Time.parse("Nov 3 2018 14:00"), arrival_date:  Time.now, duration: '100', vehicle_id: '5')
+Trip.create(name: 'Gili T to Bali', from_id: 3, to_id: 1, operator_id: 2, status: 'available', price: '34', currency: "€", departure_date:  Time.parse("Nov 3 2018 10:30"), arrival_date:  Time.now, duration: '100', vehicle_id: '5')
+Trip.create(name: 'Gili T to Bali', from_id: 3, to_id: 1, operator_id: 2, status: 'available', price: '34', currency: "€", departure_date:  Time.parse("Nov 3 2018 14:45"), arrival_date:  Time.now, duration: '100', vehicle_id: '5', high_season: true)
