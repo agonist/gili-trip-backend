@@ -3,42 +3,42 @@ import PropTypes from "prop-types";
 
 import Item from "../TripItem";
 
-const Trips = ({ handleSelectTicket, trips }) => (
+const Trips = ({ handleSelect, selected, trips }) => (
   <div className="Trips">
-    {trips.map(({ id, ...trip }) => (
-      <Item
-        key={id}
-        handleSelectTicket={() => handleSelectTicket(id)}
-        {...trip}
-      />
-    ))}
+    {trips.map(trip => {
+      const { id } = trip;
+      const isSelected = trip.id === selected;
+      const _handleSelect = () => handleSelect(trip);
+
+      // items when another one is selected
+      if (selected && !isSelected) {
+        return null;
+      }
+
+      return (
+        <Item
+          {...trip}
+          key={id}
+          handleSelect={_handleSelect}
+          isSelected={isSelected}
+        />
+      );
+    })}
   </div>
 );
 
 Trips.propTypes = {
-  handleSelectTicket: PropTypes.func.isRequired,
+  handleSelect: PropTypes.func.isRequired,
+  selected: PropTypes.string,
   trips: PropTypes.arrayOf(
     PropTypes.shape({
-      arrival_date: PropTypes.string.isRequired,
-      currency: PropTypes.string.isRequired,
-      departure_date: PropTypes.string.isRequired,
-      from: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-      }),
       id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      operator: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-      }),
-      price: PropTypes.string.isRequired,
-      to: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-      }),
     }),
   ),
 };
 
 Trips.defaultProps = {
+  selected: null,
   trips: [],
 };
 

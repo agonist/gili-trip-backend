@@ -1,25 +1,32 @@
 import React from "react";
 import PropTypes from "prop-types";
 import qs from "query-string";
-import { Spinner } from "evergreen-ui";
+import { Button, Pane, Spinner, majorScale } from "evergreen-ui";
+import { Link } from "@reach/router";
 
 import Container from "../Container";
 import Header from "../Header";
 import Item from "../Item";
 import SearchForm from "../SearchForm";
 import Trips from "../Trips";
+import TripsTitle from "../TripsTitle";
 
 import { formatDataForBrowser, navigateWithData } from "../../helpers";
 import { fetchTrips } from "../../api";
 
 class TripsPage extends React.Component {
   state = {
-    trips: [],
-    isLoading: true,
+    departureTrips: [],
+    departureTicket: undefined,
+    returnTrips: [],
+    returnTicket: undefined,
+    isFetchingDepartureTrips: true,
+    isFetchingReturnTrips: true,
   };
 
   componentDidMount() {
-    this.fetchTrips();
+    this.fetchDepartureTrips();
+    this.fetchReturnTrips();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -37,10 +44,13 @@ class TripsPage extends React.Component {
       from: nextTo,
     } = this.getParams(nextProps.location);
 
-    const hasArrivalChanged = currentArrival !== nextArrival;
-    const hasDepartureChanged = currentDeparture !== nextDeparture;
-    const hasFromChanged = currentFrom || nextFrom;
-    const hasToChanged = currentTo || nextTo;
+    const hasArrivalChanged =
+      currentArrival.toISOString() !== nextArrival.toISOString();
+    const hasDepartureChanged =
+      currentDeparture.toISOString() !== nextDeparture.toISOString();
+
+    const hasFromChanged = currentFrom !== nextFrom;
+    const hasToChanged = currentTo !== nextTo;
 
     if (
       hasArrivalChanged ||
@@ -48,7 +58,12 @@ class TripsPage extends React.Component {
       hasFromChanged ||
       hasToChanged
     ) {
-      this.setState({ isLoading: true }, this.fetchTrips);
+      this.setState(
+        {
+          isFetchingDepartureTrips: true,
+        },
+        this.fetchTrips,
+      );
     }
   }
 
@@ -60,23 +75,60 @@ class TripsPage extends React.Component {
     return formatDataForBrowser(urlParams);
   };
 
-  fetchTrips = () => {
+  fetchDepartureTrips = () => {
     const params = this.getParams();
 
-    const onFetchTripsSuccess = trips => {
+    const onSuccess = trips => {
       this.setState({
-        trips,
-        isLoading: false,
+        departureTrips: trips,
+        isFetchingDepartureTrips: false,
       });
     };
 
-    return fetchTrips(params).then(onFetchTripsSuccess);
+    return fetchTrips(params).then(onSuccess);
+  };
+
+  fetchReturnTrips = () => {
+    const { from, to, ...params } = this.getParams();
+
+    const onSuccess = trips => {
+      this.setState({
+        returnTrips: trips,
+        isFetchingReturnTrips: false,
+      });
+    };
+
+    return fetchTrips({
+      from: to,
+      to: from,
+      ...params,
+    }).then(onSuccess);
+  };
+
+  handleSelectDepartureTicket = ticket => {
+    this.setState({
+      departureTicket: ticket,
+    });
+  };
+
+  handleSelectReturnTicket = ticket => {
+    this.setState({
+      returnTicket: ticket,
+    });
   };
 
   render() {
-    const { trips, isLoading } = this.state;
+    const {
+      departureTrips,
+      departureTicket,
+      returnTrips,
+      returnTicket,
+      isFetchingDepartureTrips,
+      isFetchingReturnTrips,
+    } = this.state;
+
     const formData = this.getParams();
-    const findTicket = id => trips.find(({ id: _id }) => id === _id);
+    const { from, to } = formData;
 
     const handleSearchSubmit = data =>
       navigateWithData("/trips", {
@@ -84,31 +136,64 @@ class TripsPage extends React.Component {
         withParams: true,
       });
 
-    const handleBooking = ticketId => {
-      navigateWithData("/booking", {
-        data: {
-          ticket: findTicket(ticketId),
-        },
-      });
-    };
-
     return (
       <div className="Page Page--trips">
         <Header>
           <SearchForm
             formData={formData}
-            isLoading={isLoading}
+            isLoading={isFetchingDepartureTrips || isFetchingReturnTrips}
             onSubmit={handleSearchSubmit}
           />
         </Header>
 
         <Container>
-          {isLoading ? (
+          <TripsTitle from={from} to={to} />
+
+          {isFetchingDepartureTrips ? (
             <Item>
               <Spinner />
             </Item>
           ) : (
-            <Trips trips={trips} handleSelectTicket={handleBooking} />
+            <Trips
+              trips={departureTrips}
+              selected={departureTicket && departureTicket.id}
+              handleSelect={this.handleSelectDepartureTicket}
+            />
+          )}
+
+          <Pane marginTop={majorScale(4)}>
+            <TripsTitle from={to} to={from} />
+
+            {isFetchingReturnTrips ? (
+              <Item>
+                <Spinner />
+              </Item>
+            ) : (
+              <Trips
+                trips={returnTrips}
+                selected={returnTicket && returnTicket.id}
+                handleSelect={this.handleSelectReturnTicket}
+              />
+            )}
+          </Pane>
+
+          {departureTicket && returnTicket && (
+            <Pane textAlign="right">
+              <Link
+                to="/booking"
+                state={{
+                  tickets: [departureTicket, returnTicket],
+                }}
+              >
+                <Button
+                  appearance="primary"
+                  height={majorScale(5)}
+                  iconAfter="arrow-right"
+                >
+                  Confirm and book tickets
+                </Button>
+              </Link>
+            </Pane>
           )}
         </Container>
       </div>

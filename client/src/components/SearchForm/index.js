@@ -63,7 +63,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
     }}
   >
     {({ form, handleSubmit, submitting, values }) => (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ width: "100%" }}>
         <Pane display="flex">
           <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ROUND}>
             {({ input }) => (
@@ -216,7 +216,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
               isLoading={submitting || isLoading}
               type="submit"
             >
-              Search tickets
+              Search trips
             </Button>
           </Pane>
         </Pane>

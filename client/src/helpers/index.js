@@ -4,6 +4,8 @@ import qs from "query-string";
 
 import { DATE_FORMAT, LOCATIONS } from "../constants";
 
+export const getRandomNumber = (min, max) => Math.random() * (max - min) + min;
+
 export const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export const formatDate = date => dateFns.format(date, DATE_FORMAT);

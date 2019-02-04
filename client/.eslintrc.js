@@ -12,6 +12,7 @@ module.exports = {
     "import/prefer-default-export": 0,
     "jsx-a11y/anchor-is-valid": 0,
     "jsx-a11y/href-no-hash": 0,
+    "no-underscore-dangle": 0,
     "prettier/prettier": "error",
     "react/jsx-filename-extension": 0,
     "react/jsx-indent": 0,
