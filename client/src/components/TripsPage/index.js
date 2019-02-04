@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import qs from "query-string";
 import { Button, Pane, Spinner, majorScale } from "evergreen-ui";
-import { Link } from "@reach/router";
 
 import Container from "../Container";
 import Header from "../Header";
@@ -11,6 +10,7 @@ import SearchForm from "../SearchForm";
 import Trips from "../Trips";
 import TripsTitle from "../TripsTitle";
 
+import { TRAVEL_TYPES } from "../../constants";
 import { formatDataForBrowser, navigateWithData } from "../../helpers";
 import { fetchTrips } from "../../api";
 
@@ -25,8 +25,7 @@ class TripsPage extends React.Component {
   };
 
   componentDidMount() {
-    this.fetchDepartureTrips();
-    this.fetchReturnTrips();
+    this.fetchTrips();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -46,6 +45,7 @@ class TripsPage extends React.Component {
 
     const hasArrivalChanged =
       currentArrival.toISOString() !== nextArrival.toISOString();
+
     const hasDepartureChanged =
       currentDeparture.toISOString() !== nextDeparture.toISOString();
 
@@ -73,6 +73,17 @@ class TripsPage extends React.Component {
     const urlParams = qs.parse(search);
 
     return formatDataForBrowser(urlParams);
+  };
+
+  fetchTrips = () => {
+    const { travel_type } = this.getParams();
+    const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
+
+    this.fetchDepartureTrips();
+
+    if (isRoundTrip) {
+      this.fetchReturnTrips();
+    }
   };
 
   fetchDepartureTrips = () => {
@@ -117,6 +128,24 @@ class TripsPage extends React.Component {
     });
   };
 
+  handleBookTickets = () => {
+    const { departureTicket, returnTicket } = this.state;
+    const { travel_type } = this.getParams();
+    const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
+
+    const data = {
+      tickets: [departureTicket],
+    };
+
+    if (isRoundTrip) {
+      data.tickets.push(returnTicket);
+    }
+
+    return navigateWithData("/booking", {
+      data,
+    });
+  };
+
   render() {
     const {
       departureTrips,
@@ -128,7 +157,16 @@ class TripsPage extends React.Component {
     } = this.state;
 
     const formData = this.getParams();
-    const { from, to } = formData;
+    const { travel_type, from, to } = formData;
+    const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
+
+    const isSearchFormLoading = isRoundTrip
+      ? isFetchingDepartureTrips || isFetchingReturnTrips
+      : isFetchingDepartureTrips;
+
+    const hasSelectedAllTickets = isRoundTrip
+      ? departureTicket && returnTicket
+      : departureTicket;
 
     const handleSearchSubmit = data =>
       navigateWithData("/trips", {
@@ -141,7 +179,7 @@ class TripsPage extends React.Component {
         <Header>
           <SearchForm
             formData={formData}
-            isLoading={isFetchingDepartureTrips || isFetchingReturnTrips}
+            isLoading={isSearchFormLoading}
             onSubmit={handleSearchSubmit}
           />
         </Header>
@@ -161,38 +199,34 @@ class TripsPage extends React.Component {
             />
           )}
 
-          <Pane marginTop={majorScale(4)}>
-            <TripsTitle from={to} to={from} />
+          {isRoundTrip && (
+            <Pane marginTop={majorScale(4)}>
+              <TripsTitle from={to} to={from} />
 
-            {isFetchingReturnTrips ? (
-              <Item>
-                <Spinner />
-              </Item>
-            ) : (
-              <Trips
-                trips={returnTrips}
-                selected={returnTicket && returnTicket.id}
-                handleSelect={this.handleSelectReturnTicket}
-              />
-            )}
-          </Pane>
+              {isFetchingReturnTrips ? (
+                <Item>
+                  <Spinner />
+                </Item>
+              ) : (
+                <Trips
+                  trips={returnTrips}
+                  selected={returnTicket && returnTicket.id}
+                  handleSelect={this.handleSelectReturnTicket}
+                />
+              )}
+            </Pane>
+          )}
 
-          {departureTicket && returnTicket && (
+          {hasSelectedAllTickets && (
             <Pane textAlign="right">
-              <Link
-                to="/booking"
-                state={{
-                  tickets: [departureTicket, returnTicket],
-                }}
+              <Button
+                appearance="primary"
+                height={majorScale(5)}
+                iconAfter="arrow-right"
+                onClick={this.handleBookTickets}
               >
-                <Button
-                  appearance="primary"
-                  height={majorScale(5)}
-                  iconAfter="arrow-right"
-                >
-                  Confirm and book tickets
-                </Button>
-              </Link>
+                Confirm and book tickets
+              </Button>
             </Pane>
           )}
         </Container>
