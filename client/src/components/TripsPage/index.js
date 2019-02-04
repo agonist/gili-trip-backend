@@ -102,7 +102,7 @@ class TripsPage extends React.Component {
           />
         </Header>
 
-        <Container paddingY="2rem" backgroundColor="#fafafa">
+        <Container>
           {isLoading ? (
             <Item>
               <Spinner />

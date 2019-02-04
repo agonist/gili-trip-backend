@@ -32,7 +32,7 @@ const items = [
 ];
 
 const Popular = ({ onClick }) => (
-  <Container paddingY="2rem" backgroundColor="#fafafa">
+  <Container>
     <Heading size={700} marginBottom="1rem">
       Popular trips
     </Heading>

@@ -29,7 +29,7 @@ const BookingPage = ({ location: { state } }) => {
     <div className="Page Page--trips">
       <Header />
 
-      <Container paddingY="2rem" backgroundColor="#fafafa">
+      <Container>
         <Alert
           intent="warning"
           title="Your trip is not reserved yet!"
