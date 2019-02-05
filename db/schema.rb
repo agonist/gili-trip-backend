@@ -114,8 +114,8 @@ ActiveRecord::Schema.define(version: 2019_02_04_113829) do
     t.string "status"
     t.decimal "price"
     t.string "currency"
-    t.datetime "departure_date"
-    t.datetime "arrival_date"
+    t.string "departure_time"
+    t.string "arrival_time"
     t.integer "duration"
     t.bigint "vehicle_id"
     t.datetime "created_at", null: false
