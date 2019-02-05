@@ -14,14 +14,18 @@ import { TRAVEL_TYPES } from "../../constants";
 import { formatDataForBrowser, navigateWithData } from "../../helpers";
 import { fetchTrips } from "../../api";
 
+const initialState = {
+  departureTrips: [],
+  departureTicket: undefined,
+  returnTrips: [],
+  returnTicket: undefined,
+  isFetchingDepartureTrips: true,
+  isFetchingReturnTrips: true,
+};
+
 class TripsPage extends React.Component {
   state = {
-    departureTrips: [],
-    departureTicket: undefined,
-    returnTrips: [],
-    returnTicket: undefined,
-    isFetchingDepartureTrips: true,
-    isFetchingReturnTrips: true,
+    ...initialState,
   };
 
   componentDidMount() {
@@ -34,6 +38,7 @@ class TripsPage extends React.Component {
       departure_date: currentDeparture,
       from: currentFrom,
       from: currentTo,
+      travel_type: currentTravelType,
     } = this.getParams();
 
     const {
@@ -41,6 +46,7 @@ class TripsPage extends React.Component {
       departure_date: nextDeparture,
       from: nextFrom,
       from: nextTo,
+      travel_type: nextTravelType,
     } = this.getParams(nextProps.location);
 
     const hasArrivalChanged =
@@ -51,19 +57,16 @@ class TripsPage extends React.Component {
 
     const hasFromChanged = currentFrom !== nextFrom;
     const hasToChanged = currentTo !== nextTo;
+    const hasTravelTypeChanged = currentTravelType !== nextTravelType;
 
     if (
       hasArrivalChanged ||
       hasDepartureChanged ||
       hasFromChanged ||
-      hasToChanged
+      hasToChanged ||
+      hasTravelTypeChanged
     ) {
-      this.setState(
-        {
-          isFetchingDepartureTrips: true,
-        },
-        this.fetchTrips,
-      );
+      this.fetchTrips();
     }
   }
 
@@ -76,14 +79,21 @@ class TripsPage extends React.Component {
   };
 
   fetchTrips = () => {
-    const { travel_type } = this.getParams();
-    const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
+    this.setState(
+      {
+        ...initialState,
+      },
+      () => {
+        const { travel_type } = this.getParams();
 
-    this.fetchDepartureTrips();
+        const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
+        this.fetchDepartureTrips();
 
-    if (isRoundTrip) {
-      this.fetchReturnTrips();
-    }
+        if (isRoundTrip) {
+          this.fetchReturnTrips();
+        }
+      },
+    );
   };
 
   fetchDepartureTrips = () => {
