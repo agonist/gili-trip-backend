@@ -132,9 +132,21 @@ class TripsPage extends React.Component {
     });
   };
 
+  handleUnselectDepartureTicket = () => {
+    this.setState({
+      departureTicket: initialState.departureTicket,
+    });
+  };
+
   handleSelectReturnTicket = ticket => {
     this.setState({
       returnTicket: ticket,
+    });
+  };
+
+  handleUnselectReturnTicket = () => {
+    this.setState({
+      returnTicket: initialState.returnTicket,
     });
   };
 
@@ -206,6 +218,7 @@ class TripsPage extends React.Component {
               trips={departureTrips}
               selected={departureTicket && departureTicket.id}
               handleSelect={this.handleSelectDepartureTicket}
+              handleUnselect={this.handleUnselectDepartureTicket}
             />
           )}
 
@@ -222,13 +235,14 @@ class TripsPage extends React.Component {
                   trips={returnTrips}
                   selected={returnTicket && returnTicket.id}
                   handleSelect={this.handleSelectReturnTicket}
+                  handleUnselect={this.handleUnselectReturnTicket}
                 />
               )}
             </Pane>
           )}
 
           {hasSelectedAllTickets && (
-            <Pane textAlign="right">
+            <Pane textAlign="right" paddingTop={majorScale(4)}>
               <Button
                 appearance="primary"
                 height={majorScale(5)}

@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Pane, majorScale } from "evergreen-ui";
 
 import Item from "../TripItem";
 
-const Trips = ({ handleSelect, selected, trips }) => (
-  <div className="Trips">
+const Trips = ({ handleSelect, handleUnselect, selected, trips }) => (
+  <Pane paddingBottom={selected ? majorScale(1) : 0}>
     {trips.map(trip => {
       const { id } = trip;
       const isSelected = trip.id === selected;
@@ -20,15 +21,17 @@ const Trips = ({ handleSelect, selected, trips }) => (
           {...trip}
           key={id}
           handleSelect={_handleSelect}
+          handleUnselect={handleUnselect}
           isSelected={isSelected}
         />
       );
     })}
-  </div>
+  </Pane>
 );
 
 Trips.propTypes = {
   handleSelect: PropTypes.func.isRequired,
+  handleUnselect: PropTypes.func.isRequired,
   selected: PropTypes.string,
   trips: PropTypes.arrayOf(
     PropTypes.shape({
