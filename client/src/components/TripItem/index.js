@@ -9,9 +9,9 @@ import Time from "../Time";
 const buttonHeight = 32;
 
 const TripItem = ({
-  arrival_date,
+  arrival_time,
   currency,
-  departure_date,
+  departure_time,
   duration,
   handleSelect,
   isSelected,
@@ -22,13 +22,13 @@ const TripItem = ({
     <Pane flexGrow={1} alignItems="center" justifyContent="center">
       <Pane display="flex" alignItems="center" justifyContent="center">
         <Pane textAlign="right">
-          <Time title="Departure" date={departure_date} />
+          <Time title="Departure" value={departure_time} />
         </Pane>
 
         <Duration duration={duration} />
 
         <Pane textAlign="left">
-          <Time title="Arrival" date={arrival_date} />
+          <Time title="Arrival" value={arrival_time} />
         </Pane>
       </Pane>
     </Pane>
@@ -65,9 +65,9 @@ const TripItem = ({
 );
 
 TripItem.propTypes = {
-  arrival_date: PropTypes.string.isRequired,
+  arrival_time: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
-  departure_date: PropTypes.string.isRequired,
+  departure_time: PropTypes.string.isRequired,
   duration: PropTypes.number.isRequired,
   handleSelect: PropTypes.func,
   isSelected: PropTypes.bool,
