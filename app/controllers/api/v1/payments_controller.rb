@@ -13,7 +13,7 @@ class Api::V1::PaymentsController < ApiController
   ]
 
   def generate_braintree_token
-      render json: {:token => gateway.client_token.generate}
+    render json: {:token => gateway.client_token.generate}
   end
 
   def checkout
@@ -38,9 +38,9 @@ class Api::V1::PaymentsController < ApiController
       @booking.payment_status = "success"
 
       if @booking.save
-          render json: @booking
+        render json: @booking
       else
-          render json: @booking.errors, status: :unprocessable_entity
+        render json: @booking.errors, status: :unprocessable_entity
       end
 
     else
@@ -62,25 +62,39 @@ class Api::V1::PaymentsController < ApiController
   end
 
   def mail
-      send_confirmation_email
+    send_confirmation_email
 
-      render json: {"" => ""}
+    render json: {"" => ""}
   end
 
   private
 
   def send_confirmation_email
     @booking = Booking.find('cf196ea4-a5d6-4594-86a9-09639b70bbdc')
-    trip_name = @booking.tickets[0].trip.name
+
+    trip_name_dep = @booking.tickets[0].trip.name
     quantity = @booking.tickets[0].quantity
     date_departure = @booking.tickets[0].date.strftime("%d-%m-%Y")
     time_departure = @booking.tickets[0].trip.departure_time
+    datas = {}
 
-    data = { personalizations: [ { to: [ { email: 'bastien.billey@gmail.com' } ],
+    if @booking.tickets.size == 1
+      datas = { trip_name_dep: trip_name_dep, quantity: quantity, date_departure: date_departure, time_departure: time_departure}
+    else
+      trip_name_return = @booking.tickets[1].trip.name
+      date_return = @booking.tickets[1].date.strftime("%d-%m-%Y")
+      time_return = @booking.tickets[1].trip.departure_time
+      datas = { trip_name_dep: trip_name_dep, quantity: quantity, date_departure: date_departure, time_departure: time_departure,
+      trip_name_return: trip_name_return, date_return: date_return, time_return: time_return}
+    end
 
-        dynamic_template_data: { trip_name: trip_name, quantity: quantity, date_departure: date_departure, time_departure: time_departure},
+    data = { personalizations: [ {
+      to: [ { email: @booking.booking_email   } ],
+      dynamic_template_data: datas,
+      subject: "Order confirmation" } ],
+      from: { email: "test@gilitrip.com" },
+      template_id: "d-54cb46cd5f564a369c678cae75b9fd56" }
 
-     subject: "NOT" } ], from: { email: "test@gilitrip.com" }, template_id: "d-54cb46cd5f564a369c678cae75b9fd56" }
     sg = SendGrid::API.new(api_key: ENV['SENDGRID'])
     response = sg.client.mail._('send').post(request_body: data)
 
