@@ -27,11 +27,11 @@ const Header = ({ children }) => (
         }}
       >
         <Heading size={900} color="#fff" fontWeight={700}>
-          Gili
+          Gili Trip
         </Heading>
 
         <Paragraph color="#fff" opacity={0.8} size={500}>
-          Catchy bullshit phrase
+          Easy fast boat booking
         </Paragraph>
       </Link>
 

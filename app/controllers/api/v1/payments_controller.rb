@@ -1,4 +1,6 @@
 class Api::V1::PaymentsController < ApiController
+  require 'sendgrid-ruby'
+  include SendGrid
 
   TRANSACTION_SUCCESS_STATUSES = [
     Braintree::Transaction::Status::Authorizing,
@@ -53,9 +55,34 @@ class Api::V1::PaymentsController < ApiController
 
     @gateway ||= Braintree::Gateway.new(
       :environment => env && env.to_sym,
-      :merchant_id => 'ydb4ycd8z7dmn4pv',
-      :public_key => 'ntj85b9x9mwcbp39',
-      :private_key => 'b33536920ecf2e119b824525d601fb98',
+      :merchant_id => ENV['BRAINTREE_CLIENT_ID'],
+      :public_key => ENV['BRAINTREE_PUBLIC'],
+      :private_key => ENV['BRAINTREE_PRIVATE'],
     )
+  end
+
+  def mail
+      send_confirmation_email
+
+      render json: {"" => ""}
+  end
+
+  private
+
+  def send_confirmation_email
+    @booking = Booking.find('cf196ea4-a5d6-4594-86a9-09639b70bbdc')
+    trip_name = @booking.tickets[0].trip.name
+    quantity = @booking.tickets[0].quantity
+    date_departure = @booking.tickets[0].date.strftime("%d-%m-%Y")
+    time_departure = @booking.tickets[0].trip.departure_time
+
+    data = { personalizations: [ { to: [ { email: 'bastien.billey@gmail.com' } ],
+
+        dynamic_template_data: { trip_name: trip_name, quantity: quantity, date_departure: date_departure, time_departure: time_departure},
+
+     subject: "NOT" } ], from: { email: "test@gilitrip.com" }, template_id: "d-54cb46cd5f564a369c678cae75b9fd56" }
+    sg = SendGrid::API.new(api_key: ENV['SENDGRID'])
+    response = sg.client.mail._('send').post(request_body: data)
+
   end
 end

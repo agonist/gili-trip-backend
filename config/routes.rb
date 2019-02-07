@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       resources :locations
       get '/payments/token', to: 'payments#generate_braintree_token'
       post '/payments/checkout', to: 'payments#checkout'
+      get '/payments/mail', to: 'payments#mail'
+
       post '/coupons/validate', to: 'coupons#validate'
      end
     end
