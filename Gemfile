@@ -47,6 +47,7 @@ gem 'active_model_serializers'
 gem 'braintree'
 gem 'dotenv-rails', groups: [:development, :test, :staging]
 gem 'sendgrid-ruby'
+gem 'rack-attack'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
