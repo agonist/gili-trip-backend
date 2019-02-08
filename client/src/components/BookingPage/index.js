@@ -1,50 +1,65 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import { Alert, Heading, majorScale } from "evergreen-ui";
+import { Alert } from "evergreen-ui";
 
 import BookingForm from "../BookingForm";
 import Container from "../Container";
 import Header from "../Header";
-import Item from "../Item";
-import TripItem from "../TripItem";
 
-const BookingPage = ({ location: { state } }) => {
-  const { tickets } = state;
+class BookingPage extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <div className="Page Page--trips">
-      <Header />
+    const { location, navigate } = props;
+    const { state } = location;
 
-      {tickets.map(ticket => (
-        <Container key={ticket.id}>
-          <Alert
-            intent="warning"
-            title="Your ticket is not reserved yet!"
-            marginBottom={majorScale(2)}
+    if (!state || (state && !state.tickets)) {
+      navigate("/trips");
+      return;
+    }
+
+    this.state = {
+      formData: {
+        tickets: state.tickets.map(({ id, departure_time }) => ({
+          departure_time,
+          trip_id: id,
+        })),
+      },
+    };
+  }
+
+  handleFormSubmit = formData => {
+    console.log("booking", formData);
+  };
+
+  render() {
+    const { location } = this.props;
+    const { formData } = this.state;
+    const { tickets } = location.state;
+
+    return (
+      <div className="Page Page--trips">
+        <Header />
+
+        <Container>
+          <Alert intent="warning" title="Your tickets are not reserved yet!" />
+
+          <BookingForm
+            initialValues={formData}
+            tickets={tickets}
+            onSubmit={this.handleFormSubmit}
           />
-
-          <TripItem {...ticket} canSelectTicket={false} />
-
-          <div style={{ height: majorScale(5) }} />
-
-          <Heading size={700} textAlign="left" marginBottom={majorScale(2)}>
-            Complete your trip
-          </Heading>
-
-          <Item justifyContent="normal">
-            <BookingForm />
-          </Item>
         </Container>
-      ))}
-    </div>
-  );
-};
+      </div>
+    );
+  }
+}
 
 BookingPage.propTypes = {
   location: PropTypes.shape({
     state: PropTypes.shape({}).isRequired,
   }).isRequired,
+  navigate: PropTypes.func.isRequired,
 };
 
 export default BookingPage;

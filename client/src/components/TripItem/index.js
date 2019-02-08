@@ -2,9 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button, Heading, Icon, Pane, majorScale } from "evergreen-ui";
 
-import Duration from "../Duration";
 import Item from "../Item";
-import Time from "../Time";
+import TripItemContent from "../TripItemContent";
 
 import "./index.css";
 
@@ -40,19 +39,11 @@ const TripItem = ({
       cursor={isSelected ? "pointer" : "default"}
       onClick={isSelected ? handleUnselect : null}
     >
-      <Pane flexGrow={1} alignItems="center" justifyContent="center">
-        <Pane display="flex" alignItems="center" justifyContent="center">
-          <Pane textAlign="right">
-            <Time title="Departure" value={departure_time} />
-          </Pane>
-
-          <Duration duration={duration} />
-
-          <Pane textAlign="left">
-            <Time title="Arrival" value={arrival_time} />
-          </Pane>
-        </Pane>
-      </Pane>
+      <TripItemContent
+        arrival_time={arrival_time}
+        departure_time={departure_time}
+        duration={duration}
+      />
 
       {canSelectTicket && (
         <Pane

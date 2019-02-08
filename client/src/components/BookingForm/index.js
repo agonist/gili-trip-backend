@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Form, Field } from "react-final-form";
 
 import {
@@ -9,168 +10,213 @@ import {
   majorScale,
 } from "evergreen-ui";
 
-const itemHeight = majorScale(5);
+import Item from "../Item";
+import TripItemContent from "../TripItemContent";
 
+const itemHeight = majorScale(5);
+const renderSeparator = () => <Pane width={majorScale(5)} />;
 const required = value => (value ? undefined : "Required");
 
-const Separator = <Pane width={majorScale(5)} />;
+const headingProps = {
+  size: 700,
+  textAlign: "left",
+  marginTop: majorScale(5),
+  marginBottom: majorScale(2),
+};
 
-const BookingForm = () => (
-  <Form onSubmit={console.log}>
-    {({ form, handleSubmit, pristine, submitting }) => (
-      <form onSubmit={handleSubmit} style={{ flexGrow: 1 }}>
-        <Field name="booking_email" validate={required}>
-          {({ input, meta }) => (
-            <TextInputField
-              {...input}
-              required
-              label="Email"
-              placeholder="hello@gili.com"
-              type="email"
-              width="100%"
-              isInvalid={meta.error && meta.touched}
-            />
-          )}
-        </Field>
-
-        <Field name="booking_email_confirm" validate={required}>
-          {({ input, meta }) => (
-            <TextInputField
-              {...input}
-              required
-              label="Confirm email"
-              placeholder="hello@gili.com"
-              type="email"
-              width="100%"
-              isInvalid={meta.error && meta.touched}
-            />
-          )}
-        </Field>
-
-        <Pane display="flex">
-          <Field name="passenger_1" validate={required}>
+const BookingForm = ({ initialValues, tickets, onSubmit }) => (
+  <Form initialValues={initialValues} onSubmit={onSubmit}>
+    {({ form, handleSubmit, submitting }) => (
+      <form onSubmit={handleSubmit}>
+        <Heading {...headingProps}>General</Heading>
+        <Item flexDirection="column">
+          <Field name="booking_email" validate={required}>
             {({ input, meta }) => (
               <TextInputField
                 {...input}
                 required
-                label="Passenger 1"
+                label="Email"
                 placeholder="hello@gili.com"
+                type="email"
                 width="100%"
                 isInvalid={meta.error && meta.touched}
               />
             )}
           </Field>
 
-          {Separator}
-
-          <Field name="passenger_2" validate={required}>
-            {({ input }) => (
+          <Field name="booking_email_confirm" validate={required}>
+            {({ input, meta }) => (
               <TextInputField
                 {...input}
-                label="Passenger 2"
+                required
+                label="Confirm email"
                 placeholder="hello@gili.com"
+                type="email"
                 width="100%"
+                isInvalid={meta.error && meta.touched}
               />
             )}
           </Field>
-        </Pane>
+        </Item>
 
-        <Pane display="flex">
-          <Field name="passenger_3" validate={required}>
-            {({ input }) => (
-              <TextInputField
-                {...input}
-                label="Passenger 3"
-                placeholder="hello@gili.com"
+        <Heading {...headingProps}>Passengers</Heading>
+        <Item flexDirection="column">
+          <Pane display="flex" width="100%">
+            <Field name="passenger[0]" validate={required}>
+              {({ input, meta }) => (
+                <TextInputField
+                  {...input}
+                  required
+                  label="Passenger 1"
+                  placeholder="hello@gili.com"
+                  width="100%"
+                  isInvalid={meta.error && meta.touched}
+                />
+              )}
+            </Field>
+
+            {renderSeparator()}
+
+            <Field name="passenger[1]">
+              {({ input }) => (
+                <TextInputField
+                  {...input}
+                  label="Passenger 2"
+                  placeholder="hello@gili.com"
+                  width="100%"
+                />
+              )}
+            </Field>
+          </Pane>
+
+          <Pane display="flex" width="100%">
+            <Field name="passenger[2]">
+              {({ input }) => (
+                <TextInputField
+                  {...input}
+                  label="Passenger 3"
+                  placeholder="hello@gili.com"
+                  width="100%"
+                />
+              )}
+            </Field>
+
+            {renderSeparator()}
+
+            <Field name="passenger[3]">
+              {({ input }) => (
+                <TextInputField
+                  {...input}
+                  label="Passenger 3"
+                  placeholder="hello@gili.com"
+                  width="100%"
+                />
+              )}
+            </Field>
+          </Pane>
+        </Item>
+
+        <Heading {...headingProps}>Optional</Heading>
+        {tickets.map((ticket, i) => {
+          const formatName = str => `tickets[${i}].${str}`;
+          return (
+            <Item
+              key={ticket.id}
+              flexDirection="column"
+              paddingX={0}
+              paddingBottom={majorScale(2)}
+            >
+              <TripItemContent {...ticket} />
+
+              <Pane
                 width="100%"
+                height={1}
+                backgroundColor="#425A70"
+                opacity={0.2}
+                marginY={majorScale(5)}
               />
-            )}
-          </Field>
 
-          {Separator}
+              <Pane width="100%" paddingX={majorScale(5)}>
+                <Pane display="flex">
+                  <Field name={formatName("pickup_name")}>
+                    {({ input }) => (
+                      <TextInputField
+                        {...input}
+                        label="Hostel"
+                        placeholder="Hostel name"
+                        width="100%"
+                      />
+                    )}
+                  </Field>
 
-          <Field name="passenger_4" validate={required}>
-            {({ input }) => (
-              <TextInputField
-                {...input}
-                label="Passenger 3"
-                placeholder="hello@gili.com"
-                width="100%"
-              />
-            )}
-          </Field>
-        </Pane>
+                  {renderSeparator()}
 
-        <Heading size={600} textAlign="left" marginBottom={majorScale(2)}>
-          Optional
-        </Heading>
+                  <Field name={formatName("pickup_room_number")}>
+                    {({ input }) => (
+                      <TextInputField
+                        {...input}
+                        label="Room number"
+                        placeholder="42"
+                        width="100%"
+                      />
+                    )}
+                  </Field>
+                </Pane>
 
-        <Pane display="flex">
-          <Field name="pickup_name" validate={required}>
-            {({ input }) => (
-              <TextInputField
-                {...input}
-                label="Hostel"
-                placeholder="Hostel name"
-                width="100%"
-              />
-            )}
-          </Field>
+                <Pane display="flex">
+                  <Field name={formatName("pickup_city")}>
+                    {({ input }) => (
+                      <TextInputField
+                        {...input}
+                        label="City"
+                        placeholder="Bali"
+                        width="100%"
+                      />
+                    )}
+                  </Field>
 
-          {Separator}
+                  {renderSeparator()}
 
-          <Field name="pickup_room_number" validate={required}>
-            {({ input }) => (
-              <TextInputField
-                {...input}
-                label="Room number"
-                placeholder="42"
-                width="100%"
-              />
-            )}
-          </Field>
-        </Pane>
+                  <Field name={formatName("pickup_address")}>
+                    {({ input }) => (
+                      <TextInputField
+                        {...input}
+                        label="Address"
+                        placeholder="Hotel address"
+                        width="100%"
+                      />
+                    )}
+                  </Field>
+                </Pane>
+              </Pane>
+            </Item>
+          );
+        })}
 
-        <Pane display="flex">
-          <Field name="pickup_city" validate={required}>
-            {({ input }) => (
-              <TextInputField
-                {...input}
-                label="City"
-                placeholder="Bali"
-                width="100%"
-              />
-            )}
-          </Field>
-
-          {Separator}
-
-          <Field name="pickup_address" validate={required}>
-            {({ input }) => (
-              <TextInputField
-                {...input}
-                label="Address"
-                placeholder="Hotel address"
-                width="100%"
-              />
-            )}
-          </Field>
-        </Pane>
-
-        <Pane className="submit">
+        <Pane textAlign="right" paddingTop={majorScale(3)}>
           <Button
-            height={itemHeight}
             appearance="primary"
-            disabled={pristine}
+            height={itemHeight}
+            iconAfter="arrow-right"
             isLoading={submitting}
             type="submit"
           >
-            Save your informations
+            Confirm and book tickets
           </Button>
         </Pane>
       </form>
     )}
   </Form>
 );
+
+BookingForm.propTypes = {
+  initialValues: PropTypes.shape({}),
+  tickets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};
+
+BookingForm.defaultProps = {
+  initialValues: {},
+};
 
 export default BookingForm;

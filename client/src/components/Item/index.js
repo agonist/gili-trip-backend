@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Card } from "evergreen-ui";
+import { Card, majorScale } from "evergreen-ui";
 
 const Item = ({ children, ...props }) => (
   <Card
@@ -9,7 +9,7 @@ const Item = ({ children, ...props }) => (
     justifyContent="center"
     alignItems="center"
     marginBottom="1rem"
-    padding="2rem"
+    padding={majorScale(5)}
     elevation={2}
     backgroundColor="#fff"
     {...props}
