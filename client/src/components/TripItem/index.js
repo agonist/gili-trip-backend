@@ -38,7 +38,7 @@ const TripItem = ({
       position="relative"
       zIndex={baseZindex}
       cursor={isSelected ? "pointer" : "default"}
-      onClick={isSelected && handleUnselect}
+      onClick={isSelected ? handleUnselect : null}
     >
       <Pane flexGrow={1} alignItems="center" justifyContent="center">
         <Pane display="flex" alignItems="center" justifyContent="center">

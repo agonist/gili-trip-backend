@@ -19,7 +19,11 @@ const Item = ({ children, ...props }) => (
 );
 
 Item.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
+};
+
+Item.defaultProps = {
+  children: null,
 };
 
 export default Item;
