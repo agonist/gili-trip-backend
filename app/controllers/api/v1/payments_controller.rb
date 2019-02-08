@@ -69,6 +69,8 @@ class Api::V1::PaymentsController < ApiController
 
   private
 
+  @sg ||= SendGrid::API.new(api_key: ENV['SENDGRID'])
+
   def send_confirmation_email
     @booking = Booking.find('cf196ea4-a5d6-4594-86a9-09639b70bbdc')
 
@@ -95,8 +97,7 @@ class Api::V1::PaymentsController < ApiController
       from: { email: "test@gilitrip.com" },
       template_id: "d-54cb46cd5f564a369c678cae75b9fd56" }
 
-    sg = SendGrid::API.new(api_key: ENV['SENDGRID'])
-    response = sg.client.mail._('send').post(request_body: data)
+    response = @sg.client.mail._('send').post(request_body: data)
 
   end
 end
