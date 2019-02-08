@@ -38,6 +38,7 @@ class Api::V1::PaymentsController < ApiController
       @booking.payment_status = "success"
 
       if @booking.save
+        send_confirmation_email(@booking)
         render json: @booking
       else
         render json: @booking.errors, status: :unprocessable_entity
@@ -61,37 +62,29 @@ class Api::V1::PaymentsController < ApiController
     )
   end
 
-  def mail
-    send_confirmation_email
-
-    render json: {"" => ""}
-  end
-
   private
 
   @sg ||= SendGrid::API.new(api_key: ENV['SENDGRID'])
 
-  def send_confirmation_email
-    @booking = Booking.find('cf196ea4-a5d6-4594-86a9-09639b70bbdc')
-
-    trip_name_dep = @booking.tickets[0].trip.name
-    quantity = @booking.tickets[0].quantity
-    date_departure = @booking.tickets[0].date.strftime("%d-%m-%Y")
-    time_departure = @booking.tickets[0].trip.departure_time
+  def send_confirmation_email(booking)
+    trip_name_dep = booking.tickets[0].trip.name
+    quantity = booking.tickets[0].quantity
+    date_departure = booking.tickets[0].date.strftime("%d-%m-%Y")
+    time_departure = booking.tickets[0].trip.departure_time
     datas = {}
 
-    if @booking.tickets.size == 1
+    if booking.tickets.size == 1
       datas = { trip_name_dep: trip_name_dep, quantity: quantity, date_departure: date_departure, time_departure: time_departure}
     else
-      trip_name_return = @booking.tickets[1].trip.name
-      date_return = @booking.tickets[1].date.strftime("%d-%m-%Y")
-      time_return = @booking.tickets[1].trip.departure_time
+      trip_name_return = booking.tickets[1].trip.name
+      date_return = booking.tickets[1].date.strftime("%d-%m-%Y")
+      time_return = booking.tickets[1].trip.departure_time
       datas = { trip_name_dep: trip_name_dep, quantity: quantity, date_departure: date_departure, time_departure: time_departure,
       trip_name_return: trip_name_return, date_return: date_return, time_return: time_return}
     end
 
     data = { personalizations: [ {
-      to: [ { email: @booking.booking_email   } ],
+      to: [ { email: booking.booking_email   } ],
       dynamic_template_data: datas,
       subject: "Order confirmation" } ],
       from: { email: "test@gilitrip.com" },
