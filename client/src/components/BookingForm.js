@@ -13,6 +13,10 @@ import {
 import Item from "./Item";
 import TicketContent from "./TicketContent";
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
+import { composeValidators } from "../helpers";
+
+const mustMatch = valueToMatch => value =>
+  value === valueToMatch ? undefined : true;
 
 const renderSeparator = () => <Pane width={ITEM_HEIGHT} />;
 const required = value => (value ? undefined : "Required");
@@ -26,7 +30,7 @@ const headingProps = {
 
 const BookingForm = ({ initialValues, tickets, onSubmit }) => (
   <Form initialValues={initialValues} onSubmit={onSubmit}>
-    {({ form, handleSubmit, submitting }) => (
+    {({ form, handleSubmit, submitting, values: { booking_email } }) => (
       <form onSubmit={handleSubmit}>
         <Heading {...headingProps}>General</Heading>
         <Item flexDirection="column">
@@ -44,7 +48,10 @@ const BookingForm = ({ initialValues, tickets, onSubmit }) => (
             )}
           </Field>
 
-          <Field name="booking_email_confirm" validate={required}>
+          <Field
+            name="booking_email_confirm"
+            validate={composeValidators(required, mustMatch(booking_email))}
+          >
             {({ input, meta }) => (
               <TextInputField
                 {...input}

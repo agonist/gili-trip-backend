@@ -112,3 +112,6 @@ export const convertMinsToHrsMins = (mins, separator = ":") => {
 
   return `${h}${separator}${m}`;
 };
+
+export const composeValidators = (...validators) => value =>
+  validators.reduce((error, validator) => error || validator(value), undefined);
