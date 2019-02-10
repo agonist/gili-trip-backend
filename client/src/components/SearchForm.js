@@ -38,7 +38,11 @@ const radioProps = {
 };
 
 const getLocation = id => LOCATIONS.find(({ id: _id }) => _id === id).name;
-const hasArrivalDate = ({ travel_type }) => travel_type === TRAVEL_TYPES.ROUND;
+const hasReturn = travel_type => travel_type === TRAVEL_TYPES.ROUND;
+
+const filterLocations = (locations, filterItem) =>
+  locations.filter(item => item !== filterItem);
+
 const formatLocations = locations => locations.map(({ name }) => name);
 const formatDate = date => dateFns.format(date, DATE_FORMAT);
 const required = value => (value ? undefined : "Required");
@@ -60,7 +64,12 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
       ...formData,
     }}
   >
-    {({ form, handleSubmit, submitting, values }) => (
+    {({
+      form,
+      handleSubmit,
+      submitting,
+      values: { arrival_date, departure_date, from, to, travel_type },
+    }) => (
       <form onSubmit={handleSubmit} style={{ width: "100%" }}>
         <Pane display="flex">
           <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ROUND}>
@@ -83,7 +92,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
                 <Autocomplete
                   {...input}
                   itemSize={ITEM_HEIGHT}
-                  items={formatLocations(LOCATIONS)}
+                  items={filterLocations(formatLocations(LOCATIONS), to)}
                   selectedItem={input.value}
                 >
                   {({ getInputProps, getRef, inputValue, openMenu }) => (
@@ -121,7 +130,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
                 <Autocomplete
                   {...input}
                   itemSize={ITEM_HEIGHT}
-                  items={formatLocations(LOCATIONS)}
+                  items={filterLocations(formatLocations(LOCATIONS), from)}
                   selectedItem={input.value}
                 >
                   {({ getInputProps, getRef, inputValue, openMenu }) => (
@@ -149,7 +158,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
                 content={({ close }) => (
                   <DayPicker
                     {...input}
-                    selectedDays={[value, values.arrival_date]}
+                    selectedDays={[value, arrival_date]}
                     disabledDays={{ before: TODAY_DATE }}
                     onDayClick={day => {
                       input.onChange(day);
@@ -174,15 +183,15 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
             )}
           </Field>
 
-          {hasArrivalDate(values) && (
+          {hasReturn(travel_type) && (
             <Field name="arrival_date" validate={required}>
               {({ input: { value, ...input }, meta }) => (
                 <Popover
                   content={({ close }) => (
                     <DayPicker
-                      selectedDays={[value, values.departure_date]}
+                      selectedDays={[value, departure_date]}
                       disabledDays={{
-                        before: values.departure_date || TODAY_DATE,
+                        before: departure_date || TODAY_DATE,
                       }}
                       onDayClick={day => {
                         input.onChange(day);
