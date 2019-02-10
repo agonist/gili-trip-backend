@@ -3,16 +3,16 @@ import PropTypes from "prop-types";
 import qs from "query-string";
 import { Button, Pane, Spinner, majorScale } from "evergreen-ui";
 
-import Container from "../Container";
-import Header from "../Header";
-import Item from "../Item";
-import SearchForm from "../SearchForm";
-import Trips from "../Trips";
-import TripsTitle from "../TripsTitle";
+import Container from "./Container";
+import Header from "./Header";
+import Item from "./Item";
+import SearchForm from "./SearchForm";
+import Trips from "./Trips";
+import TripsTitle from "./TripsTitle";
 
-import { TRAVEL_TYPES } from "../../constants";
-import { formatDataForBrowser, navigateWithData } from "../../helpers";
-import { fetchTrips } from "../../api";
+import { ITEM_HEIGHT, TRAVEL_TYPES } from "../constants";
+import { formatDataForBrowser, navigateWithData } from "../helpers";
+import { fetchTrips } from "../api";
 
 const initialState = {
   departureTrips: [],
@@ -245,7 +245,7 @@ class TripsPage extends React.Component {
             <Pane textAlign="right" paddingTop={majorScale(4)}>
               <Button
                 appearance="primary"
-                height={majorScale(5)}
+                height={ITEM_HEIGHT}
                 iconAfter="arrow-right"
                 onClick={this.handleBookTickets}
               >

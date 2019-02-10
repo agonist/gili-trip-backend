@@ -1,15 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Card, majorScale } from "evergreen-ui";
+import { Card } from "evergreen-ui";
+import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 
 const Item = ({ children, ...props }) => (
   <Card
     display="flex"
     justifyContent="center"
     alignItems="center"
-    marginBottom="1rem"
-    padding={majorScale(5)}
+    marginBottom={ITEM_SPACE}
+    padding={ITEM_HEIGHT}
     elevation={2}
     backgroundColor="#fff"
     {...props}

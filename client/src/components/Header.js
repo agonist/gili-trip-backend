@@ -3,20 +3,21 @@ import PropTypes from "prop-types";
 import { Link } from "@reach/router";
 import { Heading, Pane, Paragraph, majorScale } from "evergreen-ui";
 
-import backgroundImg from "../../assets/185489.jpg";
-import Container from "../Container";
+import Container from "./Container";
+
+import backgroundImg from "../assets/185489.jpg";
+import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 
 const Header = ({ children }) => (
-  <div
+  <Pane
     className="Header"
-    style={{
-      display: "flex",
-      justifyContent: "center",
-      flexDirection: "column",
-      padding: `5rem 0 3rem 0`,
-      background: `url(${backgroundImg}) bottom center`,
-      backgroundSize: "cover",
-    }}
+    display="flex"
+    justifyContent="center"
+    flexDirection="column"
+    paddingTop={ITEM_HEIGHT}
+    paddingBottom={ITEM_HEIGHT / 2}
+    background={`url(${backgroundImg}) bottom center`}
+    backgroundSize="cover"
   >
     <Container>
       <Link
@@ -35,14 +36,12 @@ const Header = ({ children }) => (
         </Paragraph>
       </Link>
 
-      <div
-        style={{
-          width: "0.5rem",
-          height: "1px",
-          backgroundColor: "#fff",
-          margin: `1rem 0 1rem 0`,
-          opacity: 0.8,
-        }}
+      <Pane
+        width={ITEM_SPACE / 2}
+        height={1}
+        backgroundColor="#fff"
+        marginY={ITEM_SPACE}
+        opacity={0.8}
       />
 
       {children && (
@@ -60,7 +59,7 @@ const Header = ({ children }) => (
         </Pane>
       )}
     </Container>
-  </div>
+  </Pane>
 );
 
 Header.propTypes = {

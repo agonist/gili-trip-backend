@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Pane, Text, majorScale } from "evergreen-ui";
 
-import ArrowIcon from "../ArrowIcon";
-import { convertMinsToHrsMins } from "../../helpers";
+import ArrowIcon from "./ArrowIcon";
+import { convertMinsToHrsMins } from "../helpers";
 
 const Duration = ({ color, duration }) => (
   <Pane

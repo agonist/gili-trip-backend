@@ -16,17 +16,15 @@ import {
 
 import {
   DATE_FORMAT,
+  ITEM_HEIGHT,
+  ITEM_SPACE,
   LOCATIONS,
   TODAY_DATE,
   TRAVEL_TYPES,
-} from "../../constants";
-
-const todayDate = new Date();
-
-const itemHeight = majorScale(5);
+} from "../constants";
 
 const inputProps = {
-  inputHeight: itemHeight,
+  inputHeight: ITEM_HEIGHT,
   marginBottom: 0,
 };
 
@@ -36,7 +34,7 @@ const paneProps = {
 
 const radioProps = {
   size: 16,
-  marginRight: majorScale(2),
+  marginRight: ITEM_SPACE,
 };
 
 const getLocation = id => LOCATIONS.find(({ id: _id }) => _id === id).name;
@@ -84,7 +82,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
               <Pane flexGrow={1} {...paneProps}>
                 <Autocomplete
                   {...input}
-                  itemSize={itemHeight}
+                  itemSize={ITEM_HEIGHT}
                   items={formatLocations(LOCATIONS)}
                   selectedItem={input.value}
                 >
@@ -110,7 +108,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
           <Pane className="swap-locations" {...paneProps}>
             <IconButton
               icon="swap-horizontal"
-              height={itemHeight}
+              height={ITEM_HEIGHT}
               appearance="minimal"
               type="button"
               onClick={form.mutators.swap}
@@ -122,7 +120,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
               <Pane flexGrow={1} {...paneProps}>
                 <Autocomplete
                   {...input}
-                  itemSize={itemHeight}
+                  itemSize={ITEM_HEIGHT}
                   items={formatLocations(LOCATIONS)}
                   selectedItem={input.value}
                 >
@@ -165,7 +163,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
                     {...input}
                     {...inputProps}
                     label="Departure"
-                    placeholder={formatDate(todayDate)}
+                    placeholder={formatDate(TODAY_DATE)}
                     required
                     readOnly
                     value={value && formatDate(value)}
@@ -197,7 +195,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
                     <TextInputField
                       {...inputProps}
                       label="Arrival"
-                      placeholder={formatDate(dateFns.addDays(todayDate, 7))}
+                      placeholder={formatDate(dateFns.addDays(TODAY_DATE, 7))}
                       required
                       readOnly
                       isInvalid={meta.error && meta.touched}
@@ -211,7 +209,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
 
           <Pane className="submit" {...paneProps} flexShrink={0}>
             <Button
-              height={itemHeight}
+              height={ITEM_HEIGHT}
               appearance="primary"
               isLoading={submitting || isLoading}
               type="submit"

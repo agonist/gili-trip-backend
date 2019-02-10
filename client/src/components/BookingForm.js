@@ -10,18 +10,18 @@ import {
   majorScale,
 } from "evergreen-ui";
 
-import Item from "../Item";
-import TripItemContent from "../TripItemContent";
+import Item from "./Item";
+import TicketContent from "./TicketContent";
+import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 
-const itemHeight = majorScale(5);
-const renderSeparator = () => <Pane width={majorScale(5)} />;
+const renderSeparator = () => <Pane width={ITEM_HEIGHT} />;
 const required = value => (value ? undefined : "Required");
 
 const headingProps = {
   size: 700,
   textAlign: "left",
-  marginTop: majorScale(5),
-  marginBottom: majorScale(2),
+  marginTop: ITEM_HEIGHT,
+  marginBottom: ITEM_SPACE,
 };
 
 const BookingForm = ({ initialValues, tickets, onSubmit }) => (
@@ -124,19 +124,19 @@ const BookingForm = ({ initialValues, tickets, onSubmit }) => (
               key={ticket.id}
               flexDirection="column"
               paddingX={0}
-              paddingBottom={majorScale(2)}
+              paddingBottom={ITEM_SPACE}
             >
-              <TripItemContent {...ticket} />
+              <TicketContent {...ticket} />
 
               <Pane
                 width="100%"
                 height={1}
                 backgroundColor="#425A70"
                 opacity={0.2}
-                marginY={majorScale(5)}
+                marginY={ITEM_HEIGHT}
               />
 
-              <Pane width="100%" paddingX={majorScale(5)}>
+              <Pane width="100%" paddingX={ITEM_HEIGHT}>
                 <Pane display="flex">
                   <Field name={formatName("pickup_name")}>
                     {({ input }) => (
@@ -196,7 +196,7 @@ const BookingForm = ({ initialValues, tickets, onSubmit }) => (
         <Pane textAlign="right" paddingTop={majorScale(3)}>
           <Button
             appearance="primary"
-            height={itemHeight}
+            height={ITEM_HEIGHT}
             iconAfter="arrow-right"
             isLoading={submitting}
             type="submit"

@@ -1,7 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import App from "./components/App";
+import "react-day-picker/lib/style.css";
+import "./index.css";
+
+import App from "./components/App.js";
 
 export default App;
 
@@ -17,9 +20,9 @@ if (typeof document !== "undefined") {
   render(App);
 
   if (module.hot) {
-    module.hot.accept("./components/App", () =>
+    module.hot.accept("./components/App.js", () =>
       // eslint-disable-next-line global-require
-      render(require("./components/App").default),
+      render(require("./components/App.js").default),
     );
   }
 }

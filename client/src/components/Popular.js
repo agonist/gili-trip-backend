@@ -2,9 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Heading, Pane } from "evergreen-ui";
 
-import Container from "../Container";
-import Item from "../PopularItem";
-import { LOCATIONS } from "../../constants";
+import Container from "./Container";
+import Item from "./PopularItem";
+
+import { ITEM_SPACE, LOCATIONS } from "../constants";
 
 const getName = id => LOCATIONS.find(({ id: _id }) => _id === id).name;
 
@@ -33,7 +34,7 @@ const items = [
 
 const Popular = ({ onClick }) => (
   <Container>
-    <Heading size={700} marginBottom="1rem">
+    <Heading size={700} marginBottom={ITEM_SPACE}>
       Popular trips
     </Heading>
 

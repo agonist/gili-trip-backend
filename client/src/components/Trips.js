@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Pane, majorScale } from "evergreen-ui";
 
-import Item from "../TripItem";
+import Ticket from "./Ticket";
 
 const Trips = ({ handleSelect, handleUnselect, selected, trips }) => (
   <Pane paddingBottom={selected ? majorScale(1) : 0}>
@@ -17,7 +17,7 @@ const Trips = ({ handleSelect, handleUnselect, selected, trips }) => (
       }
 
       return (
-        <Item
+        <Ticket
           {...trip}
           key={id}
           handleSelect={_handleSelect}

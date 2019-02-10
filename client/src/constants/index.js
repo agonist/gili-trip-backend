@@ -1,4 +1,9 @@
+import { majorScale } from "evergreen-ui";
+
 export const DATE_FORMAT = "MM-DD-YYYY";
+
+export const ITEM_HEIGHT = majorScale(5);
+export const ITEM_SPACE = majorScale(2);
 
 export const LOCATIONS = [
   { id: "loc-1", name: "Bali" },

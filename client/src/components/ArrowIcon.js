@@ -1,13 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Icon, Pane, majorScale } from "evergreen-ui";
+import { Icon, Pane } from "evergreen-ui";
+
+import { ITEM_SPACE } from "../constants";
 
 const ArrowIcon = ({ color, direction, width }) => (
   <Pane
     display="flex"
     alignItems="center"
     justifyContent="center"
-    marginX={majorScale(2)}
+    marginX={ITEM_SPACE}
   >
     {direction === "right" ? (
       <React.Fragment>
@@ -44,7 +46,7 @@ ArrowIcon.propTypes = {
 ArrowIcon.defaultProps = {
   color: "#234361",
   direction: "right",
-  width: majorScale(2),
+  width: ITEM_SPACE,
 };
 
 export default ArrowIcon;

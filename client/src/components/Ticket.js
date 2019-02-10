@@ -1,15 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Heading, Icon, Pane, majorScale } from "evergreen-ui";
+import { Button, Heading, Pane, majorScale } from "evergreen-ui";
 
-import Item from "../Item";
-import TripItemContent from "../TripItemContent";
-
-import "./index.css";
+import Icons from "./TicketIcons";
+import Item from "./Item";
+import Content from "./TicketContent";
 
 const buttonHeight = 32;
 const baseZindex = 100;
-const iconSize = majorScale(3);
 
 const pileItemProps = index => ({
   position: "absolute",
@@ -20,7 +18,7 @@ const pileItemProps = index => ({
   zIndex: baseZindex - index * 10,
 });
 
-const TripItem = ({
+const Ticket = ({
   arrival_time,
   currency,
   departure_time,
@@ -39,7 +37,7 @@ const TripItem = ({
       cursor={isSelected ? "pointer" : "default"}
       onClick={isSelected ? handleUnselect : null}
     >
-      <TripItemContent
+      <Content
         arrival_time={arrival_time}
         departure_time={departure_time}
         duration={duration}
@@ -59,14 +57,7 @@ const TripItem = ({
 
           <Pane height={buttonHeight} marginTop={majorScale(1)}>
             {isSelected ? (
-              <Pane className="Ticket-icons" width={iconSize} height={iconSize}>
-                <span className="Ticket-icon Ticket-icon--circle">
-                  <Icon size={iconSize} icon="tick-circle" color="success" />
-                </span>
-                <span className="Ticket-icon Ticket-icon--ban">
-                  <Icon size={iconSize} icon="ban-circle" color="danger" />
-                </span>
-              </Pane>
+              <Icons />
             ) : (
               <Button appearance="primary" onClick={handleSelect}>
                 Reserve a ticket
@@ -89,7 +80,7 @@ const TripItem = ({
   </Pane>
 );
 
-TripItem.propTypes = {
+Ticket.propTypes = {
   arrival_time: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
   departure_time: PropTypes.string.isRequired,
@@ -101,11 +92,11 @@ TripItem.propTypes = {
   canSelectTicket: PropTypes.bool,
 };
 
-TripItem.defaultProps = {
+Ticket.defaultProps = {
   canSelectTicket: true,
   handleSelect: null,
   handleUnselect: null,
   isSelected: false,
 };
 
-export default TripItem;
+export default Ticket;
