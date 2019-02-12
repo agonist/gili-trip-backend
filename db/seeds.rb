@@ -57,8 +57,8 @@ if Rails.env.staging? || Rails.env.production?
   Location.create(id: 4,name: 'Gili Air')
   Location.create(id: 5,name: 'Gili Meno')
 
-  Vehicle.create(kind: 'Boat', subtype: 'Wahana Gili Ocean III', description: 'Because humans have feeling')
-  Vehicle.create(kind: 'Boat', subtype: 'Wahana Gili Ocean V', description: 'Because humans have feeling')
+  Vehicle.create(kind: 'Boat', subtype: 'Wahana Gili Ocean III', description: '')
+  Vehicle.create(kind: 'Boat', subtype: 'Wahana Gili Ocean V', description: '')
 
   Operator.create(name: 'Wahana Gili Ocean', logo: '', website: 'https://wahanagiliocean.com/', contact_email: '', contact_phone: '')
 

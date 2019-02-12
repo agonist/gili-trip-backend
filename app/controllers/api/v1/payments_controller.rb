@@ -39,6 +39,7 @@ class Api::V1::PaymentsController < ApiController
 
       if @booking.save
         send_confirmation_email(@booking)
+        send_slack_bot()
         render json: @booking
       else
         render json: @booking.errors, status: :unprocessable_entity
@@ -49,6 +50,10 @@ class Api::V1::PaymentsController < ApiController
       render json: error_messages, status: :unprocessable_entity
     end
 
+  end
+
+  def test
+    send_slack_bot()
   end
 
   def gateway
@@ -65,6 +70,7 @@ class Api::V1::PaymentsController < ApiController
   private
 
   @sg ||= SendGrid::API.new(api_key: ENV['SENDGRID'])
+  @slack ||= Slack::Web::Client.new
 
   def send_confirmation_email(booking)
     trip_name_dep = booking.tickets[0].trip.name
@@ -92,5 +98,9 @@ class Api::V1::PaymentsController < ApiController
 
     response = @sg.client.mail._('send').post(request_body: data)
 
+  end
+
+  def send_slack_bot
+    @slack.chat_postMessage(channel: '#orders', text: 'Order confirmed ', as_user: true)
   end
 end
