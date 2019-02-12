@@ -53,7 +53,9 @@ class Api::V1::PaymentsController < ApiController
   end
 
   def test
-    send_slack_bot()
+    @booking = Booking.find("cae806cb-6667-4c23-8142-de542d9a5541")
+    #send_confirmation_email(@booking)
+    #send_slack_bot()
   end
 
   def gateway
@@ -67,26 +69,59 @@ class Api::V1::PaymentsController < ApiController
     )
   end
 
+
+
   private
 
-  @sg ||= SendGrid::API.new(api_key: ENV['SENDGRID'])
-  @slack ||= Slack::Web::Client.new
-
   def send_confirmation_email(booking)
-    trip_name_dep = booking.tickets[0].trip.name
+    departure_trip_name = booking.tickets[0].trip.name
     quantity = booking.tickets[0].quantity
-    date_departure = booking.tickets[0].date.strftime("%d-%m-%Y")
-    time_departure = booking.tickets[0].trip.departure_time
+    departure_date = booking.tickets[0].date.strftime("%A %d %B %Y")
+    departure_time_departure = booking.tickets[0].trip.departure_time
+    departure_time_arrival = booking.tickets[0].trip.arrival_time
+    total_price = booking.final_price.to_s.concat(booking.tickets[0].trip.currency)
+    departure = booking.tickets[0].trip.from.name
+    destination = booking.tickets[0].trip.to.name
+    departure_operator = booking.tickets[0].trip.operator.name
     datas = {}
+    template_id = "d-54cb46cd5f564a369c678cae75b9fd56"
 
     if booking.tickets.size == 1
-      datas = { trip_name_dep: trip_name_dep, quantity: quantity, date_departure: date_departure, time_departure: time_departure}
+      datas = {
+        departure_trip_name: departure_trip_name,
+        quantity: quantity,
+        departure_date: departure_date,
+        departure_time_departure: departure_time_departure,
+        departure_time_arrival: departure_time_arrival,
+        total_price: total_price,
+        departure: departure,
+        destination: destination,
+        departure_operator: departure_operator
+      }
     else
-      trip_name_return = booking.tickets[1].trip.name
-      date_return = booking.tickets[1].date.strftime("%d-%m-%Y")
-      time_return = booking.tickets[1].trip.departure_time
-      datas = { trip_name_dep: trip_name_dep, quantity: quantity, date_departure: date_departure, time_departure: time_departure,
-      trip_name_return: trip_name_return, date_return: date_return, time_return: time_return}
+      return_trip_name = booking.tickets[1].trip.name
+      return_date = booking.tickets[1].date.strftime("%A %d %B %Y")
+      return_time_departure = booking.tickets[1].trip.departure_time
+      return_time_arrival = booking.tickets[1].trip.arrival_time
+      return_operator = booking.tickets[1].trip.operator.name
+
+      datas = {
+        departure_trip_name: departure_trip_name,
+        quantity: quantity,
+        departure_date: departure_date,
+        departure_time_departure: departure_time_departure,
+        departure_time_arrival: departure_time_arrival,
+        total_price: total_price,
+        departure: departure,
+        destination: destination,
+        departure_operator: departure_operator,
+        return_trip_name: return_trip_name,
+        return_date: return_date,
+        return_time_departure: return_time_departure,
+        return_time_arrival: return_time_arrival,
+        return_operator: return_operator
+      }
+      template_id = "d-627c2935321142ecafcb59cad63a09f0"
     end
 
     data = { personalizations: [ {
@@ -94,13 +129,14 @@ class Api::V1::PaymentsController < ApiController
       dynamic_template_data: datas,
       subject: "Order confirmation" } ],
       from: { email: "test@gilitrip.com" },
-      template_id: "d-54cb46cd5f564a369c678cae75b9fd56" }
+      template_id: template_id }
+      @sg ||= SendGrid::API.new(api_key: ENV['SENDGRID'])
+      response = @sg.client.mail._('send').post(request_body: data)
 
-    response = @sg.client.mail._('send').post(request_body: data)
+    end
 
+    def send_slack_bot
+      @slack ||= Slack::Web::Client.new
+      @slack.chat_postMessage(channel: '#orders', text: 'Order confirmed ', as_user: true)
+    end
   end
-
-  def send_slack_bot
-    @slack.chat_postMessage(channel: '#orders', text: 'Order confirmed ', as_user: true)
-  end
-end
