@@ -49,6 +49,7 @@ gem 'dotenv-rails', groups: [:development, :test, :staging]
 gem 'sendgrid-ruby'
 gem 'rack-attack'
 gem 'slack-ruby-client'
+gem 'sucker_punch'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

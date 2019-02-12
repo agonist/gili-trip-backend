@@ -54,8 +54,8 @@ class Api::V1::PaymentsController < ApiController
 
   def test
     @booking = Booking.find("cae806cb-6667-4c23-8142-de542d9a5541")
-    #send_confirmation_email(@booking)
-    #send_slack_bot()
+    send_confirmation_email(@booking)
+    send_slack_bot()
   end
 
   def gateway
@@ -130,13 +130,10 @@ class Api::V1::PaymentsController < ApiController
       subject: "Order confirmation" } ],
       from: { email: "test@gilitrip.com" },
       template_id: template_id }
-      @sg ||= SendGrid::API.new(api_key: ENV['SENDGRID'])
-      response = @sg.client.mail._('send').post(request_body: data)
-
+      MailingJob.perform_async(data)
     end
 
     def send_slack_bot
-      @slack ||= Slack::Web::Client.new
-      @slack.chat_postMessage(channel: '#orders', text: 'Order confirmed ', as_user: true)
+      SlackJob.perform_async('')
     end
   end
