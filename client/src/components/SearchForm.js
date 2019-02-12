@@ -10,6 +10,7 @@ import {
   Pane,
   Popover,
   Radio,
+  SelectField,
   TextInputField,
   majorScale,
 } from "evergreen-ui";
@@ -215,6 +216,26 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
               )}
             </Field>
           )}
+
+          <Field name="quantity" validate={required}>
+            {({ input, meta }) => (
+              <Pane {...paneProps} minWidth={80} flexShrink={0}>
+                <SelectField
+                  {...input}
+                  {...inputProps}
+                  required
+                  label="Quantity"
+                  isInvalid={meta.error && meta.touched}
+                >
+                  <option />
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </SelectField>
+              </Pane>
+            )}
+          </Field>
 
           <Pane className="submit" {...paneProps} flexShrink={0}>
             <Button

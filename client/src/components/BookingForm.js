@@ -28,11 +28,41 @@ const headingProps = {
   marginBottom: ITEM_SPACE,
 };
 
+const renderPassengerField = index => (
+  <Field key={index} name={`passenger[${index}]`} validate={required}>
+    {({ input, meta }) => (
+      <TextInputField
+        {...input}
+        required
+        label={`Passenger ${index + 1}`}
+        placeholder="hello@gili.com"
+        width="100%"
+        isInvalid={meta.error && meta.touched}
+      />
+    )}
+  </Field>
+);
+
+const renderPassengersField = count => {
+  const fields = [];
+
+  for (let index = 0; index < count; index += 1) {
+    fields.push(renderPassengerField(index));
+  }
+
+  return fields;
+};
+
 const BookingForm = ({ initialValues, tickets, onSubmit }) => (
   <Form initialValues={initialValues} onSubmit={onSubmit}>
-    {({ form, handleSubmit, submitting, values: { booking_email } }) => (
+    {({
+      form,
+      handleSubmit,
+      submitting,
+      values: { booking_email, quantity },
+    }) => (
       <form onSubmit={handleSubmit}>
-        <Heading {...headingProps}>General</Heading>
+        <Heading {...headingProps}>Email</Heading>
         <Item flexDirection="column">
           <Field name="booking_email" validate={required}>
             {({ input, meta }) => (
@@ -68,58 +98,8 @@ const BookingForm = ({ initialValues, tickets, onSubmit }) => (
 
         <Heading {...headingProps}>Passengers</Heading>
         <Item flexDirection="column">
-          <Pane display="flex" width="100%">
-            <Field name="passenger[0]" validate={required}>
-              {({ input, meta }) => (
-                <TextInputField
-                  {...input}
-                  required
-                  label="Passenger 1"
-                  placeholder="hello@gili.com"
-                  width="100%"
-                  isInvalid={meta.error && meta.touched}
-                />
-              )}
-            </Field>
-
-            {renderSeparator()}
-
-            <Field name="passenger[1]">
-              {({ input }) => (
-                <TextInputField
-                  {...input}
-                  label="Passenger 2"
-                  placeholder="hello@gili.com"
-                  width="100%"
-                />
-              )}
-            </Field>
-          </Pane>
-
-          <Pane display="flex" width="100%">
-            <Field name="passenger[2]">
-              {({ input }) => (
-                <TextInputField
-                  {...input}
-                  label="Passenger 3"
-                  placeholder="hello@gili.com"
-                  width="100%"
-                />
-              )}
-            </Field>
-
-            {renderSeparator()}
-
-            <Field name="passenger[3]">
-              {({ input }) => (
-                <TextInputField
-                  {...input}
-                  label="Passenger 3"
-                  placeholder="hello@gili.com"
-                  width="100%"
-                />
-              )}
-            </Field>
+          <Pane display="flex" width="100%" flexWrap="wrap">
+            {renderPassengersField(quantity)}
           </Pane>
         </Item>
 

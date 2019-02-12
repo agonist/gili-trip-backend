@@ -85,8 +85,8 @@ class TripsPage extends React.Component {
       },
       () => {
         const { travel_type } = this.getParams();
-
         const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
+
         this.fetchDepartureTrips();
 
         if (isRoundTrip) {
@@ -152,10 +152,11 @@ class TripsPage extends React.Component {
 
   handleBookTickets = () => {
     const { departureTicket, returnTicket } = this.state;
-    const { travel_type } = this.getParams();
+    const { quantity, travel_type } = this.getParams();
     const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
 
     const data = {
+      quantity,
       tickets: [departureTicket],
     };
 
