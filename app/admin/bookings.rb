@@ -2,7 +2,7 @@ ActiveAdmin.register Booking do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-# permit_params :list, :of, :attributes, :on, :model
+ permit_params :booking_status, :payment_status, :final_price, :booking_date, :passengers,  :booking_email, :booking_whatsapp, :coupon, :full_price
 #
 # or
 #
