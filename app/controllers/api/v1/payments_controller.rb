@@ -39,7 +39,7 @@ class Api::V1::PaymentsController < ApiController
 
       if @booking.save
         send_confirmation_email(@booking)
-        send_slack_bot()
+        send_slack_bot(@booking)
         render json: @booking
       else
         render json: @booking.errors, status: :unprocessable_entity
@@ -55,7 +55,7 @@ class Api::V1::PaymentsController < ApiController
   def test
     @booking = Booking.find("cae806cb-6667-4c23-8142-de542d9a5541")
     send_confirmation_email(@booking)
-    send_slack_bot()
+    send_slack_bot(@booking)
   end
 
   def gateway
@@ -133,7 +133,7 @@ class Api::V1::PaymentsController < ApiController
       MailingJob.perform_async(data)
     end
 
-    def send_slack_bot
-      SlackJob.perform_async('')
+    def send_slack_bot(booking)
+      SlackJob.perform_async(booking.id)
     end
   end
