@@ -4,7 +4,7 @@ class Api::V1::TripsController < ApiController
     @trips = Trip.where(:from_id => params[:from], :to_id => params[:to])
 
     date = Date.parse(params[:date])
-    res = @trips.select {|trip| is_high_season?(trip, date)}
+    res = @trips.select {|trip| is_high_season?(trip, date)}.select{|trip| is_available?(trip, date)}
 
      render json: res
   end
@@ -24,6 +24,11 @@ private
       return false
     end
     return false
+  end
+
+  def is_available?(trip, date)
+    res = Unavailable.where(:trip_id => trip.id, :date => date)
+    return !res.present?
   end
 
 end

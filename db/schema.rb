@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_04_113829) do
+ActiveRecord::Schema.define(version: 2019_02_14_124856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -125,6 +125,12 @@ ActiveRecord::Schema.define(version: 2019_02_04_113829) do
     t.index ["operator_id"], name: "index_trips_on_operator_id"
     t.index ["to_id"], name: "index_trips_on_to_id"
     t.index ["vehicle_id"], name: "index_trips_on_vehicle_id"
+  end
+
+  create_table "unavailables", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "trip_id"
+    t.date "date"
+    t.index ["trip_id"], name: "index_unavailables_on_trip_id"
   end
 
   create_table "vehicles", force: :cascade do |t|
