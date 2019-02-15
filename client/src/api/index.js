@@ -1,21 +1,13 @@
-import { formatDataForApi, getRandomNumber, sleep } from "../helpers";
-import { LOCATIONS, TRIPS } from "../constants";
+import axios from "axios";
 
-const getLocationById = id => LOCATIONS.find(({ id: _id }) => _id === id);
+import { formatDataForApi } from "../helpers";
+import { BASE_API_URL } from "../constants";
 
-export const fetchTrips = async params =>
-  new Promise(async resolve => {
-    const { from, to } = formatDataForApi(params);
-    const timeToWait = getRandomNumber(500, 1500);
+const api = axios.create({
+  baseURL: BASE_API_URL,
+});
 
-    const trips = TRIPS.map((trip, i) => ({
-      ...trip,
-      id: `${from}-${to}-${i}`,
-      from: getLocationById(from),
-      to: getLocationById(to),
-    }));
-
-    await sleep(timeToWait);
-
-    resolve(trips);
-  });
+export const fetchTrips = params => {
+  const { from, to } = formatDataForApi(params);
+  return api.get(`/trips/${from}/${to}`);
+};
