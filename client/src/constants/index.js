@@ -1,16 +1,18 @@
 import { majorScale } from "evergreen-ui";
 
+export const BASE_API_URL = "http://localhost:3001/api/v1/";
+
 export const DATE_FORMAT = "MM-DD-YYYY";
 
 export const ITEM_HEIGHT = majorScale(5);
 export const ITEM_SPACE = majorScale(2);
 
 export const LOCATIONS = [
-  { id: "loc-1", name: "Bali" },
-  { id: "loc-2", name: "Lombok" },
-  { id: "loc-3", name: "Gili Trawangan" },
-  { id: "loc-4", name: "Gili Air" },
-  { id: "loc-5", name: "Gili Meno" },
+  { id: 1, name: "Bali (Padangbai)" },
+  { id: 2, name: "Lombok" },
+  { id: 3, name: "Gili Trawangan" },
+  { id: 4, name: "Gili Air" },
+  { id: 5, name: "Gili Meno" },
 ];
 
 export const TODAY_DATE = new Date();
