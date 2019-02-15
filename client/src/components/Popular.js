@@ -7,28 +7,28 @@ import Item from "./PopularItem";
 
 import { ITEM_SPACE, LOCATIONS } from "../constants";
 
-const getName = id => LOCATIONS.find(({ id: _id }) => _id === id).name;
+const getLocation = id => LOCATIONS.find(({ id: _id }) => _id === id).name;
 
 const items = [
   {
     id: "pop-1",
-    from: getName(2),
-    to: getName(1),
+    from: getLocation("2"),
+    to: getLocation("1"),
   },
   {
     id: "pop-2",
-    from: getName(2),
-    to: getName(5),
+    from: getLocation("2"),
+    to: getLocation("5"),
   },
   {
     id: "pop-3",
-    from: getName(3),
-    to: getName(4),
+    from: getLocation("3"),
+    to: getLocation("4"),
   },
   {
     id: "pop-4",
-    from: getName(1),
-    to: getName(5),
+    from: getLocation("1"),
+    to: getLocation("5"),
   },
 ];
 

@@ -102,7 +102,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
                       {...getInputProps({ onFocus: openMenu })}
                       label="From"
                       required
-                      placeholder={`${getLocation(1)}, ${getLocation(2)}...`}
+                      placeholder={`${getLocation("1")}, ${getLocation("2")}`}
                       value={inputValue}
                       innerRef={getRef}
                       isInvalid={meta.error && meta.touched}
@@ -138,7 +138,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
                       {...getInputProps({ onFocus: openMenu })}
                       label="To"
                       required
-                      placeholder={`${getLocation(4)}, ${getLocation(1)}...`}
+                      placeholder={`${getLocation("4")}, ${getLocation("1")}`}
                       value={inputValue}
                       innerRef={getRef}
                       isInvalid={meta.error && meta.touched}
