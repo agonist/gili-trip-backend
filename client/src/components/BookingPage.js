@@ -58,9 +58,14 @@ class BookingPage extends React.Component {
 
 BookingPage.propTypes = {
   location: PropTypes.shape({
-    state: PropTypes.shape({}).isRequired,
-  }).isRequired,
-  navigate: PropTypes.func.isRequired,
+    state: PropTypes.shape({}),
+  }),
+  navigate: PropTypes.func,
+};
+
+BookingPage.defaultProps = {
+  location: {},
+  navigate: () => {},
 };
 
 export default BookingPage;

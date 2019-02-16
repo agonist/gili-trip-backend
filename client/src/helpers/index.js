@@ -2,7 +2,7 @@ import { navigate } from "@reach/router";
 import dateFns from "date-fns";
 import qs from "query-string";
 
-import { DATE_FORMAT, LOCATIONS } from "../constants";
+import { DATE_FORMAT, LOCATIONS, TRAVEL_TYPES } from "../constants";
 
 export const getRandomNumber = (min, max) => Math.random() * (max - min) + min;
 
@@ -17,11 +17,14 @@ export const getLocationId = name =>
 export const getLocationName = id =>
   LOCATIONS.find(({ id: _id }) => id === _id).name;
 
+const hasReturn = travel_type => travel_type === TRAVEL_TYPES.ROUND;
+
 export const formatDataForApi = ({
   departure_date,
   arrival_date,
   from,
   to,
+  travel_type,
   ...data
 }) => {
   const formattedData = {
@@ -34,7 +37,7 @@ export const formatDataForApi = ({
     });
   }
 
-  if (arrival_date) {
+  if (hasReturn(travel_type)) {
     Object.assign(formattedData, {
       arrival_date: formatDate(arrival_date),
     });
@@ -52,7 +55,10 @@ export const formatDataForApi = ({
     });
   }
 
-  return formattedData;
+  return {
+    ...formattedData,
+    travel_type,
+  };
 };
 
 export const formatDataForBrowser = ({

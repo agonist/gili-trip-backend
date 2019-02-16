@@ -52,7 +52,8 @@ class TripsPage extends React.Component {
     } = this.getParams(nextProps.location);
 
     const hasArrivalChanged =
-      currentArrival.toISOString() !== nextArrival.toISOString();
+      (currentArrival && currentArrival.toISOString()) !==
+      (nextArrival && nextArrival.toISOString());
 
     const hasDepartureChanged =
       currentDeparture.toISOString() !== nextDeparture.toISOString();
