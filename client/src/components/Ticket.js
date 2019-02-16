@@ -7,7 +7,7 @@ import Item from "./Item";
 import Content from "./TicketContent";
 
 const buttonHeight = 32;
-const baseZindex = 100;
+const baseZindex = 10;
 
 const pileItemProps = index => ({
   position: "absolute",
