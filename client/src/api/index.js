@@ -9,5 +9,5 @@ const api = axios.create({
 
 export const fetchTrips = params => {
   const { from, to } = formatDataForApi(params);
-  return api.get(`/trips/${from}/${to}`);
+  return api.get(`/trips/${from}/${to}?date=12=01-2019`);
 };
