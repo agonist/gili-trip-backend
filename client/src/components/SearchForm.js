@@ -155,7 +155,10 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
                 content={({ close }) => (
                   <DayPicker
                     {...input}
-                    selectedDays={[value, arrival_date]}
+                    selectedDays={[
+                      value,
+                      hasReturn(travel_type) && arrival_date,
+                    ]}
                     disabledDays={{ before: TODAY_DATE }}
                     onDayClick={day => {
                       input.onChange(day);
