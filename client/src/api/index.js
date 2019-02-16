@@ -8,6 +8,8 @@ const api = axios.create({
   baseURL: BASE_API_URL,
 });
 
+const getData = ({ data }) => data;
+
 export const fetchTrips = params => {
   const { from, to, departure_date } = formatDataForApi(params);
 
@@ -17,5 +19,5 @@ export const fetchTrips = params => {
     date: departure_date,
   });
 
-  return api.get(`/trips/?${queryParams}`);
+  return api.get(`/trips/?${queryParams}`).then(getData);
 };

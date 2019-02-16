@@ -2,7 +2,7 @@ import { majorScale } from "evergreen-ui";
 
 export const BASE_API_URL = "http://localhost:3001/api/v1/";
 
-export const DATE_FORMAT = "MM-DD-YYYY";
+export const DATE_FORMAT = "YYYY-MM-DD";
 
 export const ITEM_HEIGHT = majorScale(5);
 export const ITEM_SPACE = majorScale(2);
