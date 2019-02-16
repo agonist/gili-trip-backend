@@ -4,6 +4,7 @@ import qs from "query-string";
 import { Button, Pane, Spinner, majorScale } from "evergreen-ui";
 
 import Container from "./Container";
+import ErrorState from "./ErrorState";
 import Header from "./Header";
 import Item from "./Item";
 import SearchForm from "./SearchForm";
@@ -21,6 +22,7 @@ const initialState = {
   returnTicket: undefined,
   isFetchingDepartureTrips: true,
   isFetchingReturnTrips: true,
+  hasFailed: false,
 };
 
 class TripsPage extends React.Component {
@@ -106,7 +108,16 @@ class TripsPage extends React.Component {
       });
     };
 
-    return fetchTrips(params).then(onSuccess);
+    const onError = () => {
+      this.setState({
+        ...initialState,
+        hasFailed: true,
+      });
+    };
+
+    return fetchTrips(params)
+      .then(onSuccess)
+      .catch(onError);
   };
 
   fetchReturnTrips = () => {
@@ -119,11 +130,20 @@ class TripsPage extends React.Component {
       });
     };
 
+    const onError = () => {
+      this.setState({
+        ...initialState,
+        hasFailed: true,
+      });
+    };
+
     return fetchTrips({
       from: to,
       to: from,
       ...params,
-    }).then(onSuccess);
+    })
+      .then(onSuccess)
+      .catch(onError);
   };
 
   handleSelectDepartureTicket = ticket => {
@@ -169,7 +189,7 @@ class TripsPage extends React.Component {
     });
   };
 
-  render() {
+  renderTrips = () => {
     const {
       departureTrips,
       departureTicket,
@@ -181,6 +201,58 @@ class TripsPage extends React.Component {
 
     const formData = this.getParams();
     const { travel_type, from, to } = formData;
+    const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
+
+    return (
+      <>
+        <TripsTitle from={from} to={to} />
+
+        {isFetchingDepartureTrips ? (
+          <Item>
+            <Spinner />
+          </Item>
+        ) : (
+          <Trips
+            trips={departureTrips}
+            selected={departureTicket && departureTicket.id}
+            handleSelect={this.handleSelectDepartureTicket}
+            handleUnselect={this.handleUnselectDepartureTicket}
+          />
+        )}
+
+        {isRoundTrip && (
+          <Pane marginTop={majorScale(4)}>
+            <TripsTitle from={to} to={from} />
+
+            {isFetchingReturnTrips ? (
+              <Item>
+                <Spinner />
+              </Item>
+            ) : (
+              <Trips
+                trips={returnTrips}
+                selected={returnTicket && returnTicket.id}
+                handleSelect={this.handleSelectReturnTicket}
+                handleUnselect={this.handleUnselectReturnTicket}
+              />
+            )}
+          </Pane>
+        )}
+      </>
+    );
+  };
+
+  render() {
+    const {
+      departureTicket,
+      returnTicket,
+      isFetchingDepartureTrips,
+      isFetchingReturnTrips,
+      hasFailed,
+    } = this.state;
+
+    const formData = this.getParams();
+    const { travel_type } = formData;
     const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
 
     const isSearchFormLoading = isRoundTrip
@@ -208,40 +280,7 @@ class TripsPage extends React.Component {
         </Header>
 
         <Container>
-          <TripsTitle from={from} to={to} />
-
-          {isFetchingDepartureTrips ? (
-            <Item>
-              <Spinner />
-            </Item>
-          ) : (
-            <Trips
-              trips={departureTrips}
-              selected={departureTicket && departureTicket.id}
-              handleSelect={this.handleSelectDepartureTicket}
-              handleUnselect={this.handleUnselectDepartureTicket}
-            />
-          )}
-
-          {isRoundTrip && (
-            <Pane marginTop={majorScale(4)}>
-              <TripsTitle from={to} to={from} />
-
-              {isFetchingReturnTrips ? (
-                <Item>
-                  <Spinner />
-                </Item>
-              ) : (
-                <Trips
-                  trips={returnTrips}
-                  selected={returnTicket && returnTicket.id}
-                  handleSelect={this.handleSelectReturnTicket}
-                  handleUnselect={this.handleUnselectReturnTicket}
-                />
-              )}
-            </Pane>
-          )}
-
+          {hasFailed ? <ErrorState /> : this.renderTrips()}
           {hasSelectedAllTickets && (
             <Pane textAlign="right" paddingTop={majorScale(4)}>
               <Button
