@@ -21,10 +21,6 @@ class BookingPage extends React.Component {
     this.state = {
       formData: {
         ...state,
-        tickets: state.tickets.map(({ id, departure_time }) => ({
-          departure_time,
-          trip_id: id,
-        })),
       },
     };
   }

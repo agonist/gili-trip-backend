@@ -176,13 +176,22 @@ class TripsPage extends React.Component {
     const { quantity, travel_type } = this.getParams();
     const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
 
+    const formatTicket = ({ departure_date, ...ticket }) => ({
+      ...ticket,
+      date: departure_date,
+    });
+
     const data = {
       quantity,
-      tickets: [departureTicket],
+      tickets: {
+        departure: formatTicket(departureTicket),
+      },
     };
 
     if (isRoundTrip) {
-      data.tickets.push(returnTicket);
+      Object.assign(data.tickets, {
+        return: formatTicket(returnTicket),
+      });
     }
 
     return navigateWithData("/booking", {

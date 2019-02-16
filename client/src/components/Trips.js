@@ -40,7 +40,7 @@ const Trips = ({ handleSelect, handleUnselect, selected, trips }) => (
 Trips.propTypes = {
   handleSelect: PropTypes.func.isRequired,
   handleUnselect: PropTypes.func.isRequired,
-  selected: PropTypes.string,
+  selected: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   trips: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
