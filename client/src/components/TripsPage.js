@@ -173,26 +173,38 @@ class TripsPage extends React.Component {
 
   handleBookTickets = () => {
     const { departureTicket, returnTicket } = this.state;
-    const { quantity, travel_type } = this.getParams();
+    const {
+      departure_date,
+      arrival_date,
+      quantity,
+      travel_type,
+    } = this.getParams();
     const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
 
-    const formatTicket = ({ departure_date, ...ticket }) => ({
-      ...ticket,
-      date: departure_date,
-    });
+    const formatDate = (date, time) => {
+      const [hours, minutes] = time.split(":");
+
+      date.setHours(hours);
+      date.setMinutes(minutes);
+
+      return date;
+    };
 
     const data = {
       quantity,
       tickets: {
-        departure: formatTicket(departureTicket),
+        departure: {
+          ...departureTicket,
+          date: formatDate(departure_date, departureTicket.departure_time),
+        },
+        ...(isRoundTrip && {
+          return: {
+            ...returnTicket,
+            date: formatDate(arrival_date, returnTicket.departure_time),
+          },
+        }),
       },
     };
-
-    if (isRoundTrip) {
-      Object.assign(data.tickets, {
-        return: formatTicket(returnTicket),
-      });
-    }
 
     return navigateWithData("/booking", {
       data,

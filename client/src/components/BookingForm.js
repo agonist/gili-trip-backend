@@ -238,7 +238,7 @@ BookingForm.propTypes = {
   initialValues: PropTypes.shape({}),
   tickets: PropTypes.shape({
     departure: PropTypes.shape({}).isRequired,
-    return: PropTypes.shape({}).isRequired,
+    return: PropTypes.shape({}),
   }).isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
