@@ -6,6 +6,9 @@ import BookingForm from "./BookingForm";
 import Container from "./Container";
 import Header from "./Header";
 
+import { postBooking } from "../api";
+import { navigateWithData } from "../helpers";
+
 class BookingPage extends React.Component {
   constructor(props) {
     super(props);
@@ -58,7 +61,19 @@ class BookingPage extends React.Component {
 
   handleFormSubmit = formData => {
     const payload = this.formatPayload(formData);
-    console.log("booking", payload);
+
+    const onSuccess = data =>
+      navigateWithData(`/booking/${data.id}`, {
+        data,
+      });
+
+    const onError = data => {
+      console.log("onError", data);
+    };
+
+    return postBooking(payload)
+      .then(onSuccess)
+      .catch(onError);
   };
 
   render() {
