@@ -25,8 +25,40 @@ class BookingPage extends React.Component {
     };
   }
 
+  formatPayload = ({
+    booking_email_confirm,
+    key,
+    tickets,
+    travel_type,
+    ...formData
+  }) => {
+    const formatTicket = ({
+      date,
+      trip_id,
+      pickup_address,
+      pickup_city,
+      pickup_name,
+      pickup_room_number,
+      quantity,
+    }) => ({
+      trip_id,
+      ...(pickup_address && { pickup_address }),
+      ...(pickup_city && { pickup_city }),
+      ...(pickup_name && { pickup_name }),
+      ...(pickup_room_number && { pickup_room_number }),
+      quantity: +quantity,
+      date: date.toISOString(),
+    });
+
+    return {
+      ...formData,
+      tickets: Object.values(tickets).map(formatTicket),
+    };
+  };
+
   handleFormSubmit = formData => {
-    console.log("booking", formData);
+    const payload = this.formatPayload(formData);
+    console.log("booking", payload);
   };
 
   render() {

@@ -40,6 +40,7 @@ class TripsPage extends React.Component {
       departure_date: currentDeparture,
       from: currentFrom,
       from: currentTo,
+      quantity: currentQuantity,
       travel_type: currentTravelType,
     } = this.getParams();
 
@@ -48,6 +49,7 @@ class TripsPage extends React.Component {
       departure_date: nextDeparture,
       from: nextFrom,
       from: nextTo,
+      quantity: nextQuantity,
       travel_type: nextTravelType,
     } = this.getParams(nextProps.location);
 
@@ -60,6 +62,7 @@ class TripsPage extends React.Component {
 
     const hasFromChanged = currentFrom !== nextFrom;
     const hasToChanged = currentTo !== nextTo;
+    const hasQuantityChanged = currentQuantity !== nextQuantity;
     const hasTravelTypeChanged = currentTravelType !== nextTravelType;
 
     if (
@@ -67,6 +70,7 @@ class TripsPage extends React.Component {
       hasDepartureChanged ||
       hasFromChanged ||
       hasToChanged ||
+      hasQuantityChanged ||
       hasTravelTypeChanged
     ) {
       this.fetchTrips();
