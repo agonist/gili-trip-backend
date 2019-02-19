@@ -2055,6 +2055,13 @@ babel-plugin-universal-import@^3.0.2:
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
 
+babel-plugin-universal-import@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-universal-import/-/babel-plugin-universal-import-4.0.0.tgz#e104049e8bd1ff3e028bbfb0a358554c3e28e347"
+  integrity sha512-f+1cav9o7y7AiugeIETdbPwdcHYs78UcqBo2JXM5eYQLSDGjJpa03oB3o8sUyj+viSzVnMTGiPJEeJIXQRzcng==
+  dependencies:
+    "@babel/helper-module-imports" "^7.0.0"
+
 babel-preset-jest@^23.2.0:
   version "23.2.0"
   resolved "https://registry.yarnpkg.com/babel-preset-jest/-/babel-preset-jest-23.2.0.tgz#8ec7a03a138f001a1a8fb1e8113652bf1a55da46"
