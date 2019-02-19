@@ -22,7 +22,7 @@ const headingProps = {
 };
 
 const renderPassengerField = index => (
-  <Field key={index} name={`passenger[${index}]`} validate={required}>
+  <Field key={index} name={`passengers[${index}]`} validate={required}>
     {({ input, meta }) => (
       <TextInputField
         {...input}
