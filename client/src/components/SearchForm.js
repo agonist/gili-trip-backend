@@ -61,6 +61,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
     onSubmit={onSubmit}
     mutators={{ swap: swapMutator }}
     initialValues={{
+      quantity: 1,
       travel_type: TRAVEL_TYPES.ROUND,
       ...formData,
     }}
@@ -224,7 +225,6 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
                   required
                   label="Quantity"
                   isInvalid={meta.error && meta.touched}
-                  defaultValue="1"
                 >
                   <option value="1">1</option>
                   <option value="2">2</option>
