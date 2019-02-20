@@ -53,7 +53,7 @@ class Api::V1::PaymentsController < ApiController
   end
 
   def test
-    @booking = Booking.find("cae806cb-6667-4c23-8142-de542d9a5541")
+    @booking = Booking.find("f0ae1c4f-ad11-4337-b5ce-aacb2e4c6c73")
     send_confirmation_email(@booking)
     send_slack_bot(@booking)
   end
@@ -121,7 +121,7 @@ class Api::V1::PaymentsController < ApiController
         return_time_arrival: return_time_arrival,
         return_operator: return_operator
       }
-      template_id = "d-627c2935321142ecafcb59cad63a09f0"
+      template_id = "d-72b4b0798a97433797fbbfa7f100f345"
     end
 
     data = { personalizations: [ {

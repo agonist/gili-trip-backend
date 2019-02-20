@@ -73,15 +73,14 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
     }) => (
       <form onSubmit={handleSubmit} style={{ width: "100%" }}>
         <Pane display="flex">
+        <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ONE_WAY}>
+          {({ input }) => (
+            <Radio label="One way" {...input} {...radioProps} />
+          )}
+        </Field>
           <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ROUND}>
             {({ input }) => (
               <Radio label="Round trip" {...input} {...radioProps} />
-            )}
-          </Field>
-
-          <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ONE_WAY}>
-            {({ input }) => (
-              <Radio label="One way" {...input} {...radioProps} />
             )}
           </Field>
         </Pane>
@@ -203,7 +202,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
                   <Pane {...paneProps}>
                     <TextInputField
                       {...inputProps}
-                      label="Arrival"
+                      label="Return"
                       placeholder={formatDate(dateFns.addDays(TODAY_DATE, 7))}
                       required
                       readOnly
@@ -216,7 +215,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
             </Field>
           )}
 
-          <Field name="quantity" validate={required}>
+          <Field name="quantity" validate={required} >
             {({ input, meta }) => (
               <Pane {...paneProps} minWidth={80} flexShrink={0}>
                 <SelectField
@@ -225,12 +224,17 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
                   required
                   label="Quantity"
                   isInvalid={meta.error && meta.touched}
+                  defaultValue="1"
                 >
-                  <option />
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
                   <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
                 </SelectField>
               </Pane>
             )}
