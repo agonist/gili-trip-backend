@@ -4,7 +4,6 @@ import DayPicker from "react-day-picker";
 import { Form, Field } from "react-final-form";
 import dateFns from "date-fns";
 import {
-  Autocomplete,
   Button,
   IconButton,
   Pane,
@@ -38,15 +37,20 @@ const radioProps = {
   marginRight: ITEM_SPACE,
 };
 
-const getLocation = id => LOCATIONS.find(({ id: _id }) => _id === id).name;
+const DEFAULT_DEPARTURE_ID = 1;
+const DEFAULT_ARRIVAL_ID = 3;
+const DEFAULT_QUANTITY = 1;
+
 const hasReturn = travel_type => travel_type === TRAVEL_TYPES.ROUND;
-
-const filterLocations = (locations, filterItem) =>
-  locations.filter(item => item !== filterItem);
-
-const formatLocations = locations => locations.map(({ name }) => name);
 const formatDate = date => dateFns.format(date, DATE_FORMAT);
 const required = value => (value ? undefined : "Required");
+
+const renderLocations = () =>
+  LOCATIONS.map(({ id, name }) => (
+    <option key={id} value={id}>
+      {name}
+    </option>
+  ));
 
 const swapMutator = (_, { fields, formState }) => {
   const { from, to } = fields;
@@ -61,7 +65,9 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
     onSubmit={onSubmit}
     mutators={{ swap: swapMutator }}
     initialValues={{
-      quantity: 1,
+      from: DEFAULT_DEPARTURE_ID,
+      to: DEFAULT_ARRIVAL_ID,
+      quantity: DEFAULT_QUANTITY,
       travel_type: TRAVEL_TYPES.ROUND,
       ...formData,
     }}
@@ -70,15 +76,15 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
       form,
       handleSubmit,
       submitting,
-      values: { arrival_date, departure_date, from, to, travel_type },
+      values: { arrival_date, departure_date, travel_type },
     }) => (
       <form onSubmit={handleSubmit} style={{ width: "100%" }}>
         <Pane display="flex">
-        <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ONE_WAY}>
-          {({ input }) => (
-            <Radio label="One way" {...input} {...radioProps} />
-          )}
-        </Field>
+          <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ONE_WAY}>
+            {({ input }) => (
+              <Radio label="One way" {...input} {...radioProps} />
+            )}
+          </Field>
           <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ROUND}>
             {({ input }) => (
               <Radio label="Round trip" {...input} {...radioProps} />
@@ -90,25 +96,15 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
           <Field name="from" validate={required}>
             {({ input, meta }) => (
               <Pane flexGrow={1} {...paneProps}>
-                <Autocomplete
+                <SelectField
                   {...input}
-                  itemSize={ITEM_HEIGHT}
-                  items={filterLocations(formatLocations(LOCATIONS), to)}
-                  selectedItem={input.value}
+                  {...inputProps}
+                  required
+                  label="From"
+                  isInvalid={meta.error && meta.touched}
                 >
-                  {({ getInputProps, getRef, inputValue, openMenu }) => (
-                    <TextInputField
-                      {...inputProps}
-                      {...getInputProps({ onFocus: openMenu })}
-                      label="From"
-                      required
-                      placeholder={`${getLocation("1")}, ${getLocation("2")}`}
-                      value={inputValue}
-                      innerRef={getRef}
-                      isInvalid={meta.error && meta.touched}
-                    />
-                  )}
-                </Autocomplete>
+                  {renderLocations()}
+                </SelectField>
               </Pane>
             )}
           </Field>
@@ -126,25 +122,15 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
           <Field name="to" validate={required}>
             {({ input, meta }) => (
               <Pane flexGrow={1} {...paneProps}>
-                <Autocomplete
+                <SelectField
                   {...input}
-                  itemSize={ITEM_HEIGHT}
-                  items={filterLocations(formatLocations(LOCATIONS), from)}
-                  selectedItem={input.value}
+                  {...inputProps}
+                  required
+                  label="To"
+                  isInvalid={meta.error && meta.touched}
                 >
-                  {({ getInputProps, getRef, inputValue, openMenu }) => (
-                    <TextInputField
-                      {...inputProps}
-                      {...getInputProps({ onFocus: openMenu })}
-                      label="To"
-                      required
-                      placeholder={`${getLocation("4")}, ${getLocation("1")}`}
-                      value={inputValue}
-                      innerRef={getRef}
-                      isInvalid={meta.error && meta.touched}
-                    />
-                  )}
-                </Autocomplete>
+                  {renderLocations()}
+                </SelectField>
               </Pane>
             )}
           </Field>
@@ -216,7 +202,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
             </Field>
           )}
 
-          <Field name="quantity" validate={required} >
+          <Field name="quantity" validate={required}>
             {({ input, meta }) => (
               <Pane {...paneProps} minWidth={80} flexShrink={0}>
                 <SelectField
