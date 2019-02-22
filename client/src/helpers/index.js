@@ -22,8 +22,6 @@ const hasReturn = travel_type => travel_type === TRAVEL_TYPES.ROUND;
 export const formatDataForApi = ({
   departure_date,
   arrival_date,
-  from,
-  to,
   travel_type,
   ...data
 }) => {
@@ -40,18 +38,6 @@ export const formatDataForApi = ({
   if (hasReturn(travel_type)) {
     Object.assign(formattedData, {
       arrival_date: formatDate(arrival_date),
-    });
-  }
-
-  if (from) {
-    Object.assign(formattedData, {
-      from: getLocationId(from),
-    });
-  }
-
-  if (to) {
-    Object.assign(formattedData, {
-      to: getLocationId(to),
     });
   }
 
