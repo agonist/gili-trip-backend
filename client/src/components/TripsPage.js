@@ -12,8 +12,13 @@ import Trips from "./Trips";
 import TripsTitle from "./TripsTitle";
 
 import { ITEM_HEIGHT, TRAVEL_TYPES } from "../constants";
-import { formatDataForBrowser, navigateWithData } from "../helpers";
 import { fetchTrips } from "../api";
+
+import {
+  formatDataForBrowser,
+  getLocationName,
+  navigateWithData,
+} from "../helpers";
 
 const initialState = {
   departureTrips: [],
@@ -232,8 +237,11 @@ class TripsPage extends React.Component {
     } = this.state;
 
     const formData = this.getParams();
-    const { travel_type, from, to } = formData;
+    const { travel_type, from: fromId, to: toId } = formData;
     const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
+
+    const from = getLocationName(fromId);
+    const to = getLocationName(toId);
 
     return (
       <>

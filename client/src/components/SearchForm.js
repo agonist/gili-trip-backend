@@ -37,8 +37,8 @@ const radioProps = {
   marginRight: ITEM_SPACE,
 };
 
-const DEFAULT_DEPARTURE_ID = 1;
-const DEFAULT_ARRIVAL_ID = 3;
+const DEFAULT_DEPARTURE_ID = "1";
+const DEFAULT_ARRIVAL_ID = "3";
 const DEFAULT_QUANTITY = 1;
 
 const hasReturn = travel_type => travel_type === TRAVEL_TYPES.ROUND;

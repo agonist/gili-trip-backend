@@ -50,8 +50,6 @@ export const formatDataForApi = ({
 export const formatDataForBrowser = ({
   departure_date,
   arrival_date,
-  from,
-  to,
   ...data
 }) => {
   const formattedData = {
@@ -67,18 +65,6 @@ export const formatDataForBrowser = ({
   if (arrival_date) {
     Object.assign(formattedData, {
       arrival_date: stringToDate(arrival_date),
-    });
-  }
-
-  if (from) {
-    Object.assign(formattedData, {
-      from: getLocationName(from),
-    });
-  }
-
-  if (to) {
-    Object.assign(formattedData, {
-      to: getLocationName(to),
     });
   }
 
