@@ -42,14 +42,12 @@ class BookingPage extends React.Component {
       pickup_city,
       pickup_name,
       pickup_room_number,
-      quantity,
     }) => ({
       trip_id,
       ...(pickup_address && { pickup_address }),
       ...(pickup_city && { pickup_city }),
       ...(pickup_name && { pickup_name }),
       ...(pickup_room_number && { pickup_room_number }),
-      quantity: +quantity,
       date: date.toISOString(),
     });
 

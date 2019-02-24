@@ -202,11 +202,10 @@ class TripsPage extends React.Component {
     const formatTicket = ({ id, ...ticket }) => ({
       ...ticket,
       trip_id: id,
-      quantity,
     });
 
     const data = {
-      quantity,
+      quantity: +quantity,
       tickets: {
         departure: {
           ...formatTicket(departureTicket),
