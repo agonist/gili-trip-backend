@@ -18,23 +18,13 @@ class BookingPage extends React.Component {
 
     if (!state || (state && !state.tickets)) {
       navigate("/trips");
-      return;
     }
-
-    this.state = {
-      formData: {
-        ...state,
-      },
-    };
   }
 
-  formatPayload = ({
-    booking_email_confirm,
-    key,
-    tickets,
-    travel_type,
-    ...formData
-  }) => {
+  formatPayload = ({ booking_email_confirm, ...formData }) => {
+    const { location } = this.props;
+    const { tickets } = location.state;
+
     const formatTicket = ({
       date,
       trip_id,
@@ -58,11 +48,30 @@ class BookingPage extends React.Component {
   };
 
   handleFormSubmit = formData => {
+    const { location } = this.props;
+    const { bookingId, bookingSuccessData, ...locationState } = location.state;
     const payload = this.formatPayload(formData);
+
+    const extraData = {
+      bookingData: locationState,
+      bookingFormData: formData,
+    };
+
+    if (bookingId) {
+      return navigateWithData(`/booking/${bookingId}`, {
+        data: {
+          ...bookingSuccessData,
+          ...extraData,
+        },
+      });
+    }
 
     const onSuccess = data =>
       navigateWithData(`/booking/${data.id}`, {
-        data,
+        data: {
+          ...data,
+          ...extraData,
+        },
       });
 
     const onError = data => {
@@ -76,8 +85,7 @@ class BookingPage extends React.Component {
 
   render() {
     const { location } = this.props;
-    const { formData } = this.state;
-    const { tickets } = location.state;
+    const { quantity, tickets, bookingFormData } = location.state;
 
     return (
       <div className="Page Page--trips">
@@ -87,7 +95,7 @@ class BookingPage extends React.Component {
           <Alert intent="warning" title="Your tickets are not reserved yet!" />
 
           <BookingForm
-            initialValues={formData}
+            initialValues={{ quantity, ...bookingFormData }}
             tickets={tickets}
             onSubmit={this.handleFormSubmit}
           />
