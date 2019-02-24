@@ -6,34 +6,28 @@ import SearchForm from "../components/SearchForm";
 
 import { navigateWithData } from "../helpers";
 
-class IndexPage extends React.Component {
-  state = {
-    searchFormData: {},
+const IndexPage = () => {
+  const [formData, setFormData] = React.useState({});
+
+  const onSubmit = data =>
+    navigateWithData("/trips", {
+      data,
+      withParams: true,
+    });
+
+  const handlePopularItemClick = data => {
+    setFormData(data);
   };
 
-  handlePopularItemClick = formData => {
-    this.setState({ searchFormData: formData });
-  };
+  return (
+    <div className="Page Page--index">
+      <Header>
+        <SearchForm formData={formData} onSubmit={onSubmit} />
+      </Header>
 
-  render() {
-    const { searchFormData } = this.state;
-
-    const onSubmit = data =>
-      navigateWithData("/trips", {
-        data,
-        withParams: true,
-      });
-
-    return (
-      <div className="Page Page--index">
-        <Header>
-          <SearchForm formData={searchFormData} onSubmit={onSubmit} />
-        </Header>
-
-        <Popular onClick={this.handlePopularItemClick} />
-      </div>
-    );
-  }
-}
+      <Popular onClick={handlePopularItemClick} />
+    </div>
+  );
+};
 
 export default IndexPage;

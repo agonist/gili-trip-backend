@@ -5,30 +5,28 @@ import { Heading, Pane } from "evergreen-ui";
 import Container from "./Container";
 import Item from "./PopularItem";
 
-import { ITEM_SPACE, LOCATIONS } from "../constants";
-
-const getLocation = id => LOCATIONS.find(({ id: _id }) => _id === id).name;
+import { ITEM_SPACE } from "../constants";
 
 const items = [
   {
     id: "pop-1",
-    from: getLocation("2"),
-    to: getLocation("1"),
+    from: "2",
+    to: "1",
   },
   {
     id: "pop-2",
-    from: getLocation("2"),
-    to: getLocation("5"),
+    from: "2",
+    to: "5",
   },
   {
     id: "pop-3",
-    from: getLocation("3"),
-    to: getLocation("4"),
+    from: "3",
+    to: "4",
   },
   {
     id: "pop-4",
-    from: getLocation("1"),
-    to: getLocation("5"),
+    from: "1",
+    to: "5",
   },
 ];
 

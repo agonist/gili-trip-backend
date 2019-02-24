@@ -4,6 +4,7 @@ import { Heading, Icon, majorScale } from "evergreen-ui";
 
 import Item from "./Item";
 import { ITEM_SPACE } from "../constants";
+import { getLocationName } from "../helpers";
 
 const PopularItem = ({ from, to, ...props }) => (
   <Item
@@ -14,9 +15,9 @@ const PopularItem = ({ from, to, ...props }) => (
     marginRight={ITEM_SPACE}
     {...props}
   >
-    <Heading size={600}>{from}</Heading>
+    <Heading size={600}>{getLocationName(from)}</Heading>
     <Icon flexShrink={0} icon="arrow-right" marginX={majorScale(1)} />
-    <Heading size={600}>{to}</Heading>
+    <Heading size={600}>{getLocationName(to)}</Heading>
   </Item>
 );
 
