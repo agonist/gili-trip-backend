@@ -1,7 +1,7 @@
 class TripSerializer < ActiveModel::Serializer
 
-  attributes :id, :name, :status, :price, :currency, :departure_time, :arrival_time, :duration
-  belongs_to :to
+  attributes :id, :name, :status, :price, :currency, :departure_time, :arrival_time, :duration, :to
+  belongs_to :to , serializer: LocationSerializer
   belongs_to :from
   belongs_to :operator
   belongs_to :vehicle

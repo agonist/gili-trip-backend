@@ -5,4 +5,5 @@ class Trip < ApplicationRecord
   belongs_to :vehicle, class_name: "Vehicle", foreign_key: "vehicle_id"
   has_many :unavailable, class_name: "Unavailables"
 
+
 end
