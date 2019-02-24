@@ -320,18 +320,18 @@ class TripsPage extends React.Component {
 
         <Container>
           {hasFailed ? <ErrorState /> : this.renderTrips()}
-          {hasSelectedAllTickets && (
-            <Pane textAlign="right" paddingTop={majorScale(4)}>
-              <Button
-                appearance="primary"
-                height={ITEM_HEIGHT}
-                iconAfter="arrow-right"
-                onClick={this.handleBookTickets}
-              >
-                Confirm and book tickets
-              </Button>
-            </Pane>
-          )}
+
+          <Pane textAlign="right" paddingTop={majorScale(4)}>
+            <Button
+              appearance="primary"
+              height={ITEM_HEIGHT}
+              iconAfter="arrow-right"
+              onClick={this.handleBookTickets}
+              disabled={!hasSelectedAllTickets}
+            >
+              Confirm and book tickets
+            </Button>
+          </Pane>
         </Container>
       </div>
     );
