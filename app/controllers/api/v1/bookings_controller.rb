@@ -8,7 +8,7 @@ class Api::V1::BookingsController < ApiController
 
     full_price = 0
     @booking.tickets.each do |ticketparams|
-        @trips_price = Trip.find(ticketparams.trip_id).price * ticketparams.quantity
+        @trips_price = Trip.find(ticketparams.trip_id).price * @booking.quantity
         full_price += @trips_price
     end
 
@@ -24,7 +24,7 @@ class Api::V1::BookingsController < ApiController
   def booking_params
      booking = params.require(:booking)
      booking[:tickets_attributes] = booking.delete(:tickets) if booking.key?(:tickets)
-     booking.permit(:booking_email, :booking_whatsapp, passengers:[], tickets_attributes: [[:trip_id, :quantity, :date, :pickup_name, :pickup_room_number, :pickup_address, :pickup_city]])
+     booking.permit(:booking_email, :booking_whatsapp, :quantity, passengers:[], tickets_attributes: [[:trip_id, :date, :pickup_name, :pickup_room_number, :pickup_address, :pickup_city]])
    end
 
 end

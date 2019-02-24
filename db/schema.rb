@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 2019_02_14_124856) do
     t.string "payment_status"
     t.decimal "final_price"
     t.datetime "booking_date"
+    t.integer "quantity"
     t.text "passengers", default: [], array: true
     t.string "booking_email"
     t.string "booking_whatsapp"
@@ -95,7 +96,6 @@ ActiveRecord::Schema.define(version: 2019_02_14_124856) do
     t.uuid "booking_id"
     t.bigint "trip_id"
     t.datetime "date"
-    t.integer "quantity"
     t.string "pickup_name"
     t.string "pickup_address"
     t.string "pickup_room_number"

@@ -5,6 +5,7 @@ class CreateBookings < ActiveRecord::Migration[5.2]
       t.string :payment_status
       t.decimal :final_price
       t.datetime :booking_date
+      t.integer :quantity
       t.text :passengers, array: true, default: []
       t.string :booking_email
       t.string :booking_whatsapp
