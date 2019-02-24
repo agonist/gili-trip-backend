@@ -5,12 +5,13 @@ import { Heading } from "evergreen-ui";
 import ArrowIcon from "./ArrowIcon";
 import { ITEM_SPACE } from "../constants";
 
-const TripsTitle = ({ from, to }) => (
+const TripsTitle = ({ from, to, ...props }) => (
   <Heading
     size={700}
     display="flex"
     alignItems="center"
     marginBottom={ITEM_SPACE}
+    {...props}
   >
     {from}
     <ArrowIcon />

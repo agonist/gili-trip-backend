@@ -5,6 +5,7 @@ import { Button, Checkbox, Heading, Pane, TextInputField } from "evergreen-ui";
 
 import BookingFormOptionalField from "./BookingFormOptionalField";
 import Item from "./Item";
+import TripsTitle from "./TripsTitle";
 
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { composeValidators } from "../helpers";
@@ -122,30 +123,44 @@ const BookingForm = ({ initialValues, tickets, onSubmit }) => {
 
           <Heading {...headingProps}>Optional</Heading>
 
+          <TripsTitle
+            from={departureTicket.from.name}
+            to={departureTicket.to.name}
+            size={500}
+          />
+
           <BookingFormOptionalField
             ticket={departureTicket}
             path="tickets.departure"
             isShown={withPickup}
           >
             <Checkbox
-              label={`I need a pickup from ${departureTicket.from.name}`}
+              label="I need a pickup"
               checked={withPickup}
               onChange={handleWithPickupChange}
             />
           </BookingFormOptionalField>
 
           {returnTicket && (
-            <BookingFormOptionalField
-              ticket={returnTicket}
-              path="tickets.return"
-              isShown={withDropoff}
-            >
-              <Checkbox
-                label={`I need a  dropoff ${returnTicket.from.name}`}
-                checked={withDropoff}
-                onChange={handleWithDropoffChange}
+            <React.Fragment>
+              <TripsTitle
+                from={returnTicket.from.name}
+                to={returnTicket.to.name}
+                size={500}
               />
-            </BookingFormOptionalField>
+
+              <BookingFormOptionalField
+                ticket={returnTicket}
+                path="tickets.return"
+                isShown={withDropoff}
+              >
+                <Checkbox
+                  label="I need a dropoff"
+                  checked={withDropoff}
+                  onChange={handleWithDropoffChange}
+                />
+              </BookingFormOptionalField>
+            </React.Fragment>
           )}
 
           <Pane textAlign="right">
