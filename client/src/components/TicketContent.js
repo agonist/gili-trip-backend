@@ -5,7 +5,7 @@ import { Pane } from "evergreen-ui";
 import Duration from "./Duration";
 import Time from "./Time";
 
-const Ticket = ({ arrival_time, departure_time, duration }) => (
+const TicketContent = ({ arrival_time, departure_time, duration }) => (
   <Pane flexGrow={1} alignItems="center" justifyContent="center">
     <Pane display="flex" alignItems="center" justifyContent="center">
       <Pane textAlign="right">
@@ -21,10 +21,10 @@ const Ticket = ({ arrival_time, departure_time, duration }) => (
   </Pane>
 );
 
-Ticket.propTypes = {
+TicketContent.propTypes = {
   arrival_time: PropTypes.string.isRequired,
   departure_time: PropTypes.string.isRequired,
   duration: PropTypes.number.isRequired,
 };
 
-export default Ticket;
+export default TicketContent;
