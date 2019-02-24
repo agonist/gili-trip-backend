@@ -3,15 +3,15 @@ import PropTypes from "prop-types";
 import { Form, Field } from "react-final-form";
 import { Button, Checkbox, Heading, Pane, TextInputField } from "evergreen-ui";
 
+import BookingFormOptionalField from "./BookingFormOptionalField";
 import Item from "./Item";
-import TicketContent from "./TicketContent";
+
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { composeValidators } from "../helpers";
 
 const mustMatch = valueToMatch => value =>
   value === valueToMatch ? undefined : true;
 
-const renderSeparator = () => <Pane width={ITEM_HEIGHT} />;
 const required = value => (value ? undefined : "Required");
 
 const headingProps = {
@@ -45,79 +45,6 @@ const renderPassengersField = count => {
 
   return fields;
 };
-
-const renderOptionalField = (ticket, path) => (
-  <Item
-    flexDirection="column"
-    paddingX={0}
-    paddingBottom={ITEM_SPACE}
-    marginBottom={ITEM_HEIGHT}
-  >
-    <TicketContent {...ticket} />
-
-    <Pane
-      width="100%"
-      height={1}
-      backgroundColor="#425A70"
-      opacity={0.2}
-      marginY={ITEM_HEIGHT}
-    />
-
-    <Pane width="100%" paddingX={ITEM_HEIGHT}>
-      <Pane display="flex">
-        <Field name={`${path}.pickup_name`}>
-          {({ input }) => (
-            <TextInputField
-              {...input}
-              label="Hostel"
-              placeholder="Hostel name"
-              width="100%"
-            />
-          )}
-        </Field>
-
-        {renderSeparator()}
-
-        <Field name={`${path}.pickup_room_number`}>
-          {({ input }) => (
-            <TextInputField
-              {...input}
-              label="Room number"
-              placeholder="42"
-              width="100%"
-            />
-          )}
-        </Field>
-      </Pane>
-
-      <Pane display="flex">
-        <Field name={`${path}.pickup_city`}>
-          {({ input }) => (
-            <TextInputField
-              {...input}
-              label="City"
-              placeholder="Bali"
-              width="100%"
-            />
-          )}
-        </Field>
-
-        {renderSeparator()}
-
-        <Field name={`${path}.pickup_address`}>
-          {({ input }) => (
-            <TextInputField
-              {...input}
-              label="Address"
-              placeholder="Hotel address"
-              width="100%"
-            />
-          )}
-        </Field>
-      </Pane>
-    </Pane>
-  </Item>
-);
 
 const BookingForm = ({ initialValues, tickets, onSubmit }) => {
   const { departure: departureTicket, return: returnTicket } = tickets;
@@ -195,26 +122,30 @@ const BookingForm = ({ initialValues, tickets, onSubmit }) => {
 
           <Heading {...headingProps}>Optional</Heading>
 
-          <Checkbox
-            label={`I need a pickup from ${departureTicket.from.name}`}
-            checked={withPickup}
-            onChange={handleWithPickupChange}
-          />
-
-          {withPickup &&
-            renderOptionalField(departureTicket, "tickets.departure")}
+          <BookingFormOptionalField
+            ticket={departureTicket}
+            path="tickets.departure"
+            isShown={withPickup}
+          >
+            <Checkbox
+              label={`I need a pickup from ${departureTicket.from.name}`}
+              checked={withPickup}
+              onChange={handleWithPickupChange}
+            />
+          </BookingFormOptionalField>
 
           {returnTicket && (
-            <React.Fragment>
+            <BookingFormOptionalField
+              ticket={returnTicket}
+              path="tickets.return"
+              isShown={withDropoff}
+            >
               <Checkbox
                 label={`I need a  dropoff ${returnTicket.from.name}`}
                 checked={withDropoff}
                 onChange={handleWithDropoffChange}
               />
-
-              {withDropoff &&
-                renderOptionalField(returnTicket, "tickets.return")}
-            </React.Fragment>
+            </BookingFormOptionalField>
           )}
 
           <Pane textAlign="right">
