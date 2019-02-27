@@ -2,10 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button, Heading, Pane } from "evergreen-ui";
 
+import BookingResume from "./BookingResume";
 import Container from "./Container";
 import Header from "./Header";
 
-import { ITEM_HEIGHT } from "../constants";
+import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { navigateWithData } from "../helpers";
 
 const BookingSuccessPage = ({ id, location }) => {
@@ -29,12 +30,16 @@ const BookingSuccessPage = ({ id, location }) => {
     <div className="Page Page--trips">
       <Header />
       <Container>
-        <Heading size={700}>Your tickets has been booked!</Heading>
-        <br />
-        Booking id: {id}
-        <pre>
+        <Heading size={700} marginBottom={ITEM_SPACE}>
+          Your informations
+        </Heading>
+
+        <BookingResume {...locationState} />
+
+        {/* <pre>
           <code>{JSON.stringify(location.state, null, 2)}</code>
-        </pre>
+        </pre> */}
+
         <Pane display="flex" justifyContent="space-between">
           <Button
             height={ITEM_HEIGHT}
