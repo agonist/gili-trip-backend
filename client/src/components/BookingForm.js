@@ -47,11 +47,27 @@ const renderPassengersField = count => {
   return fields;
 };
 
+const hasPickup = ({
+  pickup_name,
+  pickup_room_number,
+  pickup_city,
+  pickup_address,
+} = {}) =>
+  !!pickup_name || !!pickup_room_number || !!pickup_city || !!pickup_address;
+
 const BookingForm = ({ initialValues, tickets, onSubmit }) => {
   const { departure: departureTicket, return: returnTicket } = tickets;
 
-  const [withPickup, setWithPickup] = React.useState(false);
-  const [withDropoff, setWithDropoff] = React.useState(false);
+  const defaultHasPickup = hasPickup(
+    initialValues.tickets && initialValues.tickets.departure,
+  );
+
+  const defaultHasDropoff = hasPickup(
+    initialValues.tickets && initialValues.tickets.return,
+  );
+
+  const [withPickup, setWithPickup] = React.useState(defaultHasPickup);
+  const [withDropoff, setWithDropoff] = React.useState(defaultHasDropoff);
 
   const handleWithPickupChange = () => setWithPickup(!withPickup);
   const handleWithDropoffChange = () => setWithDropoff(!withDropoff);

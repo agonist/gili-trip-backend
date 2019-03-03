@@ -16,6 +16,7 @@ const formatTicket = ({
   pickup_city,
   pickup_name,
   pickup_room_number,
+  ...data
 }) => ({
   trip_id,
   ...(pickup_address && { pickup_address }),
@@ -23,6 +24,7 @@ const formatTicket = ({
   ...(pickup_name && { pickup_name }),
   ...(pickup_room_number && { pickup_room_number }),
   date: date.toISOString(),
+  ...data,
 });
 
 const BookingPage = ({ location, navigate }) => {
