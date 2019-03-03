@@ -9,48 +9,38 @@ import Header from "./Header";
 import { postBooking } from "../api";
 import { navigateWithData } from "../helpers";
 
-class BookingPage extends React.Component {
-  constructor(props) {
-    super(props);
+const formatTicket = ({
+  date,
+  trip_id,
+  pickup_address,
+  pickup_city,
+  pickup_name,
+  pickup_room_number,
+}) => ({
+  trip_id,
+  ...(pickup_address && { pickup_address }),
+  ...(pickup_city && { pickup_city }),
+  ...(pickup_name && { pickup_name }),
+  ...(pickup_room_number && { pickup_room_number }),
+  date: date.toISOString(),
+});
 
-    const { location, navigate } = props;
-    const { state } = location;
+const BookingPage = ({ location, navigate }) => {
+  const { state } = location;
+  const { quantity, tickets, bookingFormData } = state;
 
-    if (!state || (state && !state.tickets)) {
-      navigate("/trips");
-    }
+  if (!state || (state && !state.tickets)) {
+    navigate("/trips");
   }
 
-  formatPayload = ({ booking_email_confirm, ...formData }) => {
-    const { location } = this.props;
-    const { tickets } = location.state;
+  const formatPayload = ({ booking_email_confirm, ...formData }) => ({
+    ...formData,
+    tickets: Object.values(tickets).map(formatTicket),
+  });
 
-    const formatTicket = ({
-      date,
-      trip_id,
-      pickup_address,
-      pickup_city,
-      pickup_name,
-      pickup_room_number,
-    }) => ({
-      trip_id,
-      ...(pickup_address && { pickup_address }),
-      ...(pickup_city && { pickup_city }),
-      ...(pickup_name && { pickup_name }),
-      ...(pickup_room_number && { pickup_room_number }),
-      date: date.toISOString(),
-    });
-
-    return {
-      ...formData,
-      tickets: Object.values(tickets).map(formatTicket),
-    };
-  };
-
-  handleFormSubmit = formData => {
-    const { location } = this.props;
+  const handleFormSubmit = formData => {
     const { bookingId, bookingSuccessData, ...locationState } = location.state;
-    const payload = this.formatPayload(formData);
+    const payload = formatPayload(formData);
 
     const extraData = {
       bookingData: locationState,
@@ -83,27 +73,22 @@ class BookingPage extends React.Component {
       .catch(onError);
   };
 
-  render() {
-    const { location } = this.props;
-    const { quantity, tickets, bookingFormData } = location.state;
+  return (
+    <div className="Page Page--trips">
+      <Header />
 
-    return (
-      <div className="Page Page--trips">
-        <Header />
+      <Container>
+        <Alert intent="warning" title="Your tickets are not reserved yet!" />
 
-        <Container>
-          <Alert intent="warning" title="Your tickets are not reserved yet!" />
-
-          <BookingForm
-            initialValues={{ quantity, ...bookingFormData }}
-            tickets={tickets}
-            onSubmit={this.handleFormSubmit}
-          />
-        </Container>
-      </div>
-    );
-  }
-}
+        <BookingForm
+          initialValues={{ quantity, ...bookingFormData }}
+          tickets={tickets}
+          onSubmit={handleFormSubmit}
+        />
+      </Container>
+    </div>
+  );
+};
 
 BookingPage.propTypes = {
   location: PropTypes.shape({
