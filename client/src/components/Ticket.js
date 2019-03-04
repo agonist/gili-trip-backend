@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Heading, Pane, majorScale } from "evergreen-ui";
+import { Button, Pane, majorScale } from "evergreen-ui";
 
+import Content from "./TicketContent";
 import Icons from "./TicketIcons";
 import Item from "./Item";
-import Content from "./TicketContent";
+import Price from "./Price";
 
 const buttonHeight = 32;
 const baseZindex = 10;
@@ -51,9 +52,7 @@ const Ticket = ({
           alignItems="center"
           justifyContent="center"
         >
-          <Heading size={700} textAlign="center" fontWeight={600}>
-            {price} {currency}
-          </Heading>
+          <Price price={price} currency={currency} />
 
           <Pane height={buttonHeight} marginTop={majorScale(1)}>
             {isSelected ? (

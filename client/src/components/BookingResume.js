@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { FormField, Heading, Pane } from "evergreen-ui";
 
 import Item from "./Item";
+import Price from "./Price";
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 
 const DEFAULT_VALUE = "N/A";
@@ -39,6 +40,7 @@ const BookingResume = ({
         label="Email"
         description={withDefaultValue(booking_email)}
       />
+
       <FormField
         {...formFieldProps}
         marginBottom={0}
@@ -74,6 +76,8 @@ const BookingResume = ({
             label="Arrival at"
             description={trip.arrival_time}
           />
+
+          <Price {...trip} />
         </Item>
       </Pane>
     ))}
