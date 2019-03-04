@@ -5,15 +5,23 @@ import { Button, Heading, Pane } from "evergreen-ui";
 import BookingResume from "./BookingResume";
 import Container from "./Container";
 import Header from "./Header";
+import Item from "./Item";
 
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { navigateWithData } from "../helpers";
+import { initPayment } from "../api";
 
 const BookingSuccessPage = ({ id, location }) => {
-  const { bookingData, bookingFormData, ...locationState } = location.state;
+  const { bookingData, bookingFormData, ...state } = location.state;
+  const { currency, full_price } = state;
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [withPayment, setWithPayment] = React.useState(false);
 
   const handlePayment = () => {
-    console.log("Money money money");
+    setIsLoading(true);
+    setWithPayment(true);
+
+    initPayment();
   };
 
   const handleEditInfos = () =>
@@ -22,7 +30,7 @@ const BookingSuccessPage = ({ id, location }) => {
         ...bookingData,
         bookingId: id,
         bookingFormData,
-        bookingSuccessData: locationState,
+        bookingSuccessData: state,
       },
     });
 
@@ -31,31 +39,38 @@ const BookingSuccessPage = ({ id, location }) => {
       <Header />
       <Container>
         <Heading size={700} marginBottom={ITEM_SPACE}>
-          Your informations
+          {withPayment ? "Payment" : "Your informations"}
         </Heading>
 
-        <BookingResume {...locationState} />
+        {!withPayment && <BookingResume {...state} />}
 
-        {/* <pre>
-          <code>{JSON.stringify(location.state, null, 2)}</code>
-        </pre> */}
+        <Item
+          id="payment-test"
+          style={{ display: withPayment ? "block" : "none" }}
+        />
 
-        <Pane display="flex" justifyContent="space-between">
-          <Button
-            height={ITEM_HEIGHT}
-            iconBefore="arrow-left"
-            onClick={handleEditInfos}
-          >
-            Edit my informations
-          </Button>
+        <Pane
+          display="flex"
+          justifyContent={withPayment ? "flex-end" : "space-between"}
+        >
+          {!withPayment && (
+            <Button
+              height={ITEM_HEIGHT}
+              iconBefore="arrow-left"
+              onClick={handleEditInfos}
+            >
+              Edit my informations
+            </Button>
+          )}
 
           <Button
             appearance="primary"
             height={ITEM_HEIGHT}
             iconAfter="arrow-right"
             onClick={handlePayment}
+            isLoading={isLoading}
           >
-            Confirm and pay
+            Confirm and pay {full_price} {currency}
           </Button>
         </Pane>
       </Container>
