@@ -7,12 +7,14 @@ import Icons from "./TicketIcons";
 import Item from "./Item";
 import Price from "./Price";
 
+import { IS_MOBILE, ITEM_SPACE } from "../constants";
+
 const buttonHeight = 32;
 const baseZindex = 10;
 
 const pileItemProps = index => ({
   position: "absolute",
-  bottom: `${0 - index * 7}%`,
+  bottom: `${0 - index * 5}%`,
   left: `${index * 2}%`,
   right: `${index * 2}%`,
   margin: 0,
@@ -37,6 +39,7 @@ const Ticket = ({
       zIndex={baseZindex}
       cursor={isSelected ? "pointer" : "default"}
       onClick={isSelected ? handleUnselect : null}
+      flexWrap="wrap"
     >
       <Content
         arrival_time={arrival_time}
@@ -46,20 +49,29 @@ const Ticket = ({
 
       {canSelectTicket && (
         <Pane
-          width="30%"
           display="flex"
           flexDirection="column"
           alignItems="center"
           justifyContent="center"
+          width={IS_MOBILE ? "100%" : "30%"}
+          marginTop={IS_MOBILE ? ITEM_SPACE : 0}
         >
           <Price price={price} currency={currency} />
 
           <Pane height={buttonHeight} marginTop={majorScale(1)}>
             {isSelected ? (
-              <Icons />
+              <React.Fragment>
+                {IS_MOBILE ? (
+                  <Button appearance="primary" intent="danger">
+                    Cancel
+                  </Button>
+                ) : (
+                  <Icons />
+                )}
+              </React.Fragment>
             ) : (
               <Button appearance="primary" onClick={handleSelect}>
-                Reserve a ticket
+                Reserve
               </Button>
             )}
           </Pane>

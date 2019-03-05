@@ -7,7 +7,7 @@ import Container from "./Container";
 import Header from "./Header";
 import Item from "./Item";
 
-import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
+import { ITEM_HEIGHT, ITEM_SPACE, IS_MOBILE } from "../constants";
 import { navigateWithData } from "../helpers";
 import { initPayment } from "../api";
 
@@ -58,8 +58,9 @@ const BookingSuccessPage = ({ id, location }) => {
               height={ITEM_HEIGHT}
               iconBefore="arrow-left"
               onClick={handleEditInfos}
+              marginRight={ITEM_SPACE}
             >
-              Edit my informations
+              {IS_MOBILE ? "Edit" : "Edit my informations"}
             </Button>
           )}
 

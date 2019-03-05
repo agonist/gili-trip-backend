@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { Card } from "evergreen-ui";
-import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
+import { ITEM_HEIGHT, ITEM_SPACE, IS_MOBILE } from "../constants";
 
 const Item = ({ children, ...props }) => (
   <Card
@@ -10,7 +10,7 @@ const Item = ({ children, ...props }) => (
     justifyContent="center"
     alignItems="center"
     marginBottom={ITEM_SPACE}
-    padding={ITEM_HEIGHT}
+    padding={IS_MOBILE ? ITEM_SPACE * 1.5 : ITEM_HEIGHT}
     elevation={2}
     backgroundColor="#fff"
     {...props}

@@ -4,38 +4,35 @@ import { Icon, Pane } from "evergreen-ui";
 
 import { ITEM_SPACE } from "../constants";
 
-const ArrowIcon = ({ color, direction, width }) => (
-  <Pane
-    display="flex"
-    alignItems="center"
-    justifyContent="center"
-    marginX={ITEM_SPACE}
-  >
-    {direction === "right" ? (
-      <React.Fragment>
-        <Pane
-          width={width}
-          height={2}
-          backgroundColor={color}
-          display="inline-block"
-          marginRight={-2}
-        />
-        <Icon icon="arrow-right" color={color} />
-      </React.Fragment>
-    ) : (
-      <React.Fragment>
-        <Icon icon="arrow-left" color={color} />
-        <Pane
-          width={width}
-          height={2}
-          backgroundColor={color}
-          display="inline-block"
-          marginLeft={-2}
-        />
-      </React.Fragment>
-    )}
-  </Pane>
-);
+const ArrowIcon = ({ color, direction, width }) => {
+  const paneProps = {
+    width,
+    height: 2,
+    backgroundColor: color,
+    display: "inline-block",
+  };
+
+  return (
+    <Pane
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      marginX={ITEM_SPACE}
+    >
+      {direction === "right" ? (
+        <React.Fragment>
+          <Pane {...paneProps} marginRight={-2} />
+          <Icon icon="arrow-right" color={color} />
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <Icon icon="arrow-left" color={color} />
+          <Pane {...paneProps} marginLeft={-2} />
+        </React.Fragment>
+      )}
+    </Pane>
+  );
+};
 
 ArrowIcon.propTypes = {
   color: PropTypes.string,
@@ -46,7 +43,7 @@ ArrowIcon.propTypes = {
 ArrowIcon.defaultProps = {
   color: "#234361",
   direction: "right",
-  width: ITEM_SPACE,
+  width: 5,
 };
 
 export default ArrowIcon;

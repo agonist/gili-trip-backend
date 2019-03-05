@@ -21,7 +21,16 @@ import {
   LOCATIONS,
   TODAY_DATE,
   TRAVEL_TYPES,
+  IS_DESKTOP,
+  IS_TABLET,
+  IS_MOBILE,
 } from "../constants";
+
+const DEFAULT_DEPARTURE_ID = "1";
+const DEFAULT_ARRIVAL_ID = "3";
+const DEFAULT_QUANTITY = 1;
+
+const SPACING = majorScale(1);
 
 const inputProps = {
   inputHeight: ITEM_HEIGHT,
@@ -29,17 +38,14 @@ const inputProps = {
 };
 
 const paneProps = {
-  marginRight: majorScale(1),
+  flexGrow: 1,
+  marginRight: SPACING,
 };
 
 const radioProps = {
   size: 16,
   marginRight: ITEM_SPACE,
 };
-
-const DEFAULT_DEPARTURE_ID = "1";
-const DEFAULT_ARRIVAL_ID = "3";
-const DEFAULT_QUANTITY = 1;
 
 const hasReturn = travel_type => travel_type === TRAVEL_TYPES.ROUND;
 const formatDate = date => dateFns.format(date, DATE_FORMAT);
@@ -60,6 +66,172 @@ const swapMutator = (_, { fields, formState }) => {
   from.change(values.to);
 };
 
+const renderTravelType = () => (
+  <Pane display="flex" alignItems="flex-end">
+    <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ONE_WAY}>
+      {({ input }) => <Radio label="One way" {...input} {...radioProps} />}
+    </Field>
+    <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ROUND}>
+      {({ input }) => <Radio label="Round trip" {...input} {...radioProps} />}
+    </Field>
+  </Pane>
+);
+
+const renderFrom = () => (
+  <Field name="from" validate={required}>
+    {({ input, meta }) => (
+      <Pane flexGrow={1} {...paneProps}>
+        <SelectField
+          {...input}
+          {...inputProps}
+          required
+          label="From"
+          isInvalid={meta.error && meta.touched}
+        >
+          {renderLocations()}
+        </SelectField>
+      </Pane>
+    )}
+  </Field>
+);
+
+const renderLocationSwapper = form => (
+  <Pane className="swap-locations" marginRight={SPACING}>
+    <IconButton
+      icon="swap-horizontal"
+      height={ITEM_HEIGHT}
+      appearance="minimal"
+      type="button"
+      onClick={form.mutators.swap}
+    />
+  </Pane>
+);
+
+const renderTo = () => (
+  <Field name="to" validate={required}>
+    {({ input, meta }) => (
+      <Pane flexGrow={1} {...paneProps}>
+        <SelectField
+          {...input}
+          {...inputProps}
+          required
+          label="To"
+          isInvalid={meta.error && meta.touched}
+        >
+          {renderLocations()}
+        </SelectField>
+      </Pane>
+    )}
+  </Field>
+);
+
+const renderDepartureDate = (travel_type, arrival_date) => (
+  <Field name="departure_date" validate={required}>
+    {({ input: { value, ...input }, meta }) => (
+      <Popover
+        content={({ close }) => (
+          <DayPicker
+            {...input}
+            selectedDays={[value, hasReturn(travel_type) && arrival_date]}
+            disabledDays={{ before: TODAY_DATE }}
+            onDayClick={day => {
+              input.onChange(day);
+              close();
+            }}
+          />
+        )}
+      >
+        <Pane {...paneProps}>
+          <TextInputField
+            {...input}
+            {...inputProps}
+            label="Departure"
+            placeholder={formatDate(TODAY_DATE)}
+            required
+            readOnly
+            value={value && formatDate(value)}
+            isInvalid={meta.error && meta.touched}
+          />
+        </Pane>
+      </Popover>
+    )}
+  </Field>
+);
+
+const renderArrivalDate = departure_date => (
+  <Field name="arrival_date" validate={required}>
+    {({ input: { value, ...input }, meta }) => (
+      <Popover
+        content={({ close }) => (
+          <DayPicker
+            selectedDays={[value, departure_date]}
+            disabledDays={{
+              before: departure_date || TODAY_DATE,
+            }}
+            onDayClick={day => {
+              input.onChange(day);
+              close();
+            }}
+          />
+        )}
+      >
+        <Pane {...paneProps}>
+          <TextInputField
+            {...inputProps}
+            label="Return"
+            placeholder={formatDate(dateFns.addDays(TODAY_DATE, 7))}
+            required
+            readOnly
+            isInvalid={meta.error && meta.touched}
+            value={value && formatDate(value)}
+          />
+        </Pane>
+      </Popover>
+    )}
+  </Field>
+);
+
+const renderQuantity = () => (
+  <Field name="quantity" validate={required}>
+    {({ input, meta }) => (
+      <Pane {...paneProps} minWidth={80} flexShrink={0}>
+        <SelectField
+          {...input}
+          {...inputProps}
+          required
+          label="Quantity"
+          isInvalid={meta.error && meta.touched}
+        >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+        </SelectField>
+      </Pane>
+    )}
+  </Field>
+);
+
+const renderSubmit = (submitting, isLoading) => (
+  <Pane {...paneProps} flexShrink={0}>
+    <Button
+      width="100%"
+      height={ITEM_HEIGHT}
+      appearance="primary"
+      isLoading={submitting || isLoading}
+      type="submit"
+      justifyContent="center"
+    >
+      Search
+    </Button>
+  </Pane>
+);
+
 const SearchForm = ({ formData, isLoading, onSubmit }) => (
   <Form
     onSubmit={onSubmit}
@@ -79,164 +251,72 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
       values: { arrival_date, departure_date, travel_type },
     }) => (
       <form onSubmit={handleSubmit} style={{ width: "100%" }}>
-        <Pane display="flex">
-          <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ONE_WAY}>
-            {({ input }) => (
-              <Radio label="One way" {...input} {...radioProps} />
-            )}
-          </Field>
-          <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ROUND}>
-            {({ input }) => (
-              <Radio label="Round trip" {...input} {...radioProps} />
-            )}
-          </Field>
-        </Pane>
+        {renderTravelType()}
 
-        <Pane display="flex" alignItems="flex-end">
-          <Field name="from" validate={required}>
-            {({ input, meta }) => (
-              <Pane flexGrow={1} {...paneProps}>
-                <SelectField
-                  {...input}
-                  {...inputProps}
-                  required
-                  label="From"
-                  isInvalid={meta.error && meta.touched}
-                >
-                  {renderLocations()}
-                </SelectField>
-              </Pane>
-            )}
-          </Field>
+        {IS_DESKTOP && (
+          <React.Fragment>
+            <Pane display="flex" alignItems="flex-end">
+              {renderFrom()}
+              {renderLocationSwapper(form)}
+              {renderTo()}
 
-          <Pane className="swap-locations" {...paneProps}>
-            <IconButton
-              icon="swap-horizontal"
-              height={ITEM_HEIGHT}
-              appearance="minimal"
-              type="button"
-              onClick={form.mutators.swap}
-            />
-          </Pane>
+              {renderDepartureDate(travel_type, arrival_date)}
+              {hasReturn(travel_type) && renderArrivalDate(departure_date)}
 
-          <Field name="to" validate={required}>
-            {({ input, meta }) => (
-              <Pane flexGrow={1} {...paneProps}>
-                <SelectField
-                  {...input}
-                  {...inputProps}
-                  required
-                  label="To"
-                  isInvalid={meta.error && meta.touched}
-                >
-                  {renderLocations()}
-                </SelectField>
-              </Pane>
-            )}
-          </Field>
+              {renderQuantity()}
+              {renderSubmit(submitting, isLoading)}
+            </Pane>
+          </React.Fragment>
+        )}
 
-          <Field name="departure_date" validate={required}>
-            {({ input: { value, ...input }, meta }) => (
-              <Popover
-                content={({ close }) => (
-                  <DayPicker
-                    {...input}
-                    selectedDays={[
-                      value,
-                      hasReturn(travel_type) && arrival_date,
-                    ]}
-                    disabledDays={{ before: TODAY_DATE }}
-                    onDayClick={day => {
-                      input.onChange(day);
-                      close();
-                    }}
-                  />
-                )}
-              >
-                <Pane {...paneProps}>
-                  <TextInputField
-                    {...input}
-                    {...inputProps}
-                    label="Departure"
-                    placeholder={formatDate(TODAY_DATE)}
-                    required
-                    readOnly
-                    value={value && formatDate(value)}
-                    isInvalid={meta.error && meta.touched}
-                  />
-                </Pane>
-              </Popover>
-            )}
-          </Field>
-
-          {hasReturn(travel_type) && (
-            <Field name="arrival_date" validate={required}>
-              {({ input: { value, ...input }, meta }) => (
-                <Popover
-                  content={({ close }) => (
-                    <DayPicker
-                      selectedDays={[value, departure_date]}
-                      disabledDays={{
-                        before: departure_date || TODAY_DATE,
-                      }}
-                      onDayClick={day => {
-                        input.onChange(day);
-                        close();
-                      }}
-                    />
-                  )}
-                >
-                  <Pane {...paneProps}>
-                    <TextInputField
-                      {...inputProps}
-                      label="Return"
-                      placeholder={formatDate(dateFns.addDays(TODAY_DATE, 7))}
-                      required
-                      readOnly
-                      isInvalid={meta.error && meta.touched}
-                      value={value && formatDate(value)}
-                    />
-                  </Pane>
-                </Popover>
-              )}
-            </Field>
-          )}
-
-          <Field name="quantity" validate={required}>
-            {({ input, meta }) => (
-              <Pane {...paneProps} minWidth={80} flexShrink={0}>
-                <SelectField
-                  {...input}
-                  {...inputProps}
-                  required
-                  label="Quantity"
-                  isInvalid={meta.error && meta.touched}
-                >
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                </SelectField>
-              </Pane>
-            )}
-          </Field>
-
-          <Pane className="submit" {...paneProps} flexShrink={0}>
-            <Button
-              height={ITEM_HEIGHT}
-              appearance="primary"
-              isLoading={submitting || isLoading}
-              type="submit"
+        {IS_TABLET && (
+          <React.Fragment>
+            <Pane
+              display="flex"
+              alignItems="flex-end"
+              marginBottom={ITEM_SPACE}
             >
-              Search trips
-            </Button>
-          </Pane>
-        </Pane>
+              {renderFrom()}
+              {renderLocationSwapper(form)}
+              {renderTo()}
+            </Pane>
+
+            <Pane display="flex" alignItems="flex-end">
+              {renderDepartureDate(travel_type, arrival_date)}
+              {hasReturn(travel_type) && renderArrivalDate(departure_date)}
+
+              {renderQuantity()}
+              {renderSubmit(submitting, isLoading)}
+            </Pane>
+          </React.Fragment>
+        )}
+
+        {IS_MOBILE && (
+          <React.Fragment>
+            <Pane
+              display="flex"
+              alignItems="flex-end"
+              marginBottom={ITEM_SPACE}
+            >
+              {renderFrom()}
+              {renderTo()}
+            </Pane>
+
+            <Pane
+              display="flex"
+              alignItems="flex-end"
+              marginBottom={ITEM_SPACE}
+            >
+              {renderDepartureDate(travel_type, arrival_date)}
+              {hasReturn(travel_type) && renderArrivalDate(departure_date)}
+            </Pane>
+
+            <Pane display="flex" alignItems="flex-end">
+              <Pane width="50%">{renderQuantity()}</Pane>
+              <Pane width="50%">{renderSubmit(submitting, isLoading)}</Pane>
+            </Pane>
+          </React.Fragment>
+        )}
       </form>
     )}
   </Form>
