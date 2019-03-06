@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FormField, Heading, Pane } from "evergreen-ui";
+import { Table } from "evergreen-ui";
 
+import Container from "./Container";
 import Item from "./Item";
 import Price from "./Price";
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
@@ -33,7 +35,42 @@ const BookingResume = ({
   tickets,
 }) => (
   <div className="BookingResume">
-    <Heading {...headingProps}>Contact</Heading>
+
+  {/* START OF UGLY BASTIEN STUFF */}
+  <br/>
+
+  <Table>
+    <Table.Head>
+      <Table.TextHeaderCell >Your tickets</Table.TextHeaderCell >
+      <Table.TextHeaderCell >Quantity</Table.TextHeaderCell >
+      <Table.TextHeaderCell>Price</Table.TextHeaderCell>
+      <Table.TextHeaderCell>Subtotal</Table.TextHeaderCell>
+    </Table.Head>
+    <Table.Body height={240}>
+    <Table.Row height="auto" paddingY={12}>
+        <Table.TextCell>Wahana Gili Ocean <br />Bali (Pandang bai) to Gili Trawangan<br /><b>Monday 12 march 2019 at 10:00am</b></Table.TextCell>
+        <Table.TextCell>x2</Table.TextCell>
+        <Table.TextCell>32$</Table.TextCell>
+        <Table.TextCell>64$</Table.TextCell>
+      </Table.Row>
+      <Table.Row height="auto" paddingY={12}>
+          <Table.TextCell>Wahana Gili Ocean <br />Gili Trawangan to Bali (Pandang bai)<br /><b>Monday 16 march 2019 at 10:00am</b></Table.TextCell>
+          <Table.TextCell>x2</Table.TextCell>
+          <Table.TextCell>32$</Table.TextCell>
+          <Table.TextCell>64$</Table.TextCell>
+        </Table.Row>
+        <Table.Row height="auto" paddingY={12}>
+            <Table.TextCell></Table.TextCell>
+            <Table.TextCell></Table.TextCell>
+            <Table.TextCell></Table.TextCell>
+            <Table.TextCell>Total to pay 128$</Table.TextCell>
+          </Table.Row>
+    </Table.Body>
+  </Table>
+
+  {/* END OF UGLY BASTIEN STUFF */}
+
+    <Heading {...headingProps}>Your informations</Heading>
     <Item {...itemProps}>
       <FormField
         {...formFieldProps}
@@ -47,10 +84,8 @@ const BookingResume = ({
         label="Phone number"
         description={withDefaultValue(booking_whatsapp)}
       />
-    </Item>
 
-    <Heading {...headingProps}>Passengers</Heading>
-    <Item {...itemProps}>
+      <Heading {...headingProps}>Passengers</Heading>
       {passengers.map((passenger, i) => (
         <FormField
           {...formFieldProps}
@@ -61,26 +96,6 @@ const BookingResume = ({
       ))}
     </Item>
 
-    {tickets.map(({ id, trip }) => (
-      <Pane key={id}>
-        <Heading {...headingProps}>{trip.name}</Heading>
-        <Item {...itemProps}>
-          <FormField
-            {...formFieldProps}
-            label="Departure at"
-            description={trip.departure_time}
-          />
-
-          <FormField
-            {...formFieldProps}
-            label="Arrival at"
-            description={trip.arrival_time}
-          />
-
-          <Price {...trip} />
-        </Item>
-      </Pane>
-    ))}
   </div>
 );
 

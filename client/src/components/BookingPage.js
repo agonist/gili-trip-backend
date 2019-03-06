@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Alert } from "evergreen-ui";
+import { Table } from "evergreen-ui";
+import { Pane } from "evergreen-ui";
 
 import BookingForm from "./BookingForm";
 import Container from "./Container";
@@ -81,6 +83,40 @@ const BookingPage = ({ location, navigate }) => {
 
       <Container>
         <Alert intent="warning" title="Your tickets are not reserved yet!" />
+
+        {/* START OF UGLY BASTIEN STUFF */}
+        <br/><br/>
+        <Container>
+        <Table>
+          <Table.Head>
+            <Table.TextHeaderCell >Your tickets</Table.TextHeaderCell >
+            <Table.TextHeaderCell >Quantity</Table.TextHeaderCell >
+            <Table.TextHeaderCell>Price</Table.TextHeaderCell>
+            <Table.TextHeaderCell>Subtotal</Table.TextHeaderCell>
+          </Table.Head>
+          <Table.Body height={240}>
+          <Table.Row height="auto" paddingY={12}>
+              <Table.TextCell>Wahana Gili Ocean <br />Bali (Pandang bai) to Gili Trawangan<br /><b>Monday 12 march 2019 at 10:00am</b></Table.TextCell>
+              <Table.TextCell>x2</Table.TextCell>
+              <Table.TextCell>32$</Table.TextCell>
+              <Table.TextCell>64$</Table.TextCell>
+            </Table.Row>
+            <Table.Row height="auto" paddingY={12}>
+                <Table.TextCell>Wahana Gili Ocean <br />Gili Trawangan to Bali (Pandang bai)<br /><b>Monday 16 march 2019 at 10:00am</b></Table.TextCell>
+                <Table.TextCell>x2</Table.TextCell>
+                <Table.TextCell>32$</Table.TextCell>
+                <Table.TextCell>64$</Table.TextCell>
+              </Table.Row>
+              <Table.Row height="auto" paddingY={12}>
+                  <Table.TextCell></Table.TextCell>
+                  <Table.TextCell></Table.TextCell>
+                  <Table.TextCell></Table.TextCell>
+                  <Table.TextCell>Total to pay 128$</Table.TextCell>
+                </Table.Row>
+          </Table.Body>
+        </Table>
+        </Container>
+        {/* END OF UGLY BASTIEN STUFF */}
 
         <BookingForm
           initialValues={{ quantity, ...bookingFormData }}

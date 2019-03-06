@@ -29,7 +29,7 @@ const renderPassengerField = index => (
         {...input}
         required
         label={`Passenger ${index + 1}`}
-        placeholder="hello@gili.com"
+        placeholder={`Passenger ${index + 1} fullname`}
         width="100%"
         isInvalid={meta.error && meta.touched}
       />
@@ -81,7 +81,7 @@ const BookingForm = ({ initialValues, tickets, onSubmit }) => {
         values: { booking_email, quantity },
       }) => (
         <form onSubmit={handleSubmit}>
-          <Heading {...headingProps}>Email</Heading>
+          <Heading {...headingProps}>Fill your infos</Heading>
 
           <Item flexDirection="column">
             <Field name="booking_email" validate={required}>
@@ -90,7 +90,7 @@ const BookingForm = ({ initialValues, tickets, onSubmit }) => {
                   {...input}
                   required
                   label="Email"
-                  placeholder="hello@gili.com"
+                  placeholder="We will send you your tickets here"
                   type="email"
                   width="100%"
                   isInvalid={meta.error && meta.touched}
@@ -98,44 +98,11 @@ const BookingForm = ({ initialValues, tickets, onSubmit }) => {
               )}
             </Field>
 
-            <Field
-              name="booking_email_confirm"
-              validate={composeValidators(required, mustMatch(booking_email))}
-            >
-              {({ input, meta }) => (
-                <TextInputField
-                  {...input}
-                  required
-                  label="Confirm email"
-                  placeholder="hello@gili.com"
-                  type="email"
-                  width="100%"
-                  isInvalid={meta.error && meta.touched}
-                />
-              )}
-            </Field>
-
-            <Field name="booking_whatsapp">
-              {({ input, meta }) => (
-                <TextInputField
-                  {...input}
-                  label="Phone number"
-                  placeholder="+33 6 06 06 06 06"
-                  type="tel"
-                  width="100%"
-                  isInvalid={meta.error && meta.touched}
-                />
-              )}
-            </Field>
-          </Item>
-
-          <Heading {...headingProps}>Passengers</Heading>
-
-          <Item flexDirection="column">
             <Pane display="flex" width="100%" flexWrap="wrap">
               {renderPassengersField(quantity)}
             </Pane>
           </Item>
+
 
           <Heading {...headingProps}>Optional</Heading>
 

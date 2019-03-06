@@ -15,17 +15,7 @@ const BookingFormOptionalField = ({ children, ticket, path, isShown }) => (
     paddingBottom={ITEM_SPACE}
     marginBottom={ITEM_HEIGHT}
   >
-    <TicketContent {...ticket} />
-
-    <Pane
-      width="100%"
-      height={1}
-      backgroundColor="#425A70"
-      opacity={0.2}
-      marginY={ITEM_HEIGHT}
-      marginBottom={ITEM_SPACE}
-    />
-
+  
     <Pane width="100%" paddingX={ITEM_HEIGHT}>
       {children}
 
@@ -34,8 +24,8 @@ const BookingFormOptionalField = ({ children, ticket, path, isShown }) => (
           {({ input }) => (
             <TextInputField
               {...input}
-              label="Hostel"
-              placeholder="Hostel name"
+              label="Hotel"
+              placeholder="Hotel name"
               width="100%"
               marginRight={ITEM_SPACE}
             />
