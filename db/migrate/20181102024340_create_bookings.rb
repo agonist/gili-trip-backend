@@ -8,7 +8,6 @@ class CreateBookings < ActiveRecord::Migration[5.2]
       t.integer :quantity
       t.text :passengers, array: true, default: []
       t.string :booking_email
-      t.string :booking_whatsapp
       t.timestamps
     end
   end

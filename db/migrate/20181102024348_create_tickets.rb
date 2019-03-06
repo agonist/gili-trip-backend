@@ -6,8 +6,7 @@ class CreateTickets < ActiveRecord::Migration[5.2]
       t.datetime :date
       t.string :pickup_name
       t.string :pickup_address
-      t.string :pickup_room_number
-      t.string :pickup_city
+      t.string :pickup_phone
       t.timestamps
     end
   end

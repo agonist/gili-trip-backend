@@ -50,7 +50,6 @@ ActiveRecord::Schema.define(version: 2019_02_14_124856) do
     t.integer "quantity"
     t.text "passengers", default: [], array: true
     t.string "booking_email"
-    t.string "booking_whatsapp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "full_price"
@@ -98,8 +97,7 @@ ActiveRecord::Schema.define(version: 2019_02_14_124856) do
     t.datetime "date"
     t.string "pickup_name"
     t.string "pickup_address"
-    t.string "pickup_room_number"
-    t.string "pickup_city"
+    t.string "pickup_phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_tickets_on_booking_id"
