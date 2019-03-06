@@ -13,12 +13,21 @@ class Api::V1::TripsController < ApiController
 private
   def is_high_season?(trip, date)
     if !trip.high_season?
+      ranges = DateRange.where(:operator_id => trip.operator.id)
+      ranges.each do |range|
+         if date.between?(range.from, range.to)
+           increase = trip.price * (trip.high_season_percentage_multiplier.to_f/100.0)
+           trip.price= trip.price + increase
+         end
+      end
       return true
     else
       ranges = DateRange.where(:operator_id => trip.operator.id)
       ranges.each do |range|
          if date.between?(range.from, range.to)
-           return true
+           increase = trip.price * (trip.high_season_percentage_multiplier.to_f/100.0)
+           trip.price= trip.price + increase
+            return true
          end
       end
       return false
