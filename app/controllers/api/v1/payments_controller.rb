@@ -56,58 +56,11 @@ class Api::V1::PaymentsController < ApiController
   end
 
   def test
-    @booking = Booking.find("cfea4170-91ff-4b08-8a20-67b7c850dacc")
-    send_confirmation_email(@booking)
-    send_slack_bot(@booking)
-    send_whatsapp(@booking)
-  end
-
-  def send_whatsapp(booking)
-
-# Your Account Sid and Auth Token from twilio.com/console
-account_sid = 'AC2e472102b662f78b9ca11d5a4dbc48a5'
-auth_token = '19f536092fa60a12a88b33f9ddd64074'
-@client = Twilio::REST::Client.new(account_sid, auth_token)
-
-departure_trip_name = booking.tickets[0].trip.name
-quantity = booking.quantity
-departure_date = booking.tickets[0].date.strftime("%A %d %B %Y")
-departure_time_departure = booking.tickets[0].trip.departure_time
-departure_time_arrival = booking.tickets[0].trip.arrival_time
-total_price = booking.final_price.to_s.concat(booking.tickets[0].trip.currency)
-departure = booking.tickets[0].trip.from.name
-destination = booking.tickets[0].trip.to.name
-return_trip_name = booking.tickets[1].trip.name
-return_date = booking.tickets[1].date.strftime("%A %d %B %Y")
-return_time_departure = booking.tickets[1].trip.departure_time
-return_time_arrival = booking.tickets[1].trip.arrival_time
-return_operator = booking.tickets[1].trip.operator.name
-pickup = "#{booking.tickets[0].pickup_name} - #{booking.tickets[0].pickup_address} - #{booking.tickets[0].pickup_phone}"
-dropoff = "#{booking.tickets[1].pickup_name} - #{booking.tickets[1].pickup_address} - #{booking.tickets[1].pickup_phone}"
-msg = "
-*GILI TRIP ORDER*
-#{departure_date} at #{departure_time_departure}
-#{departure_trip_name}
-quantity x#{quantity}
-Pickup:
-#{pickup}
----------
-#{return_date} at #{return_time_departure}
-#{return_trip_name}
-quantity x#{quantity}
-Dropoff:
-#{dropoff}
----------
-email : #{booking.booking_email}
-      "
-
-message = @client.messages.create(
-                           body: msg,
-                           from: 'whatsapp:+14155238886',
-                           to: 'whatsapp:+33786842544'
-                         )
-
-puts message.sid
+    @booking = Booking.find("9af11372-0c04-4d29-925c-db3f4c888120")
+    infos = get_booking_infos(@booking)
+    send_confirmation_email(infos)
+    send_slack_bot(infos)
+    send_whatsapp(infos)
   end
 
   def gateway
@@ -121,71 +74,78 @@ puts message.sid
     )
   end
 
-
-
   private
+  def get_booking_infos(booking)
+    infos = BookingInfos.new
+    infos.id = booking.id
+    infos.tickets_size = booking.tickets.size
+    infos.booking_email = booking.booking_email
+    infos.final_price =  booking.final_price.to_s.concat(booking.tickets[0].trip.currency)
+    infos.departure_trip_name =  booking.tickets[0].trip.name
+    infos.quantity = booking.quantity
+    infos.departure_date = booking.tickets[0].date.strftime("%A %d %B %Y")
+    infos.departure_time_departure =  booking.tickets[0].trip.departure_time
+    infos.departure_time_arrival =  booking.tickets[0].trip.arrival_time
+    infos.departure = booking.tickets[0].trip.from.name
+    infos.destination =  booking.tickets[0].trip.to.name
+    infos.pickup_name = booking.tickets[0].pickup_name
+    infos.pickup_phone = booking.tickets[0].pickup_phone
+    infos.pickup_address = booking.tickets[0].pickup_address
+    if booking.tickets.size == 2
+    infos.return_trip_name = booking.tickets[1].trip.name
+    infos.return_date = booking.tickets[1].date.strftime("%A %d %B %Y")
+    infos.return_time_departure = booking.tickets[1].trip.departure_time
+    infos.return_time_arrival =  booking.tickets[1].trip.arrival_time
+    infos.return_operator = booking.tickets[1].trip.operator.name
+    infos.dropoff_name = booking.tickets[1].pickup_name
+    infos.dropoff_phone = booking.tickets[1].pickup_phone
+    infos.dropoff_address = booking.tickets[1].pickup_address
+    end
+    return infos
+  end
 
-  def send_confirmation_email(booking)
-    departure_trip_name = booking.tickets[0].trip.name
-    quantity = booking.quantity
-    departure_date = booking.tickets[0].date.strftime("%A %d %B %Y")
-    departure_time_departure = booking.tickets[0].trip.departure_time
-    departure_time_arrival = booking.tickets[0].trip.arrival_time
-    total_price = booking.final_price.to_s.concat(booking.tickets[0].trip.currency)
-    departure = booking.tickets[0].trip.from.name
-    destination = booking.tickets[0].trip.to.name
-    departure_operator = booking.tickets[0].trip.operator.name
-    datas = {}
-    template_id = "d-54cb46cd5f564a369c678cae75b9fd56"
+  def send_whatsapp(infos)
+    WhatsappJob.perform_async(infos)
+  end
 
-    if booking.tickets.size == 1
-      datas = {
-        departure_trip_name: departure_trip_name,
-        quantity: quantity,
-        departure_date: departure_date,
-        departure_time_departure: departure_time_departure,
-        departure_time_arrival: departure_time_arrival,
-        total_price: total_price,
-        departure: departure,
-        destination: destination,
-        departure_operator: departure_operator
-      }
-    else
-      return_trip_name = booking.tickets[1].trip.name
-      return_date = booking.tickets[1].date.strftime("%A %d %B %Y")
-      return_time_departure = booking.tickets[1].trip.departure_time
-      return_time_arrival = booking.tickets[1].trip.arrival_time
-      return_operator = booking.tickets[1].trip.operator.name
 
-      datas = {
-        departure_trip_name: departure_trip_name,
-        quantity: quantity,
-        departure_date: departure_date,
-        departure_time_departure: departure_time_departure,
-        departure_time_arrival: departure_time_arrival,
-        total_price: total_price,
-        departure: departure,
-        destination: destination,
-        departure_operator: departure_operator,
-        return_trip_name: return_trip_name,
-        return_date: return_date,
-        return_time_departure: return_time_departure,
-        return_time_arrival: return_time_arrival,
-        return_operator: return_operator
-      }
-      template_id = "d-72b4b0798a97433797fbbfa7f100f345"
+  def send_confirmation_email(infos)
+      MailingJob.perform_async(infos)
     end
 
-    data = { personalizations: [ {
-      to: [ { email: booking.booking_email   } ],
-      dynamic_template_data: datas,
-      subject: "Order confirmation" } ],
-      from: { email: "test@gilitrip.com" },
-      template_id: template_id }
-      MailingJob.perform_async(data)
+    def send_slack_bot(infos)
+      SlackJob.perform_async(infos.id)
     end
+  end
 
-    def send_slack_bot(booking)
-      SlackJob.perform_async(booking.id)
-    end
+  class BookingInfos
+    attr_accessor :booking_email
+    attr_accessor :tickets_size
+    attr_accessor :id
+    attr_accessor :final_price
+    attr_accessor :departure_trip_name
+    attr_accessor :quantity
+    attr_accessor :departure_date
+    attr_accessor :departure_time_departure
+    attr_accessor :departure_time_arrival
+    attr_accessor :departure
+    attr_accessor :destination
+    attr_accessor :departure_operator
+    attr_accessor :pickup_name
+    attr_accessor :pickup_address
+    attr_accessor :pickup_phone
+
+
+    attr_accessor :return_trip_name
+    attr_accessor :return_date
+    attr_accessor :return_time_departure
+    attr_accessor :return_time_arrival
+    attr_accessor :return_operator
+    attr_accessor :dropoff_name
+    attr_accessor :dropoff_address
+    attr_accessor :dropoff_phone
+
+    def initialize()
+    self.final_price = 0
+  end
   end
