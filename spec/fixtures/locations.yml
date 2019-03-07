@@ -1,0 +1,16 @@
+
+bali:
+  id: 1
+  name: 'Bali (Padangbai)'
+
+lombok:
+  id: 2
+  name: 'Lombok'
+
+giliT:
+  id: 3
+  name: 'Gili Trawangan'
+
+giliA:
+  id: 4
+  name: 'Gili Air'
