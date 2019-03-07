@@ -110,7 +110,6 @@ ActiveRecord::Schema.define(version: 2019_03_06_122409) do
     t.bigint "from_id"
     t.bigint "to_id"
     t.bigint "operator_id"
-    t.string "status"
     t.decimal "price"
     t.string "currency"
     t.string "departure_time"

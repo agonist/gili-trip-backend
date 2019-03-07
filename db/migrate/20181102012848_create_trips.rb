@@ -5,7 +5,6 @@ class CreateTrips < ActiveRecord::Migration[5.2]
       t.references :from
       t.references :to
       t.references :operator
-      t.string :status
       t.decimal :price
       t.string :currency
       t.string :departure_time
