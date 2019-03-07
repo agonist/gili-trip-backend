@@ -8,8 +8,12 @@ class Api::V1::BookingsController < ApiController
 
     full_price = 0
     @booking.tickets.each do |ticketparams|
-        @trips_price = Trip.find(ticketparams.trip_id).price * @booking.quantity
-        full_price += @trips_price
+      date = ticketparams.date
+      trip = Trip.find(ticketparams.trip_id)
+      price = Ticket.get_price(date, trip)
+      ticketparams.trip.price = price
+      @trips_price = price * @booking.quantity
+      full_price += @trips_price
     end
 
     @booking.full_price = full_price

@@ -6,4 +6,5 @@ class TripSerializer < ActiveModel::Serializer
   belongs_to :operator
   belongs_to :vehicle
 
+
 end
