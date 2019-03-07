@@ -1,6 +1,7 @@
 class Api::V1::TripsController < ApiController
 
   def get_trips
+    print("from #{params[:from]} to #{params[:to]} date #{params[:date]}")
     @trips = Trip.where(:from_id => params[:from], :to_id => params[:to])
 
     date = Date.parse(params[:date])

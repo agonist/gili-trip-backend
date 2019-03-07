@@ -5,5 +5,15 @@ class Trip < ApplicationRecord
   belongs_to :vehicle, class_name: "Vehicle", foreign_key: "vehicle_id"
   has_many :unavailable, class_name: "Unavailable"
 
+  validates :name, presence: true
+  validates :from_id, presence: true
+  validates :to_id, presence: true
+  validates :operator_id, presence: true
+  validates :price, presence: true
+  validates :currency, presence: true
+  validates :departure_time, presence: true
+  validates :arrival_time, presence: true
+  validates :duration, presence: true
+  validates :high_season_percentage_multiplier, presence: true
 
 end
