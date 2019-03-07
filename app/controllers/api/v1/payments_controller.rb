@@ -41,8 +41,10 @@ class Api::V1::PaymentsController < ApiController
       @booking.payment_status = "success"
 
       if @booking.save
-        send_confirmation_email(@booking)
-        send_slack_bot(@booking)
+        infos = get_booking_infos(@booking)
+        send_confirmation_email(infos)
+        send_slack_bot(infos)
+        send_whatsapp(infos)
         render json: @booking
       else
         render json: @booking.errors, status: :unprocessable_entity
@@ -91,6 +93,7 @@ class Api::V1::PaymentsController < ApiController
     infos.pickup_name = booking.tickets[0].pickup_name
     infos.pickup_phone = booking.tickets[0].pickup_phone
     infos.pickup_address = booking.tickets[0].pickup_address
+    infos.departure_operator =  booking.tickets[0].trip.operator.name
     if booking.tickets.size == 2
     infos.return_trip_name = booking.tickets[1].trip.name
     infos.return_date = booking.tickets[1].date.strftime("%A %d %B %Y")
@@ -114,7 +117,7 @@ class Api::V1::PaymentsController < ApiController
     end
 
     def send_slack_bot(infos)
-      SlackJob.perform_async(infos.id)
+      SlackJob.perform_async(infos)
     end
   end
 

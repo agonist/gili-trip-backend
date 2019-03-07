@@ -6,21 +6,19 @@ class WhatsappJob
     pickup = "#{infos.pickup_name} - #{infos.pickup_address} - #{infos.pickup_phone}"
     dropoff = "#{infos.pickup_name} - #{infos.pickup_address} - #{infos.pickup_phone}"
     msg = "
-  *GILI TRIP ORDER*
-  #{infos.departure_date} at #{infos.departure_time_departure}
-  #{infos.departure_trip_name}
-  quantity x#{infos.quantity}
-  Pickup:
-  #{pickup}
-  ---------
-  #{infos.return_date} at #{infos.return_time_departure}
-  #{infos.return_trip_name}
-  quantity x#{infos.quantity}
-  Dropoff:
-  #{dropoff}
-  ---------
-  #{infos.final_price}
-  email : #{infos.booking_email}
+*GILI TRIP ORDER*
+🗓️ #{infos.departure_date} at #{infos.departure_time_departure}
+➡️ #{infos.departure_trip_name}
+🏨 *Pickup:* #{pickup}
+Quantity x#{infos.quantity}
+---------
+🗓️ #{infos.return_date} at #{infos.return_time_departure}
+⬅️ #{infos.return_trip_name}
+Quantity x#{infos.quantity}
+🏨 *Dropoff:* #{dropoff}
+Quantity x#{infos.quantity}
+---------
+✉️ #{infos.booking_email}
         "
 
 
