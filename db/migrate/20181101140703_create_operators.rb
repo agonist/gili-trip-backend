@@ -6,6 +6,7 @@ class CreateOperators < ActiveRecord::Migration[5.2]
       t.string :website
       t.string :contact_email
       t.string :contact_phone
+      t.string :whatsapp_for_notif
 
       t.timestamps
     end

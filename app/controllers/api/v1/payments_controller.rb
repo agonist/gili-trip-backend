@@ -58,7 +58,7 @@ class Api::V1::PaymentsController < ApiController
   end
 
   def test
-    @booking = Booking.find("9af11372-0c04-4d29-925c-db3f4c888120")
+    @booking = Booking.find("c9638d4b-8c1a-4467-8b6f-86ea908155c1")
     infos = get_booking_infos(@booking)
     send_confirmation_email(infos)
     send_slack_bot(infos)
@@ -94,6 +94,8 @@ class Api::V1::PaymentsController < ApiController
     infos.pickup_phone = booking.tickets[0].pickup_phone
     infos.pickup_address = booking.tickets[0].pickup_address
     infos.departure_operator =  booking.tickets[0].trip.operator.name
+    infos.passengers = booking.passengers
+    infos.whatsapp_for_notif_departure = booking.tickets[0].trip.operator.whatsapp_for_notif
     if booking.tickets.size == 2
     infos.return_trip_name = booking.tickets[1].trip.name
     infos.return_date = booking.tickets[1].date.strftime("%A %d %B %Y")
@@ -103,6 +105,7 @@ class Api::V1::PaymentsController < ApiController
     infos.dropoff_name = booking.tickets[1].pickup_name
     infos.dropoff_phone = booking.tickets[1].pickup_phone
     infos.dropoff_address = booking.tickets[1].pickup_address
+    infos.whatsapp_for_notif_return = booking.tickets[1].trip.operator.whatsapp_for_notif
     end
     return infos
   end
@@ -137,8 +140,10 @@ class Api::V1::PaymentsController < ApiController
     attr_accessor :pickup_name
     attr_accessor :pickup_address
     attr_accessor :pickup_phone
+    attr_accessor :whatsapp_for_notif_departure
 
 
+    attr_accessor :whatsapp_for_notif_return
     attr_accessor :return_trip_name
     attr_accessor :return_date
     attr_accessor :return_time_departure
@@ -147,6 +152,8 @@ class Api::V1::PaymentsController < ApiController
     attr_accessor :dropoff_name
     attr_accessor :dropoff_address
     attr_accessor :dropoff_phone
+
+    attr_accessor :passengers
 
     def initialize()
     self.final_price = 0

@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 2019_03_06_122409) do
     t.string "website"
     t.string "contact_email"
     t.string "contact_phone"
+    t.string "whatsapp_for_notif"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
