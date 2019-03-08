@@ -1,13 +1,14 @@
 class Api::V1::TripsController < ApiController
 
   def get_trips
-    print("from #{params[:from]} to #{params[:to]} date #{params[:date]}")
     @trips = Trip.where(:from_id => params[:from], :to_id => params[:to])
 
     date = Date.parse(params[:date])
-    res = @trips.select {|trip| is_high_season?(trip, date)}.select{|trip| is_available?(trip, date)}
+    res = @trips.select {|trip| is_high_season?(trip, date)}
+                .select{|trip| is_available?(trip, date)}
+                .sort_by{ |trip| trip.departure_time }
 
-     render json: res
+    render json: res
   end
 
 
