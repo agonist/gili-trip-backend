@@ -37,9 +37,11 @@ const BookingSuccessPage = ({ id, location }) => {
     <div className="Page Page--trips">
       <Header />
       <Container>
-        <Heading size={700} marginBottom={ITEM_SPACE}>
-          {withPayment ? "Payment" : "Your informations"}
-        </Heading>
+        {withPayment && (
+          <Heading size={700} marginBottom={ITEM_SPACE}>
+            Payment
+          </Heading>
+        )}
 
         {!withPayment && <BookingResume {...state} {...bookingData} />}
 
