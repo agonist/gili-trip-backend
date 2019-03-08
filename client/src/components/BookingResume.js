@@ -1,11 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FormField, Heading, Pane } from "evergreen-ui";
-import { Table } from "evergreen-ui";
+import { FormField, Heading } from "evergreen-ui";
 
-import Container from "./Container";
 import Item from "./Item";
-import Price from "./Price";
+import TicketsTable from "./TicketsTable";
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 
 const DEFAULT_VALUE = "N/A";
@@ -32,43 +30,11 @@ const BookingResume = ({
   booking_email,
   booking_whatsapp,
   passengers,
+  quantity,
   tickets,
 }) => (
   <div className="BookingResume">
-
-  {/* START OF UGLY BASTIEN STUFF */}
-  <br/>
-
-  <Table>
-    <Table.Head>
-      <Table.TextHeaderCell >Your tickets</Table.TextHeaderCell >
-      <Table.TextHeaderCell >Quantity</Table.TextHeaderCell >
-      <Table.TextHeaderCell>Price</Table.TextHeaderCell>
-      <Table.TextHeaderCell>Subtotal</Table.TextHeaderCell>
-    </Table.Head>
-    <Table.Body height={240}>
-    <Table.Row height="auto" paddingY={12}>
-        <Table.TextCell>Wahana Gili Ocean <br />Bali (Pandang bai) to Gili Trawangan<br /><b>Monday 12 march 2019 at 10:00am</b></Table.TextCell>
-        <Table.TextCell>x2</Table.TextCell>
-        <Table.TextCell>32$</Table.TextCell>
-        <Table.TextCell>64$</Table.TextCell>
-      </Table.Row>
-      <Table.Row height="auto" paddingY={12}>
-          <Table.TextCell>Wahana Gili Ocean <br />Gili Trawangan to Bali (Pandang bai)<br /><b>Monday 16 march 2019 at 10:00am</b></Table.TextCell>
-          <Table.TextCell>x2</Table.TextCell>
-          <Table.TextCell>32$</Table.TextCell>
-          <Table.TextCell>64$</Table.TextCell>
-        </Table.Row>
-        <Table.Row height="auto" paddingY={12}>
-            <Table.TextCell></Table.TextCell>
-            <Table.TextCell></Table.TextCell>
-            <Table.TextCell></Table.TextCell>
-            <Table.TextCell>Total to pay 128$</Table.TextCell>
-          </Table.Row>
-    </Table.Body>
-  </Table>
-
-  {/* END OF UGLY BASTIEN STUFF */}
+    <TicketsTable tickets={tickets} quantity={quantity} />
 
     <Heading {...headingProps}>Your informations</Heading>
     <Item {...itemProps}>
@@ -95,7 +61,6 @@ const BookingResume = ({
         />
       ))}
     </Item>
-
   </div>
 );
 
@@ -103,6 +68,7 @@ BookingResume.propTypes = {
   booking_email: PropTypes.string.isRequired,
   booking_whatsapp: PropTypes.string,
   passengers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  quantity: PropTypes.number.isRequired,
   tickets: PropTypes.arrayOf(
     PropTypes.shape({
       trip: PropTypes.shape({
