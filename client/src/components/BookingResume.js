@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FormField, Heading, Pane } from "evergreen-ui";
+import { FormField, Heading } from "evergreen-ui";
 
 import Item from "./Item";
-import Price from "./Price";
+import TicketsTable from "./TicketsTable";
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 
 const DEFAULT_VALUE = "N/A";
@@ -30,10 +30,13 @@ const BookingResume = ({
   booking_email,
   booking_whatsapp,
   passengers,
+  quantity,
   tickets,
 }) => (
   <div className="BookingResume">
-    <Heading {...headingProps}>Contact</Heading>
+    <TicketsTable tickets={tickets} quantity={quantity} />
+
+    <Heading {...headingProps}>Your informations</Heading>
     <Item {...itemProps}>
       <FormField
         {...formFieldProps}
@@ -47,10 +50,8 @@ const BookingResume = ({
         label="Phone number"
         description={withDefaultValue(booking_whatsapp)}
       />
-    </Item>
 
-    <Heading {...headingProps}>Passengers</Heading>
-    <Item {...itemProps}>
+      <Heading {...headingProps}>Passengers</Heading>
       {passengers.map((passenger, i) => (
         <FormField
           {...formFieldProps}
@@ -60,27 +61,6 @@ const BookingResume = ({
         />
       ))}
     </Item>
-
-    {tickets.map(({ id, trip }) => (
-      <Pane key={id}>
-        <Heading {...headingProps}>{trip.name}</Heading>
-        <Item {...itemProps}>
-          <FormField
-            {...formFieldProps}
-            label="Departure at"
-            description={trip.departure_time}
-          />
-
-          <FormField
-            {...formFieldProps}
-            label="Arrival at"
-            description={trip.arrival_time}
-          />
-
-          <Price {...trip} />
-        </Item>
-      </Pane>
-    ))}
   </div>
 );
 
@@ -88,6 +68,7 @@ BookingResume.propTypes = {
   booking_email: PropTypes.string.isRequired,
   booking_whatsapp: PropTypes.string,
   passengers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  quantity: PropTypes.number.isRequired,
   tickets: PropTypes.arrayOf(
     PropTypes.shape({
       trip: PropTypes.shape({

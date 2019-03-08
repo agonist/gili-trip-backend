@@ -5,7 +5,9 @@ import { Alert } from "evergreen-ui";
 import BookingForm from "./BookingForm";
 import Container from "./Container";
 import Header from "./Header";
+import TicketsTable from "./TicketsTable";
 
+import { ITEM_HEIGHT } from "../constants";
 import { postBooking } from "../api";
 import { navigateWithData } from "../helpers";
 
@@ -80,7 +82,13 @@ const BookingPage = ({ location, navigate }) => {
       <Header />
 
       <Container>
-        <Alert intent="warning" title="Your tickets are not reserved yet!" />
+        <Alert
+          intent="warning"
+          title="Your tickets are not booked yet!"
+          marginBottom={ITEM_HEIGHT}
+        />
+
+        <TicketsTable tickets={tickets} quantity={quantity} />
 
         <BookingForm
           initialValues={{ quantity, ...bookingFormData }}

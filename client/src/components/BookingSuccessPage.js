@@ -23,7 +23,6 @@ const BookingSuccessPage = ({ id, location }) => {
 
     initPayment();
   };
-
   const handleEditInfos = () =>
     navigateWithData("/booking", {
       data: {
@@ -38,11 +37,13 @@ const BookingSuccessPage = ({ id, location }) => {
     <div className="Page Page--trips">
       <Header />
       <Container>
-        <Heading size={700} marginBottom={ITEM_SPACE}>
-          {withPayment ? "Payment" : "Your informations"}
-        </Heading>
+        {withPayment && (
+          <Heading size={700} marginBottom={ITEM_SPACE}>
+            Payment
+          </Heading>
+        )}
 
-        {!withPayment && <BookingResume {...state} />}
+        {!withPayment && <BookingResume {...state} {...bookingData} />}
 
         <Item
           id="payment-test"
