@@ -11,6 +11,7 @@
     "heroku-postbuild": "yarn build && yarn deploy",
     "start-client": "yarn --cwd client start",
     "start-api": "bundle exec rails s -p=3001",
-    "init-api": "rake db:drop db:create db:migrate db:seed"
+    "init-api": "rake db:drop db:create db:migrate db:seed",
+    "dev": "yarn init-api && rake start"
   }
 }
