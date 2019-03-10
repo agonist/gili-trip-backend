@@ -37,24 +37,22 @@ const TicketsTable = ({ tickets, ...props }) => (
     </Table.Head>
 
     <Table.Body>
-      {Object.values(tickets).map(
-        ({ id, trip_id, trip, from, to, date, currency, price }) => (
-          <Table.Row key={id || trip_id} {...rowProps}>
-            <Table.TextCell>
-              {/* Wahana Gili Ocean <br /> */}
-              {from ? from.name : trip.from.name} {"to"}{" "}
-              {to ? to.name : trip.to.name}
-              <br />
-              <strong>{dateFns.format(date, dateFormat)}</strong>
-            </Table.TextCell>
-            <Table.TextCell {...smallColProps}>x2</Table.TextCell>
-            <Table.TextCell {...smallColProps}>
-              {price || trip.price} {currency || trip.currency}
-            </Table.TextCell>
-            <Table.TextCell {...smallColProps}>64$</Table.TextCell>
-          </Table.Row>
-        ),
-      )}
+      {tickets.map(({ id, trip_id, trip, from, to, date, currency, price }) => (
+        <Table.Row key={id || trip_id} {...rowProps}>
+          <Table.TextCell>
+            {/* Wahana Gili Ocean <br /> */}
+            {from ? from.name : trip.from.name} {"to"}{" "}
+            {to ? to.name : trip.to.name}
+            <br />
+            <strong>{dateFns.format(date, dateFormat)}</strong>
+          </Table.TextCell>
+          <Table.TextCell {...smallColProps}>x2</Table.TextCell>
+          <Table.TextCell {...smallColProps}>
+            {price || trip.price} {currency || trip.currency}
+          </Table.TextCell>
+          <Table.TextCell {...smallColProps}>64$</Table.TextCell>
+        </Table.Row>
+      ))}
 
       <Table.Row {...rowProps}>
         <Table.TextCell flexGrow={1} />
@@ -67,13 +65,7 @@ const TicketsTable = ({ tickets, ...props }) => (
 );
 
 TicketsTable.propTypes = {
-  tickets: PropTypes.oneOfType([
-    PropTypes.shape({
-      departure: PropTypes.shape({}).isRequired,
-      return: PropTypes.shape({}),
-    }),
-    PropTypes.arrayOf(PropTypes.shape({})),
-  ]).isRequired,
+  tickets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   quantity: PropTypes.number.isRequired,
 };
 

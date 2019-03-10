@@ -206,19 +206,20 @@ class TripsPage extends React.Component {
 
     const data = {
       quantity: +quantity,
-      tickets: {
-        departure: {
+      tickets: [
+        {
           ...formatTicket(departureTicket),
           date: formatDate(departure_date, departureTicket.departure_time),
         },
-        ...(isRoundTrip && {
-          return: {
-            ...formatTicket(returnTicket),
-            date: formatDate(arrival_date, returnTicket.departure_time),
-          },
-        }),
-      },
+      ],
     };
+
+    if (isRoundTrip) {
+      data.tickets.push({
+        ...formatTicket(returnTicket),
+        date: formatDate(arrival_date, returnTicket.departure_time),
+      });
+    }
 
     return navigateWithData("/booking", {
       data,

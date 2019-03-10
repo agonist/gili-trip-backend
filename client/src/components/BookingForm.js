@@ -44,7 +44,7 @@ const hasPickup = ({
   !!pickup_name || !!pickup_room_number || !!pickup_city || !!pickup_address;
 
 const BookingForm = ({ initialValues, tickets, onSubmit }) => {
-  const { departure: departureTicket, return: returnTicket } = tickets;
+  const [departureTicket, returnTicket] = tickets;
 
   const defaultHasPickup = hasPickup(
     initialValues.tickets && initialValues.tickets.departure,
@@ -90,10 +90,7 @@ const BookingForm = ({ initialValues, tickets, onSubmit }) => {
 
             <Heading size={600}>Optional</Heading>
 
-            <BookingFormOptionalField
-              path="tickets.departure"
-              isShown={withPickup}
-            >
+            <BookingFormOptionalField path="tickets[0]" isShown={withPickup}>
               <Checkbox
                 label={`I need a pickup from ${departureTicket.from.name}`}
                 checked={withPickup}
@@ -103,10 +100,7 @@ const BookingForm = ({ initialValues, tickets, onSubmit }) => {
             </BookingFormOptionalField>
 
             {returnTicket && (
-              <BookingFormOptionalField
-                path="tickets.return"
-                isShown={withDropoff}
-              >
+              <BookingFormOptionalField path="tickets[1]" isShown={withDropoff}>
                 <Checkbox
                   label={`I need a dropoff in ${returnTicket.from.name}`}
                   checked={withDropoff}
@@ -135,10 +129,7 @@ const BookingForm = ({ initialValues, tickets, onSubmit }) => {
 
 BookingForm.propTypes = {
   initialValues: PropTypes.shape({}),
-  tickets: PropTypes.shape({
-    departure: PropTypes.shape({}).isRequired,
-    return: PropTypes.shape({}),
-  }).isRequired,
+  tickets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 

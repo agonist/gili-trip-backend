@@ -11,22 +11,9 @@ import { ITEM_HEIGHT } from "../constants";
 import { postBooking } from "../api";
 import { navigateWithData } from "../helpers";
 
-const formatTicket = ({
-  date,
-  trip_id,
-  pickup_address,
-  pickup_city,
-  pickup_name,
-  pickup_room_number,
-  ...data
-}) => ({
-  trip_id,
-  ...(pickup_address && { pickup_address }),
-  ...(pickup_city && { pickup_city }),
-  ...(pickup_name && { pickup_name }),
-  ...(pickup_room_number && { pickup_room_number }),
-  date: date.toISOString(),
+const formatTicket = ({ date, ...data }) => ({
   ...data,
+  date: date.toISOString(),
 });
 
 const BookingPage = ({ location, navigate }) => {
@@ -39,7 +26,7 @@ const BookingPage = ({ location, navigate }) => {
 
   const formatPayload = ({ booking_email_confirm, ...formData }) => ({
     ...formData,
-    tickets: Object.values(tickets).map(formatTicket),
+    tickets: tickets.map(formatTicket),
   });
 
   const handleFormSubmit = formData => {

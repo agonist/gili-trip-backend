@@ -69,17 +69,7 @@ BookingResume.propTypes = {
   booking_whatsapp: PropTypes.string,
   passengers: PropTypes.arrayOf(PropTypes.string).isRequired,
   quantity: PropTypes.number.isRequired,
-  tickets: PropTypes.arrayOf(
-    PropTypes.shape({
-      trip: PropTypes.shape({
-        departure_time: PropTypes.string.isRequired,
-        arrival_time: PropTypes.string.isRequired,
-        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-          .isRequired,
-        name: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
-  ).isRequired,
+  tickets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 BookingResume.defaultProps = {
