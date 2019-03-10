@@ -2,20 +2,23 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Pane } from "evergreen-ui";
 
-import { ITEM_SPACE, IS_MOBILE } from "../constants";
-
-const SPACING = IS_MOBILE ? ITEM_SPACE : ITEM_SPACE * 2;
+import { Mobile } from "./Media";
+import { ITEM_SPACE } from "../constants";
 
 const Container = ({ children, ...props }) => (
-  <Pane
-    width="100%"
-    maxWidth="65rem"
-    marginX="auto"
-    padding={SPACING}
-    {...props}
-  >
-    {children}
-  </Pane>
+  <Mobile>
+    {isMobile => (
+      <Pane
+        width="100%"
+        maxWidth="65rem"
+        marginX="auto"
+        padding={isMobile ? ITEM_SPACE : ITEM_SPACE * 2}
+        {...props}
+      >
+        {children}
+      </Pane>
+    )}
+  </Mobile>
 );
 
 Container.propTypes = {

@@ -21,10 +21,9 @@ import {
   LOCATIONS,
   TODAY_DATE,
   TRAVEL_TYPES,
-  IS_DESKTOP,
-  IS_TABLET,
-  IS_MOBILE,
 } from "../constants";
+
+import { Mobile, Tablet, Desktop } from "./Media";
 
 const DEFAULT_DEPARTURE_ID = "1";
 const DEFAULT_ARRIVAL_ID = "3";
@@ -253,23 +252,21 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
       <form onSubmit={handleSubmit} style={{ width: "100%" }}>
         {renderTravelType()}
 
-        {IS_DESKTOP && (
-          <React.Fragment>
-            <Pane display="flex" alignItems="flex-end">
-              {renderFrom()}
-              {renderLocationSwapper(form)}
-              {renderTo()}
+        <Desktop>
+          <Pane display="flex" alignItems="flex-end">
+            {renderFrom()}
+            {renderLocationSwapper(form)}
+            {renderTo()}
 
-              {renderDepartureDate(travel_type, arrival_date)}
-              {hasReturn(travel_type) && renderArrivalDate(departure_date)}
+            {renderDepartureDate(travel_type, arrival_date)}
+            {hasReturn(travel_type) && renderArrivalDate(departure_date)}
 
-              {renderQuantity()}
-              {renderSubmit(submitting, isLoading)}
-            </Pane>
-          </React.Fragment>
-        )}
+            {renderQuantity()}
+            {renderSubmit(submitting, isLoading)}
+          </Pane>
+        </Desktop>
 
-        {IS_TABLET && (
+        <Tablet>
           <React.Fragment>
             <Pane
               display="flex"
@@ -289,9 +286,9 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
               {renderSubmit(submitting, isLoading)}
             </Pane>
           </React.Fragment>
-        )}
+        </Tablet>
 
-        {IS_MOBILE && (
+        <Mobile>
           <React.Fragment>
             <Pane
               display="flex"
@@ -316,7 +313,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => (
               <Pane width="50%">{renderSubmit(submitting, isLoading)}</Pane>
             </Pane>
           </React.Fragment>
-        )}
+        </Mobile>
       </form>
     )}
   </Form>

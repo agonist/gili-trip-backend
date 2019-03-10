@@ -3,23 +3,27 @@ import PropTypes from "prop-types";
 import { Heading } from "evergreen-ui";
 
 import ArrowIcon from "./ArrowIcon";
-import { ITEM_SPACE, IS_MOBILE } from "../constants";
+import { Mobile } from "./Media";
 
-const headingSize = IS_MOBILE ? 600 : 700;
+import { ITEM_SPACE } from "../constants";
 
 const TripsTitle = ({ from, to, ...props }) => (
-  <Heading
-    size={headingSize}
-    display={IS_MOBILE ? "block" : "flex"}
-    alignItems="center"
-    marginBottom={ITEM_SPACE}
-    lineHeight={1.4}
-    {...props}
-  >
-    {from}
-    {IS_MOBILE ? <br /> : <ArrowIcon />}
-    {to}
-  </Heading>
+  <Mobile>
+    {isMobile => (
+      <Heading
+        size={isMobile ? 600 : 700}
+        display={isMobile ? "block" : "flex"}
+        alignItems="center"
+        marginBottom={ITEM_SPACE}
+        lineHeight={1.4}
+        {...props}
+      >
+        {from}
+        {isMobile ? <br /> : <ArrowIcon />}
+        {to}
+      </Heading>
+    )}
+  </Mobile>
 );
 
 TripsTitle.propTypes = {

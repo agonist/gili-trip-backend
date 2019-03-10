@@ -6,8 +6,9 @@ import BookingResume from "./BookingResume";
 import Container from "./Container";
 import Header from "./Header";
 import Item from "./Item";
+import { Mobile } from "./Media";
 
-import { ITEM_HEIGHT, ITEM_SPACE, IS_MOBILE } from "../constants";
+import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { navigateWithData } from "../helpers";
 import { initPayment } from "../api";
 
@@ -23,6 +24,7 @@ const BookingSuccessPage = ({ id, location }) => {
 
     initPayment();
   };
+
   const handleEditInfos = () =>
     navigateWithData("/booking", {
       data: {
@@ -34,49 +36,55 @@ const BookingSuccessPage = ({ id, location }) => {
     });
 
   return (
-    <div className="Page Page--trips">
-      <Header />
-      <Container>
-        {withPayment && (
-          <Heading size={700} marginBottom={ITEM_SPACE}>
-            Payment
-          </Heading>
-        )}
+    <Mobile>
+      {isMobile => (
+        <div className="Page Page--trips">
+          <Header />
+          <Container>
+            {withPayment && (
+              <Heading size={700} marginBottom={ITEM_SPACE}>
+                Payment
+              </Heading>
+            )}
 
-        {!withPayment && <BookingResume {...state} {...bookingData} />}
+            {!withPayment && <BookingResume {...state} {...bookingData} />}
 
-        <Item
-          id="payment-test"
-          style={{ display: withPayment ? "block" : "none" }}
-        />
+            <Item
+              id="payment-test"
+              style={{ display: withPayment ? "block" : "none" }}
+            />
 
-        <Pane
-          display="flex"
-          justifyContent={withPayment ? "flex-end" : "space-between"}
-        >
-          {!withPayment && (
-            <Button
-              height={ITEM_HEIGHT}
-              iconBefore="arrow-left"
-              onClick={handleEditInfos}
-              marginRight={ITEM_SPACE}
+            <Pane
+              display="flex"
+              justifyContent={withPayment ? "flex-end" : "space-between"}
             >
-              {IS_MOBILE ? "Edit" : "Edit my informations"}
-            </Button>
-          )}
+              {!withPayment && (
+                <Button
+                  height={ITEM_HEIGHT}
+                  iconBefore="arrow-left"
+                  onClick={handleEditInfos}
+                  marginRight={ITEM_SPACE}
+                >
+                  {isMobile ? "Edit" : "Edit my informations"}
+                </Button>
+              )}
 
-          <Button
-            appearance="primary"
-            height={ITEM_HEIGHT}
-            iconAfter="arrow-right"
-            onClick={handlePayment}
-            isLoading={isLoading}
-          >
-            Confirm and pay {full_price} {currency}
-          </Button>
-        </Pane>
-      </Container>
-    </div>
+              <Button
+                appearance="primary"
+                height={ITEM_HEIGHT}
+                iconAfter="arrow-right"
+                onClick={handlePayment}
+                isLoading={isLoading}
+              >
+                {isMobile
+                  ? "Confirm and pay"
+                  : `Confirm and pay ${full_price} ${currency}`}
+              </Button>
+            </Pane>
+          </Container>
+        </div>
+      )}
+    </Mobile>
   );
 };
 

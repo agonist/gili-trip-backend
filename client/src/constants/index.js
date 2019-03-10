@@ -1,9 +1,5 @@
 import { majorScale } from "evergreen-ui";
 
-export const IS_DESKTOP = true;
-export const IS_TABLET = false;
-export const IS_MOBILE = false;
-
 export const BASE_API_URL = "http://localhost:3001/api/v1/";
 
 export const DATE_FORMAT = "YYYY-MM-DD";
