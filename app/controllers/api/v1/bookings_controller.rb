@@ -25,6 +25,24 @@ class Api::V1::BookingsController < ApiController
     end
   end
 
+  def update
+    @booking = Booking.find(params[:id])
+    @booking.update(booking_params)
+    if @booking.save
+
+      @booking.tickets.each do |ticketparams|
+        date = ticketparams.date
+        trip = Trip.find(ticketparams.trip_id)
+        price = Ticket.get_price(date, trip)
+        ticketparams.trip.price = price 
+      end
+
+        render json: @booking
+    else
+        render json: @booking.errors, status: :unprocessable_entity
+    end
+  end
+
   def booking_params
      booking = params.require(:booking)
      booking[:tickets_attributes] = booking.delete(:tickets) if booking.key?(:tickets)

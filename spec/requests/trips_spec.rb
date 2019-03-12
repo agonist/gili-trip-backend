@@ -120,16 +120,15 @@ RSpec.describe 'Trips API', type: :request do
       end
 
 
-      it 'match the corresponding trips' do
-        expected =
-        expect(json).to include(
-          a_hash_including("id" => 4, "price" => '36.75'),
-          a_hash_including("id" => 5, "price" => '44.0'),
-          a_hash_including("id" => 8, "price" => '42.0'),
-          a_hash_including("id" => 9, "price" => '42.0'),
-          a_hash_including("id" => 10, "price" => '49.5')
-        )
-      end
+        it 'match the corresponding trips' do
+          expect(json).to include(
+            a_hash_including("id" => 4, "price" => '36.75'),
+            a_hash_including("id" => 5, "price" => '44.0'),
+            a_hash_including("id" => 8, "price" => '42.0'),
+            a_hash_including("id" => 9, "price" => '42.0'),
+            a_hash_including("id" => 10, "price" => '49.5')
+          )
+        end
 
       it 'returns status code 200' do
         expect(response).to have_http_status(200)
