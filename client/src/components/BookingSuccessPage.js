@@ -13,8 +13,10 @@ import { navigateWithData } from "../helpers";
 import { initPayment } from "../api";
 
 const BookingSuccessPage = ({ id, location }) => {
-  const { bookingData, bookingFormData, ...state } = location.state;
+  const { extra, ...state } = location.state;
+  const { bookingData, bookingFormData } = extra;
   const { currency, full_price } = state;
+
   const [isLoading, setIsLoading] = React.useState(false);
   const [withPayment, setWithPayment] = React.useState(false);
 
@@ -29,9 +31,10 @@ const BookingSuccessPage = ({ id, location }) => {
     navigateWithData("/booking", {
       data: {
         ...bookingData,
-        bookingId: id,
-        bookingFormData,
-        bookingSuccessData: state,
+        extra: {
+          bookingId: id,
+          ...extra,
+        },
       },
     });
 
@@ -47,7 +50,9 @@ const BookingSuccessPage = ({ id, location }) => {
               </Heading>
             )}
 
-            {!withPayment && <BookingResume {...state} {...bookingData} />}
+            {!withPayment && (
+              <BookingResume {...bookingData} {...bookingFormData} />
+            )}
 
             <Item
               id="payment-test"

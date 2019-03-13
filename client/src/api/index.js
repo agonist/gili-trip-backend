@@ -32,6 +32,13 @@ export const postBooking = payload =>
     })
     .then(getData);
 
+export const putBooking = (bookingId, payload) =>
+  api
+    .put(`/bookings/${bookingId}`, {
+      booking: payload,
+    })
+    .then(getData);
+
 export const createBrainTreeDropin = () =>
   new Promise(resolve => {
     brainTreeDropin.create(
