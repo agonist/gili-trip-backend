@@ -34,7 +34,7 @@ class Api::V1::BookingsController < ApiController
         date = ticketparams.date
         trip = Trip.find(ticketparams.trip_id)
         price = Ticket.get_price(date, trip)
-        ticketparams.trip.price = price 
+        ticketparams.trip.price = price
       end
 
         render json: @booking
