@@ -18,7 +18,7 @@ const formatTicket = ({ date, ...data }) => ({
 
 const BookingPage = ({ location, navigate }) => {
   const { state } = location;
-  const { quantity, tickets, extra = {} } = state;
+  const { final_price, quantity, tickets, extra = {} } = state;
   const { bookingId, bookingFormData } = extra;
 
   if (!state || (state && !state.tickets)) {
@@ -72,7 +72,11 @@ const BookingPage = ({ location, navigate }) => {
           marginBottom={ITEM_HEIGHT}
         />
 
-        <TicketsTable tickets={tickets} quantity={quantity} />
+        <TicketsTable
+          tickets={tickets}
+          quantity={quantity}
+          final_price={final_price}
+        />
 
         <BookingForm
           initialValues={{ quantity, ...bookingFormData }}

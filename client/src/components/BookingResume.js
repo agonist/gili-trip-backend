@@ -6,8 +6,6 @@ import Item from "./Item";
 import TicketsTable from "./TicketsTable";
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 
-const DEFAULT_VALUE = "N/A";
-
 const headingProps = {
   size: 600,
   textAlign: "left",
@@ -24,34 +22,38 @@ const itemProps = {
   alignItems: "baseline",
 };
 
-const withDefaultValue = value => value || DEFAULT_VALUE;
+const formatTicket = ({ trip, ...ticket }) => ({
+  ...ticket,
+  ...trip,
+});
+
+const formatTickets = tickets => tickets.map(formatTicket);
 
 const BookingResume = ({
   booking_email,
-  booking_whatsapp,
+  final_price,
   passengers,
   quantity,
   tickets,
 }) => (
   <div className="BookingResume">
-    <TicketsTable tickets={tickets} quantity={quantity} />
+    <TicketsTable
+      tickets={formatTickets(tickets)}
+      quantity={quantity}
+      final_price={final_price}
+    />
 
     <Heading {...headingProps}>Your informations</Heading>
     <Item {...itemProps}>
       <FormField
         {...formFieldProps}
         label="Email"
-        description={withDefaultValue(booking_email)}
+        description={booking_email}
       />
+    </Item>
 
-      <FormField
-        {...formFieldProps}
-        marginBottom={0}
-        label="Phone number"
-        description={withDefaultValue(booking_whatsapp)}
-      />
-
-      <Heading {...headingProps}>Passengers</Heading>
+    <Heading {...headingProps}>Passengers</Heading>
+    <Item {...itemProps}>
       {passengers.map((passenger, i) => (
         <FormField
           {...formFieldProps}
@@ -65,15 +67,11 @@ const BookingResume = ({
 );
 
 BookingResume.propTypes = {
+  final_price: PropTypes.string.isRequired,
   booking_email: PropTypes.string.isRequired,
-  booking_whatsapp: PropTypes.string,
   passengers: PropTypes.arrayOf(PropTypes.string).isRequired,
   quantity: PropTypes.number.isRequired,
   tickets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-};
-
-BookingResume.defaultProps = {
-  booking_whatsapp: null,
 };
 
 export default BookingResume;
