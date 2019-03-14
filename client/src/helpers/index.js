@@ -2,10 +2,13 @@ import { navigate } from "@reach/router";
 import dateFns from "date-fns";
 import qs from "query-string";
 
-import { DATE_FORMAT, LOCATIONS, TRAVEL_TYPES } from "../constants";
+import { DATE_FORMAT, LOCATIONS, TRAVEL_TYPES, VEHICLES } from "../constants";
 
 export const formatDate = date => dateFns.format(date, DATE_FORMAT);
 export const stringToDate = date => dateFns.parse(date);
+
+export const getVehicleLogo = id =>
+  VEHICLES.find(({ id: _id }) => id === _id).logo;
 
 export const getLocationId = name =>
   LOCATIONS.find(({ name: _name }) => name === _name).id;

@@ -6,6 +6,7 @@ import Content from "./TicketContent";
 import Icons from "./TicketIcons";
 import Item from "./Item";
 import Price from "./Price";
+import VehicleLogo from "./VehicleLogo";
 import { Mobile } from "./Media";
 
 import { ITEM_SPACE } from "../constants";
@@ -32,6 +33,7 @@ const Ticket = ({
   isSelected,
   price,
   canSelectTicket,
+  vehicle,
 }) => (
   <Mobile>
     {isMobile => (
@@ -44,6 +46,8 @@ const Ticket = ({
           onClick={isSelected ? handleUnselect : null}
           flexWrap="wrap"
         >
+          <VehicleLogo {...vehicle} />
+
           <Content
             arrival_time={arrival_time}
             departure_time={departure_time}
@@ -56,7 +60,6 @@ const Ticket = ({
               flexDirection="column"
               alignItems="center"
               justifyContent="center"
-              width={isMobile ? "100%" : "30%"}
               marginTop={isMobile ? ITEM_SPACE : 0}
             >
               <Price price={price} currency={currency} />
@@ -106,6 +109,7 @@ Ticket.propTypes = {
   isSelected: PropTypes.bool,
   price: PropTypes.string.isRequired,
   canSelectTicket: PropTypes.bool,
+  vehicle: PropTypes.shape({}).isRequired,
 };
 
 Ticket.defaultProps = {
