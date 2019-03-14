@@ -41,7 +41,7 @@ class MailingJob
       to: [ { email: infos.booking_email   } ],
       dynamic_template_data: datas,
       subject: "Order confirmation" } ],
-      from: { email: "test@gilitrip.com" },
+      from: { email: "hello@gilitrip.com" },
       template_id: template_id }
 
     @sg ||= SendGrid::API.new(api_key: ENV['SENDGRID'])

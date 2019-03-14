@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   namespace :api do
      namespace :v1 do
       get '/trips', to: 'trips#get_trips'
-      resources :bookings
+      post '/bookings', to: 'bookings#create'
+      put '/bookings/:id', to: 'bookings#update'
       resources :locations
       get '/payments/token', to: 'payments#generate_braintree_token'
       post '/payments/checkout', to: 'payments#checkout'
