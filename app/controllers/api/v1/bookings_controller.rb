@@ -27,7 +27,7 @@ class Api::V1::BookingsController < ApiController
 
   def update
     @booking = Booking.find(params[:id])
-    @booking.update(booking_params)
+    @booking.update(booking_update_params)
     if @booking.save
 
       @booking.tickets.each do |ticketparams|
@@ -42,6 +42,12 @@ class Api::V1::BookingsController < ApiController
         render json: @booking.errors, status: :unprocessable_entity
     end
   end
+
+  def booking_update_params
+     booking = params.require(:booking)
+     booking[:tickets_attributes] = booking.delete(:tickets) if booking.key?(:tickets)
+     booking.permit(:booking_email, :quantity, passengers:[], tickets_attributes: [[:id, :trip_id, :date, :pickup_name, :pickup_phone, :pickup_address]])
+   end
 
   def booking_params
      booking = params.require(:booking)
