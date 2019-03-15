@@ -3,6 +3,9 @@ import vehicle1 from "../assets/wahana-logo.png";
 
 export const BASE_API_URL = "http://localhost:3001/api/v1/";
 
+export const CURRENCY = "USD";
+export const CURRENCY_SYMBOL = "$";
+
 export const DATE_FORMAT = "YYYY-MM-DD";
 
 export const ITEM_HEIGHT = majorScale(5);

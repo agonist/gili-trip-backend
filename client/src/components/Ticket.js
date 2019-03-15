@@ -25,7 +25,6 @@ const pileItemProps = index => ({
 
 const Ticket = ({
   arrival_time,
-  currency,
   departure_time,
   duration,
   handleSelect,
@@ -62,7 +61,7 @@ const Ticket = ({
               justifyContent="center"
               marginTop={isMobile ? ITEM_SPACE : 0}
             >
-              <Price price={price} currency={currency} />
+              <Price price={price} />
 
               <Pane height={buttonHeight} marginTop={majorScale(1)}>
                 {isSelected ? (
@@ -101,7 +100,6 @@ const Ticket = ({
 
 Ticket.propTypes = {
   arrival_time: PropTypes.string.isRequired,
-  currency: PropTypes.string.isRequired,
   departure_time: PropTypes.string.isRequired,
   duration: PropTypes.number.isRequired,
   handleSelect: PropTypes.func,

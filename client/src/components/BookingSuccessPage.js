@@ -8,12 +8,12 @@ import Header from "./Header";
 import Item from "./Item";
 import { Mobile } from "./Media";
 
-import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
+import { CURRENCY_SYMBOL, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { formatTickets, navigateWithData } from "../helpers";
 import { initPayment } from "../api";
 
 const BookingSuccessPage = ({ id, location }) => {
-  const { currency, extra, final_price, tickets } = location.state;
+  const { extra, final_price, tickets } = location.state;
   const { bookingData } = extra;
 
   const [isLoading, setIsLoading] = React.useState(false);
@@ -81,7 +81,7 @@ const BookingSuccessPage = ({ id, location }) => {
               >
                 {isMobile
                   ? "Confirm and pay"
-                  : `Confirm and pay ${final_price} ${currency}`}
+                  : `Confirm and pay ${final_price}${CURRENCY_SYMBOL}`}
               </Button>
             </Pane>
           </Container>

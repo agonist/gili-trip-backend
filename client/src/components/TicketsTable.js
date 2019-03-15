@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import dateFns from "date-fns";
 import { Table } from "evergreen-ui";
 
-import { ITEM_SPACE } from "../constants";
+import { CURRENCY_SYMBOL, ITEM_SPACE } from "../constants";
 
 const dateFormat = "dddd DD MMMM YYYY [at] hh[:]mma";
 
@@ -46,29 +46,27 @@ const TicketsTable = ({ final_price, quantity, tickets, ...props }) => (
     </Table.Head>
 
     <Table.Body>
-      {tickets.map(
-        ({ id, trip_id, from, to, date, currency, price, vehicle }) => (
-          <Table.Row key={id || trip_id} {...rowProps}>
-            <Table.TextCell flexGrow={1}>
-              {`${from.name} -> ${to.name}`}
-              <br />
-              <strong>{dateFns.format(date, dateFormat)}</strong>
-            </Table.TextCell>
-            <Table.TextCell {...mediumColProps}>
-              {vehicle.kind}
-              <br />
-              <strong>{vehicle.subtype}</strong>
-            </Table.TextCell>
-            <Table.TextCell {...smallColProps}>x{quantity}</Table.TextCell>
-            <Table.TextCell {...smallColProps}>
-              {`${price} ${currency}`}
-            </Table.TextCell>
-            <Table.TextCell {...smallColProps}>
-              {`${price * quantity}${currency}`}
-            </Table.TextCell>
-          </Table.Row>
-        ),
-      )}
+      {tickets.map(({ id, trip_id, from, to, date, price, vehicle }) => (
+        <Table.Row key={id || trip_id} {...rowProps}>
+          <Table.TextCell flexGrow={1}>
+            {`${from.name} -> ${to.name}`}
+            <br />
+            <strong>{dateFns.format(date, dateFormat)}</strong>
+          </Table.TextCell>
+          <Table.TextCell {...mediumColProps}>
+            {vehicle.kind}
+            <br />
+            <strong>{vehicle.subtype}</strong>
+          </Table.TextCell>
+          <Table.TextCell {...smallColProps}>x{quantity}</Table.TextCell>
+          <Table.TextCell {...smallColProps}>
+            {`${price}${CURRENCY_SYMBOL}`}
+          </Table.TextCell>
+          <Table.TextCell {...smallColProps}>
+            {`${price * quantity}${CURRENCY_SYMBOL}`}
+          </Table.TextCell>
+        </Table.Row>
+      ))}
 
       <Table.Row {...rowProps}>
         <Table.TextCell flexGrow={1} />
