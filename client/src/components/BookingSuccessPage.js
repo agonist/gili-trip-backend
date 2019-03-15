@@ -9,11 +9,11 @@ import Item from "./Item";
 import { Mobile } from "./Media";
 
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
-import { navigateWithData } from "../helpers";
+import { formatTickets, navigateWithData } from "../helpers";
 import { initPayment } from "../api";
 
 const BookingSuccessPage = ({ id, location }) => {
-  const { currency, final_price, extra } = location.state;
+  const { currency, extra, final_price, tickets } = location.state;
   const { bookingData } = extra;
 
   const [isLoading, setIsLoading] = React.useState(false);
@@ -30,6 +30,7 @@ const BookingSuccessPage = ({ id, location }) => {
     navigateWithData("/booking", {
       data: {
         ...bookingData,
+        tickets: formatTickets(tickets),
         extra: {
           bookingId: id,
           ...extra,

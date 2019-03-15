@@ -5,6 +5,7 @@ import { FormField, Heading } from "evergreen-ui";
 import Item from "./Item";
 import TicketsTable from "./TicketsTable";
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
+import { formatTickets } from "../helpers";
 
 const headingProps = {
   size: 600,
@@ -21,13 +22,6 @@ const itemProps = {
   flexDirection: "column",
   alignItems: "baseline",
 };
-
-const formatTicket = ({ trip, ...ticket }) => ({
-  ...ticket,
-  ...trip,
-});
-
-const formatTickets = tickets => tickets.map(formatTicket);
 
 const BookingResume = ({
   booking_email,

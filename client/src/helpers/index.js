@@ -16,6 +16,13 @@ export const getLocationId = name =>
 export const getLocationName = id =>
   LOCATIONS.find(({ id: _id }) => id === _id).name;
 
+export const formatTicket = ({ trip, ...ticket }) => ({
+  ...trip,
+  ...ticket,
+});
+
+export const formatTickets = tickets => tickets.map(formatTicket);
+
 const hasReturn = travel_type => travel_type === TRAVEL_TYPES.ROUND;
 
 export const formatDataForApi = ({

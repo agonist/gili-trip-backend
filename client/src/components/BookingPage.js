@@ -13,7 +13,7 @@ import { navigateWithData } from "../helpers";
 
 const formatTicket = ({ date, ...data }) => ({
   ...data,
-  date: date.toISOString(),
+  date: date instanceof Date ? date.toISOString() : date,
 });
 
 const BookingPage = ({ location, navigate }) => {
