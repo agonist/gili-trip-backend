@@ -9,40 +9,14 @@ const BookingFormOptionalField = ({ children, path, isShown, ...props }) => (
   <Pane width="100%" {...props}>
     {children}
 
-    <Pane display={isShown ? "flex" : "none"} paddingTop={ITEM_SPACE}>
+    <Pane display={isShown ? "block" : "none"} paddingTop={ITEM_SPACE}>
       <Field name={`${path}.pickup_name`}>
         {({ input }) => (
           <TextInputField
             {...input}
-            label="Hotel"
+            label="Name"
             placeholder="Hotel name"
             width="100%"
-            marginRight={ITEM_SPACE}
-          />
-        )}
-      </Field>
-
-      <Field name={`${path}.pickup_room_number`}>
-        {({ input }) => (
-          <TextInputField
-            {...input}
-            label="Room number"
-            placeholder="42"
-            width="100%"
-          />
-        )}
-      </Field>
-    </Pane>
-
-    <Pane display={isShown ? "flex" : "none"} paddingTop={ITEM_SPACE}>
-      <Field name={`${path}.pickup_city`}>
-        {({ input }) => (
-          <TextInputField
-            {...input}
-            label="City"
-            placeholder="Bali"
-            width="100%"
-            marginRight={ITEM_SPACE}
           />
         )}
       </Field>
@@ -54,6 +28,18 @@ const BookingFormOptionalField = ({ children, path, isShown, ...props }) => (
             label="Address"
             placeholder="Hotel address"
             width="100%"
+          />
+        )}
+      </Field>
+
+      <Field name={`${path}.pickup_phone`}>
+        {({ input }) => (
+          <TextInputField
+            {...input}
+            label="Phone number"
+            placeholder="00336..."
+            width="100%"
+            type="tel"
           />
         )}
       </Field>

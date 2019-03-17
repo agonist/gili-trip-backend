@@ -23,7 +23,10 @@ export const formatTicket = ({ trip, ...ticket }) => ({
 
 export const formatTickets = tickets => tickets.map(formatTicket);
 
-const hasReturn = travel_type => travel_type === TRAVEL_TYPES.ROUND;
+export const hasReturn = travel_type => travel_type === TRAVEL_TYPES.ROUND;
+
+export const hasPickup = ({ pickup_name, pickup_address, pickup_phone } = {}) =>
+  !!pickup_name || !!pickup_address || !!pickup_phone;
 
 export const formatDataForApi = ({
   departure_date,

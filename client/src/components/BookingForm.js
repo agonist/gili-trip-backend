@@ -7,6 +7,7 @@ import BookingFormOptionalField from "./BookingFormOptionalField";
 import Item from "./Item";
 
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
+import { hasPickup } from "../helpers";
 
 const required = value => (value ? undefined : "Required");
 
@@ -35,23 +36,15 @@ const renderPassengersField = count => {
   return fields;
 };
 
-const hasPickup = ({
-  pickup_name,
-  pickup_room_number,
-  pickup_city,
-  pickup_address,
-} = {}) =>
-  !!pickup_name || !!pickup_room_number || !!pickup_city || !!pickup_address;
-
 const BookingForm = ({ initialValues, tickets, onSubmit }) => {
   const [departureTicket, returnTicket] = tickets;
 
   const defaultHasPickup = hasPickup(
-    initialValues.tickets && initialValues.tickets.departure,
+    initialValues.tickets && initialValues.tickets[0],
   );
 
   const defaultHasDropoff = hasPickup(
-    initialValues.tickets && initialValues.tickets.return,
+    initialValues.tickets && initialValues.tickets[1],
   );
 
   const [withPickup, setWithPickup] = React.useState(defaultHasPickup);
@@ -105,6 +98,7 @@ const BookingForm = ({ initialValues, tickets, onSubmit }) => {
                   label={`I need a dropoff in ${returnTicket.from.name}`}
                   checked={withDropoff}
                   onChange={handleWithDropoffChange}
+                  marginBottom={0}
                 />
               </BookingFormOptionalField>
             )}

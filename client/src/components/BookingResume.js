@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FormField, Heading } from "evergreen-ui";
+import { Checkbox, FormField, Heading } from "evergreen-ui";
 
+import BookingResumePickupField from "./BookingResumePickupField";
 import Item from "./Item";
 import TicketsTable from "./TicketsTable";
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
-import { formatTickets } from "../helpers";
+import { formatTickets, hasPickup } from "../helpers";
 
 const headingProps = {
   size: 600,
@@ -29,36 +30,68 @@ const BookingResume = ({
   passengers,
   quantity,
   tickets,
-}) => (
-  <div className="BookingResume">
-    <TicketsTable
-      tickets={formatTickets(tickets)}
-      quantity={quantity}
-      final_price={final_price}
-    />
+}) => {
+  const [departureTicket, returnTicket] = formatTickets(tickets);
+  const withPickup = hasPickup(departureTicket);
+  const withDropoff = hasPickup(returnTicket);
 
-    <Heading {...headingProps}>Your informations</Heading>
-    <Item {...itemProps}>
-      <FormField
-        {...formFieldProps}
-        label="Email"
-        description={booking_email}
+  return (
+    <div className="BookingResume">
+      <TicketsTable
+        tickets={formatTickets(tickets)}
+        quantity={quantity}
+        final_price={final_price}
       />
-    </Item>
 
-    <Heading {...headingProps}>Passengers</Heading>
-    <Item {...itemProps}>
-      {passengers.map((passenger, i) => (
+      <Heading {...headingProps}>Your informations</Heading>
+      <Item {...itemProps}>
         <FormField
           {...formFieldProps}
-          key={passenger}
-          label={`Passenger ${i + 1}`}
-          description={passenger}
+          label="Email"
+          description={booking_email}
         />
-      ))}
-    </Item>
-  </div>
-);
+
+        {withPickup && (
+          <BookingResumePickupField
+            ticket={departureTicket}
+            formFieldProps={formFieldProps}
+          >
+            <Checkbox
+              label={`I need a pickup from ${departureTicket.from.name}`}
+              disabled
+              checked={withPickup}
+            />
+          </BookingResumePickupField>
+        )}
+
+        {withDropoff && (
+          <BookingResumePickupField
+            ticket={returnTicket}
+            formFieldProps={formFieldProps}
+          >
+            <Checkbox
+              label={`I need a dropoff in ${returnTicket.from.name}`}
+              disabled
+              checked={withDropoff}
+            />
+          </BookingResumePickupField>
+        )}
+      </Item>
+
+      <Heading {...headingProps}>Passengers</Heading>
+      <Item {...itemProps}>
+        {passengers.map((passenger, i) => (
+          <FormField
+            {...formFieldProps}
+            key={passenger}
+            label={`Passenger ${i + 1}`}
+            description={passenger}
+          />
+        ))}
+      </Item>
+    </div>
+  );
+};
 
 BookingResume.propTypes = {
   final_price: PropTypes.string.isRequired,

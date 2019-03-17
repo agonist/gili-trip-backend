@@ -16,6 +16,16 @@ const formatTicket = ({ date, ...data }) => ({
   date: date instanceof Date ? date.toISOString() : date,
 });
 
+// merge optional (pickup/dropoff) fields
+// with the original tickets
+const formatPayload = (formData, tickets) => ({
+  ...formData,
+  tickets: tickets.map((ticket, i) => ({
+    ...formatTicket(ticket),
+    ...formData.tickets[i],
+  })),
+});
+
 const BookingPage = ({ location, navigate }) => {
   const { state } = location;
   const { final_price, quantity, tickets, extra = {} } = state;
@@ -25,13 +35,8 @@ const BookingPage = ({ location, navigate }) => {
     navigate("/trips");
   }
 
-  const formatPayload = ({ booking_email_confirm, ...formData }) => ({
-    ...formData,
-    tickets: tickets.map(formatTicket),
-  });
-
   const handleFormSubmit = formData => {
-    const payload = formatPayload(formData);
+    const payload = formatPayload(formData, tickets);
 
     const extraData = {
       bookingData: state,
