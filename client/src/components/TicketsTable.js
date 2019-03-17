@@ -39,7 +39,7 @@ const TicketsTable = ({ final_price, quantity, tickets, ...props }) => (
   >
     <Table.Head paddingX={rowProps.padding} paddingY={rowProps.padding * 1.5}>
       <Table.TextHeaderCell flexGrow={1}>Your tickets</Table.TextHeaderCell>
-      <Table.TextHeaderCell {...mediumColProps}>Vehicle</Table.TextHeaderCell>
+      <Table.TextHeaderCell {...mediumColProps}>Operator</Table.TextHeaderCell>
       <Table.TextHeaderCell {...smallColProps}>Quantity</Table.TextHeaderCell>
       <Table.TextHeaderCell {...smallColProps}>Price</Table.TextHeaderCell>
       <Table.TextHeaderCell {...smallColProps}>Subtotal</Table.TextHeaderCell>

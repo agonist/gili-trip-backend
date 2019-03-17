@@ -3,15 +3,15 @@ import PropTypes from "prop-types";
 import { Pane } from "evergreen-ui";
 
 import { Mobile } from "./Media";
-import { getVehicleLogo } from "../helpers";
+import { getOperatorLogo } from "../helpers";
 import { ITEM_SPACE } from "../constants";
 
-const VehicleLogo = ({ id, subtype, ...props }) => (
+const OperatorLogo = ({ id, subtype, ...props }) => (
   <Mobile>
     {isMobile => (
       <Pane {...props}>
         <img
-          src={getVehicleLogo(id)}
+          src={getOperatorLogo(id)}
           alt={subtype}
           width={80}
           style={{
@@ -24,9 +24,9 @@ const VehicleLogo = ({ id, subtype, ...props }) => (
   </Mobile>
 );
 
-VehicleLogo.propTypes = {
+OperatorLogo.propTypes = {
   id: PropTypes.number.isRequired,
   subtype: PropTypes.string.isRequired,
 };
 
-export default VehicleLogo;
+export default OperatorLogo;

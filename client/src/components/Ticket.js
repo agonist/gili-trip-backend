@@ -6,7 +6,7 @@ import Content from "./TicketContent";
 import Icons from "./TicketIcons";
 import Item from "./Item";
 import Price from "./Price";
-import VehicleLogo from "./VehicleLogo";
+import OperatorLogo from "./OperatorLogo";
 import { Mobile } from "./Media";
 
 import { ITEM_SPACE } from "../constants";
@@ -45,7 +45,7 @@ const Ticket = ({
           onClick={isSelected ? handleUnselect : null}
           flexWrap="wrap"
         >
-          <VehicleLogo {...vehicle} />
+          <OperatorLogo {...vehicle} />
 
           <Content
             arrival_time={arrival_time}

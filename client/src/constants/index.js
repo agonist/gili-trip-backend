@@ -1,5 +1,5 @@
 import { majorScale } from "evergreen-ui";
-import vehicle1 from "../assets/wahana-logo.png";
+import operator1 from "../assets/wahana-logo.png";
 
 export const BASE_API_URL = "http://localhost:3001/api/v1/";
 
@@ -26,9 +26,9 @@ export const TRAVEL_TYPES = {
   ONE_WAY: "one-way",
 };
 
-export const VEHICLES = [
+export const OPERATORS = [
   {
     id: 1,
-    logo: vehicle1,
+    logo: operator1,
   },
 ];
