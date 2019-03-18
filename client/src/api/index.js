@@ -39,17 +39,31 @@ export const putBooking = (bookingId, payload) =>
     })
     .then(getData);
 
-export const createBrainTreeDropin = () =>
-  new Promise(resolve => {
-    brainTreeDropin.create(
-      {
-        authorization: BRAINTREE_AUTHORIZATION,
-        container: "#payment-test",
-      },
-      resolve,
-    );
+export const createBrainTreeDropin = amount =>
+  brainTreeDropin.create({
+    authorization: BRAINTREE_AUTHORIZATION,
+    container: "#payment-test",
+    paypal: {
+      amount,
+      flow: "checkout",
+      currency: "USD",
+    },
   });
 
-export const initPayment = async () => {
-  await createBrainTreeDropin();
-};
+export const paymentCheckout = ({ id, nonce }) =>
+  api.post("payments/checkout", {
+    booking_id: id,
+    payment_method_nonce: nonce,
+  });
+
+export const initPayment = ({ amount }) =>
+  new Promise(async resolve => {
+    const dropinInstance = await createBrainTreeDropin(amount);
+
+    const onRequestPaymentMethod = (err, payload) => resolve(payload);
+
+    const onPaymentMethodRequestable = () =>
+      dropinInstance.requestPaymentMethod(onRequestPaymentMethod);
+
+    dropinInstance.on("paymentMethodRequestable", onPaymentMethodRequestable);
+  });

@@ -10,7 +10,7 @@ import { Mobile } from "./Media";
 
 import { CURRENCY_SYMBOL, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { formatTickets, navigateWithData } from "../helpers";
-import { initPayment } from "../api";
+import { initPayment, paymentCheckout } from "../api";
 
 const BookingSuccessPage = ({ id, location }) => {
   const { extra, final_price, tickets } = location.state;
@@ -19,11 +19,23 @@ const BookingSuccessPage = ({ id, location }) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [withPayment, setWithPayment] = React.useState(false);
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     setIsLoading(true);
     setWithPayment(true);
 
-    initPayment();
+    try {
+      const { nonce } = await initPayment({
+        amount: final_price,
+      });
+
+      const payload = await paymentCheckout({ id, nonce });
+
+      console.log("success");
+      console.log(payload);
+    } catch (e) {
+      console.error("failed");
+      console.error(e);
+    }
   };
 
   const handleEditInfos = () =>
