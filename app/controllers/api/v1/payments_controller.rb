@@ -24,6 +24,7 @@ class Api::V1::PaymentsController < ApiController
 
     if @booking.payment_status == "success"
       render json: {:message => "This trip has already been paid"}
+      return
     end
 
     amount = @booking.final_price
@@ -45,12 +46,15 @@ class Api::V1::PaymentsController < ApiController
         send_confirmation_email(infos)
         send_slack_bot(infos)
         send_whatsapp(infos)
+        print("------ RENDER 1")
         render json: @booking
       else
+        print("------ RENDER 2")
         render json: @booking.errors, status: :unprocessable_entity
       end
 
     else
+      print("------ RENDER 3")
       error_messages = result.errors.map { |error| "Error: #{error.code}: #{error.message}" }
       render json: error_messages, status: :unprocessable_entity
     end
