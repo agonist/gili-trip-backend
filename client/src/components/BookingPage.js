@@ -18,11 +18,11 @@ const formatTicket = ({ date, ...data }) => ({
 
 // merge optional (pickup/dropoff) fields
 // with the original tickets
-const formatPayload = (formData, tickets) => ({
+const formatPayload = ({ _tickets, ...formData }, tickets) => ({
   ...formData,
   tickets: tickets.map((ticket, i) => ({
     ...formatTicket(ticket),
-    ...formData.tickets[i],
+    ...(_tickets ? tickets[i] : {}),
   })),
 });
 
