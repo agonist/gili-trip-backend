@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Heading, Pane } from "evergreen-ui";
+import { Button, Heading, Alert, Pane, Paragraph } from "evergreen-ui";
 
 import BookingResume from "./BookingResume";
 import Container from "./Container";
@@ -8,16 +8,23 @@ import Header from "./Header";
 import Item from "./Item";
 import { Mobile } from "./Media";
 
-import { CURRENCY_SYMBOL, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
+import {
+  CONTACT_EMAIL,
+  CURRENCY_SYMBOL,
+  ITEM_HEIGHT,
+  ITEM_SPACE,
+} from "../constants";
 import { formatTickets, navigateWithData } from "../helpers";
 import { initPayment, paymentCheckout } from "../api";
 
 const BookingSuccessPage = ({ id, location }) => {
-  const { extra, final_price, tickets } = location.state;
+  const { booking_email, extra, final_price, tickets } = location.state;
   const { bookingData } = extra;
 
   const [isLoading, setIsLoading] = React.useState(false);
   const [withPayment, setWithPayment] = React.useState(false);
+  const [hasPayed, setHasPayed] = React.useState(false);
+  const [hasErrored, setHasErrored] = React.useState(false);
 
   const handlePayment = async () => {
     setIsLoading(true);
@@ -28,13 +35,16 @@ const BookingSuccessPage = ({ id, location }) => {
         amount: final_price,
       });
 
-      const payload = await paymentCheckout({ id, nonce });
+      const { payment_status } = await paymentCheckout({ id, nonce });
 
-      console.log("success");
-      console.log(payload);
+      if (payment_status === "success") {
+        setHasPayed(true);
+        setWithPayment(false);
+      } else {
+        setHasErrored(true);
+      }
     } catch (e) {
-      console.error("failed");
-      console.error(e);
+      setHasErrored(true);
     }
   };
 
@@ -55,7 +65,39 @@ const BookingSuccessPage = ({ id, location }) => {
       {isMobile => (
         <div className="Page Page--trips">
           <Header />
+
           <Container>
+            {hasPayed && (
+              <Alert
+                intent="success"
+                title="Payment succeeded"
+                marginBottom={ITEM_SPACE}
+              >
+                <Paragraph>
+                  Your tickets will be send by email at
+                  <strong> {booking_email}</strong>
+                </Paragraph>
+                <Paragraph>
+                  Thank you for purchasing on GiliTrip, we hope to see you soon!
+                </Paragraph>
+              </Alert>
+            )}
+
+            {hasErrored && (
+              <Alert
+                intent="danger"
+                title="Something went wrong"
+                marginBottom={ITEM_SPACE}
+              >
+                <Paragraph>
+                  Please contact us at
+                  <a href={`mailto:${CONTACT_EMAIL}`}>
+                    <strong> {CONTACT_EMAIL}</strong>
+                  </a>
+                </Paragraph>
+              </Alert>
+            )}
+
             {withPayment && (
               <Heading size={700} marginBottom={ITEM_SPACE}>
                 Payment

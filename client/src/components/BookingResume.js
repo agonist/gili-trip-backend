@@ -5,13 +5,13 @@ import { Checkbox, FormField, Heading } from "evergreen-ui";
 import BookingResumePickupField from "./BookingResumePickupField";
 import Item from "./Item";
 import TicketsTable from "./TicketsTable";
-import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
+import { ITEM_SPACE } from "../constants";
 import { formatTickets, hasPickup } from "../helpers";
 
 const headingProps = {
-  size: 600,
+  size: 500,
   textAlign: "left",
-  marginTop: ITEM_HEIGHT,
+  marginTop: ITEM_SPACE,
   marginBottom: ITEM_SPACE,
 };
 

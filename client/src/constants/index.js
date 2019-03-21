@@ -3,6 +3,8 @@ import operator1 from "../assets/wahana-logo.png";
 
 export const BASE_API_URL = "http://localhost:3001/api/v1/";
 
+export const CONTACT_EMAIL = "gili-sos@gmail.com";
+
 export const CURRENCY = "USD";
 export const CURRENCY_SYMBOL = "$";
 
