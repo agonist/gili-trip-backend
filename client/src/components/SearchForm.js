@@ -136,6 +136,7 @@ const renderDepartureDate = (travel_type, arrival_date) => (
             selectedDays={[value, hasReturn(travel_type) && arrival_date]}
             disabledDays={{ before: baseDate }}
             onDayClick={day => {
+              if (dateFns.isBefore(day, baseDate)) return;
               input.onChange(day);
               close();
             }}
@@ -170,6 +171,7 @@ const renderArrivalDate = departure_date => (
               before: departure_date || baseDate,
             }}
             onDayClick={day => {
+              if (dateFns.isBefore(day, departure_date || baseDate)) return;
               input.onChange(day);
               close();
             }}
