@@ -40,33 +40,23 @@ class Api::V1::PaymentsController < ApiController
 
     if result.success? || result.transaction
       @booking.payment_status = "success"
+      @booking.booking_status = "success"
 
       if @booking.save
         infos = get_booking_infos(@booking)
         send_confirmation_email(infos)
         send_slack_bot(infos)
         send_whatsapp(infos)
-        print("------ RENDER 1")
         render json: @booking
       else
-        print("------ RENDER 2")
         render json: @booking.errors, status: :unprocessable_entity
       end
 
     else
-      print("------ RENDER 3")
       error_messages = result.errors.map { |error| "Error: #{error.code}: #{error.message}" }
       render json: error_messages, status: :unprocessable_entity
     end
 
-  end
-
-  def test
-    @booking = Booking.find("c9638d4b-8c1a-4467-8b6f-86ea908155c1")
-    infos = get_booking_infos(@booking)
-    send_confirmation_email(infos)
-    send_slack_bot(infos)
-    send_whatsapp(infos)
   end
 
   def gateway
