@@ -31,6 +31,8 @@ const DEFAULT_QUANTITY = 1;
 
 const SPACING = majorScale(1);
 
+const baseDate = dateFns.addDays(TODAY_DATE, 1);
+
 const inputProps = {
   inputHeight: ITEM_HEIGHT,
   marginBottom: 0,
@@ -132,7 +134,7 @@ const renderDepartureDate = (travel_type, arrival_date) => (
           <DayPicker
             {...input}
             selectedDays={[value, hasReturn(travel_type) && arrival_date]}
-            disabledDays={{ before: TODAY_DATE }}
+            disabledDays={{ before: baseDate }}
             onDayClick={day => {
               input.onChange(day);
               close();
@@ -145,7 +147,7 @@ const renderDepartureDate = (travel_type, arrival_date) => (
             {...input}
             {...inputProps}
             label="Departure"
-            placeholder={formatDate(TODAY_DATE)}
+            placeholder={formatDate(baseDate)}
             required
             readOnly
             value={value && formatDate(value)}
@@ -165,7 +167,7 @@ const renderArrivalDate = departure_date => (
           <DayPicker
             selectedDays={[value, departure_date]}
             disabledDays={{
-              before: departure_date || TODAY_DATE,
+              before: departure_date || baseDate,
             }}
             onDayClick={day => {
               input.onChange(day);
@@ -178,7 +180,7 @@ const renderArrivalDate = departure_date => (
           <TextInputField
             {...inputProps}
             label="Return"
-            placeholder={formatDate(dateFns.addDays(TODAY_DATE, 7))}
+            placeholder={formatDate(dateFns.addDays(baseDate, 7))}
             required
             readOnly
             isInvalid={meta.error && meta.touched}
