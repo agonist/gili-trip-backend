@@ -25,6 +25,9 @@ export const fetchTrips = params => {
   return api.get(`/trips/?${queryParams}`).then(getData);
 };
 
+export const fetchBooking = bookingId =>
+  api.get(`/bookings/${bookingId}`).then(getData);
+
 export const postBooking = payload =>
   api
     .post(`/bookings`, {
