@@ -20,190 +20,58 @@ import {
   navigateWithData,
 } from "../helpers";
 
-const initialState = {
-  departureTrips: [],
-  departureTicket: undefined,
-  returnTrips: [],
-  returnTicket: undefined,
-  isFetchingDepartureTrips: true,
-  isFetchingReturnTrips: true,
-  hasFailed: false,
+const formatDate = (date, time) => {
+  const [hours, minutes] = time.split(":");
+
+  date.setHours(hours);
+  date.setMinutes(minutes);
+
+  return date;
 };
 
-class TripsPage extends React.Component {
-  state = {
-    ...initialState,
-  };
+const formatTicket = ({ id, ...ticket }) => ({
+  ...ticket,
+  trip_id: id,
+});
 
-  componentDidMount() {
-    this.fetchTrips();
-  }
+const TripsPage = ({ location }) => {
+  const [hasFailed, setHasFailed] = React.useState(false);
+  const [isFetchingTrips, setIsFetchingTrips] = React.useState(true);
 
-  componentWillReceiveProps(nextProps) {
-    const {
-      arrival_date: currentArrival,
-      departure_date: currentDeparture,
-      from: currentFrom,
-      from: currentTo,
-      quantity: currentQuantity,
-      travel_type: currentTravelType,
-    } = this.getParams();
+  const [departureTicket, setDepartureTicket] = React.useState(null);
+  const [returnTicket, setReturnTicket] = React.useState(null);
 
-    const {
-      arrival_date: nextArrival,
-      departure_date: nextDeparture,
-      from: nextFrom,
-      from: nextTo,
-      quantity: nextQuantity,
-      travel_type: nextTravelType,
-    } = this.getParams(nextProps.location);
+  const [departureTrips, setDepartureTrips] = React.useState([]);
+  const [returnTrips, setReturnTrips] = React.useState([]);
 
-    const hasArrivalChanged =
-      (currentArrival && currentArrival.toISOString()) !==
-      (nextArrival && nextArrival.toISOString());
-
-    const hasDepartureChanged =
-      currentDeparture.toISOString() !== nextDeparture.toISOString();
-
-    const hasFromChanged = currentFrom !== nextFrom;
-    const hasToChanged = currentTo !== nextTo;
-    const hasQuantityChanged = currentQuantity !== nextQuantity;
-    const hasTravelTypeChanged = currentTravelType !== nextTravelType;
-
-    if (
-      hasArrivalChanged ||
-      hasDepartureChanged ||
-      hasFromChanged ||
-      hasToChanged ||
-      hasQuantityChanged ||
-      hasTravelTypeChanged
-    ) {
-      this.fetchTrips();
-    }
-  }
-
-  getParams = location => {
-    const { location: currentLocation } = this.props;
-    const search = location ? location.search : currentLocation.search;
-    const urlParams = qs.parse(search);
-
+  const getParams = () => {
+    const urlParams = qs.parse(location.search);
     return formatDataForBrowser(urlParams);
   };
 
-  fetchTrips = () => {
-    this.setState(
-      {
-        ...initialState,
-      },
-      () => {
-        const { travel_type } = this.getParams();
-        const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
+  const formData = getParams();
+  const isRoundTrip = formData.travel_type === TRAVEL_TYPES.ROUND;
+  const isSearchFormLoading = !hasFailed && isFetchingTrips;
 
-        this.fetchDepartureTrips();
+  const {
+    arrival_date,
+    departure_date,
+    from,
+    to,
+    quantity,
+    travel_type,
+  } = formData;
 
-        if (isRoundTrip) {
-          this.fetchReturnTrips();
-        }
-      },
-    );
-  };
-
-  fetchDepartureTrips = () => {
-    const params = this.getParams();
-
-    const onSuccess = trips => {
-      this.setState({
-        departureTrips: trips,
-        isFetchingDepartureTrips: false,
-      });
-    };
-
-    const onError = () => {
-      this.setState({
-        ...initialState,
-        hasFailed: true,
-      });
-    };
-
-    return fetchTrips(params)
-      .then(onSuccess)
-      .catch(onError);
-  };
-
-  fetchReturnTrips = () => {
-    const { from, to, ...params } = this.getParams();
-
-    const onSuccess = trips => {
-      this.setState({
-        returnTrips: trips,
-        isFetchingReturnTrips: false,
-      });
-    };
-
-    const onError = () => {
-      this.setState({
-        ...initialState,
-        hasFailed: true,
-      });
-    };
-
-    return fetchTrips({
-      from: to,
-      to: from,
-      ...params,
-    })
-      .then(onSuccess)
-      .catch(onError);
-  };
-
-  handleSelectDepartureTicket = ticket => {
-    this.setState({
-      departureTicket: ticket,
-    });
-  };
-
-  handleUnselectDepartureTicket = () => {
-    this.setState({
-      departureTicket: initialState.departureTicket,
-    });
-  };
-
-  handleSelectReturnTicket = ticket => {
-    this.setState({
-      returnTicket: ticket,
-    });
-  };
-
-  handleUnselectReturnTicket = () => {
-    this.setState({
-      returnTicket: initialState.returnTicket,
-    });
-  };
-
-  handleBookTickets = () => {
-    const { departureTicket, returnTicket } = this.state;
-    const {
-      departure_date,
-      arrival_date,
-      quantity,
-      travel_type,
-    } = this.getParams();
-    const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
-
-    const formatDate = (date, time) => {
-      const [hours, minutes] = time.split(":");
-
-      date.setHours(hours);
-      date.setMinutes(minutes);
-
-      return date;
-    };
-
-    const formatTicket = ({ id, ...ticket }) => ({
-      ...ticket,
-      trip_id: id,
+  const handleSearchSubmit = data =>
+    navigateWithData("/trips", {
+      data,
+      withParams: true,
     });
 
+  const handleUnselectDepartureTicket = () => setDepartureTicket(null);
+  const handleUnselectReturnTicket = () => setReturnTicket(null);
+
+  const handleBookTickets = () => {
     const data = {
       quantity: +quantity,
       tickets: [
@@ -226,28 +94,62 @@ class TripsPage extends React.Component {
     });
   };
 
-  renderTrips = () => {
-    const {
-      departureTrips,
-      departureTicket,
-      returnTrips,
-      returnTicket,
-      isFetchingDepartureTrips,
-      isFetchingReturnTrips,
-    } = this.state;
+  const fetchDepartureTrips = () => {
+    const params = getParams();
+    const onSuccess = trips => setDepartureTrips(trips);
+    const onError = () => setHasFailed(true);
 
-    const formData = this.getParams();
-    const { travel_type, from: fromId, to: toId } = formData;
-    const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
+    return fetchTrips(params)
+      .then(onSuccess)
+      .catch(onError);
+  };
 
-    const from = getLocationName(fromId);
-    const to = getLocationName(toId);
+  const fetchReturnTrips = () => {
+    const onSuccess = trips => setReturnTrips(trips);
+    const onError = () => setHasFailed(true);
+
+    return fetchTrips({
+      from: to,
+      to: from,
+      ...formData,
+    })
+      .then(onSuccess)
+      .catch(onError);
+  };
+
+  const handleFetchTrips = async () => {
+    setHasFailed(false);
+    setIsFetchingTrips(true);
+
+    await fetchDepartureTrips();
+
+    if (isRoundTrip) {
+      await fetchReturnTrips();
+    }
+
+    setIsFetchingTrips(false);
+  };
+
+  React.useEffect(() => {
+    handleFetchTrips();
+  }, [
+    arrival_date && arrival_date.toDateString(),
+    departure_date && departure_date.toDateString(),
+    from,
+    from,
+    quantity,
+    travel_type,
+  ]);
+
+  const renderTrips = () => {
+    const fromName = getLocationName(from);
+    const toName = getLocationName(to);
 
     return (
       <>
-        <TripsTitle from={from} to={to} />
+        <TripsTitle from={fromName} to={toName} />
 
-        {isFetchingDepartureTrips ? (
+        {isFetchingTrips ? (
           <Item>
             <Spinner />
           </Item>
@@ -255,16 +157,16 @@ class TripsPage extends React.Component {
           <Trips
             trips={departureTrips}
             selected={departureTicket && departureTicket.id}
-            handleSelect={this.handleSelectDepartureTicket}
-            handleUnselect={this.handleUnselectDepartureTicket}
+            handleSelect={setDepartureTicket}
+            handleUnselect={handleUnselectDepartureTicket}
           />
         )}
 
         {isRoundTrip && (
           <Pane marginTop={majorScale(4)}>
-            <TripsTitle from={to} to={from} />
+            <TripsTitle from={toName} to={fromName} />
 
-            {isFetchingReturnTrips ? (
+            {isFetchingTrips ? (
               <Item>
                 <Spinner />
               </Item>
@@ -272,8 +174,8 @@ class TripsPage extends React.Component {
               <Trips
                 trips={returnTrips}
                 selected={returnTicket && returnTicket.id}
-                handleSelect={this.handleSelectReturnTicket}
-                handleUnselect={this.handleUnselectReturnTicket}
+                handleSelect={setReturnTicket}
+                handleUnselect={handleUnselectReturnTicket}
               />
             )}
           </Pane>
@@ -282,70 +184,44 @@ class TripsPage extends React.Component {
     );
   };
 
-  render() {
-    const {
-      departureTicket,
-      returnTicket,
-      isFetchingDepartureTrips,
-      isFetchingReturnTrips,
-      hasFailed,
-    } = this.state;
+  const hasSelectedAllTickets = isRoundTrip
+    ? departureTicket && returnTicket
+    : departureTicket;
 
-    const formData = this.getParams();
-    const { travel_type } = formData;
-    const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
+  return (
+    <div className="Page Page--trips">
+      <Header>
+        <SearchForm
+          formData={formData}
+          isLoading={isSearchFormLoading}
+          onSubmit={handleSearchSubmit}
+        />
+      </Header>
 
-    const isSearchFormLoading =
-      !hasFailed &&
-      (isRoundTrip
-        ? isFetchingDepartureTrips || isFetchingReturnTrips
-        : isFetchingDepartureTrips);
+      <Container>
+        {hasFailed ? (
+          <ErrorState>
+            <Button onClick={fetchTrips}>Try again</Button>
+          </ErrorState>
+        ) : (
+          renderTrips()
+        )}
 
-    const hasSelectedAllTickets = isRoundTrip
-      ? departureTicket && returnTicket
-      : departureTicket;
-
-    const handleSearchSubmit = data =>
-      navigateWithData("/trips", {
-        data,
-        withParams: true,
-      });
-
-    return (
-      <div className="Page Page--trips">
-        <Header>
-          <SearchForm
-            formData={formData}
-            isLoading={isSearchFormLoading}
-            onSubmit={handleSearchSubmit}
-          />
-        </Header>
-
-        <Container>
-          {hasFailed ? (
-            <ErrorState>
-              <Button onClick={this.fetchTrips}>Try again</Button>
-            </ErrorState>
-          ) : (
-            this.renderTrips()
-          )}
-
-          <Pane textAlign="right" paddingTop={majorScale(4)}>
-            <Button
-              appearance="primary"
-              height={ITEM_HEIGHT}
-              iconAfter="arrow-right"
-              onClick={this.handleBookTickets}
-              disabled={!hasSelectedAllTickets}
-            >
-              Confirm and book tickets
-            </Button>
-          </Pane>
-        </Container>
-      </div>
-    );
-  }
-}
+        <Pane textAlign="right" paddingTop={majorScale(4)}>
+          <Button
+            appearance="primary"
+            height={ITEM_HEIGHT}
+            iconAfter="arrow-right"
+            onClick={handleBookTickets}
+            disabled={!hasSelectedAllTickets}
+          >
+            Confirm and book tickets
+          </Button>
+        </Pane>
+      </Container>
+    </div>
+  );
+};
 
 TripsPage.propTypes = {
   location: PropTypes.shape({
