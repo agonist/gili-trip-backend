@@ -34,7 +34,22 @@ const formatTicket = ({ id, ...ticket }) => ({
   trip_id: id,
 });
 
+const getParams = location => {
+  const urlParams = qs.parse(location.search);
+  return formatDataForBrowser(urlParams);
+};
+
 const TripsPage = ({ location }) => {
+  const queryParams = getParams(location);
+  const {
+    arrival_date,
+    departure_date,
+    from,
+    to,
+    quantity,
+    travel_type,
+  } = queryParams;
+
   const [hasFailed, setHasFailed] = React.useState(false);
   const [isFetchingTrips, setIsFetchingTrips] = React.useState(true);
 
@@ -44,23 +59,8 @@ const TripsPage = ({ location }) => {
   const [departureTrips, setDepartureTrips] = React.useState([]);
   const [returnTrips, setReturnTrips] = React.useState([]);
 
-  const getParams = () => {
-    const urlParams = qs.parse(location.search);
-    return formatDataForBrowser(urlParams);
-  };
-
-  const formData = getParams();
-  const isRoundTrip = formData.travel_type === TRAVEL_TYPES.ROUND;
+  const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
   const isSearchFormLoading = !hasFailed && isFetchingTrips;
-
-  const {
-    arrival_date,
-    departure_date,
-    from,
-    to,
-    quantity,
-    travel_type,
-  } = formData;
 
   const handleSearchSubmit = data =>
     navigateWithData("/trips", {
@@ -95,11 +95,10 @@ const TripsPage = ({ location }) => {
   };
 
   const fetchDepartureTrips = () => {
-    const params = getParams();
     const onSuccess = trips => setDepartureTrips(trips);
     const onError = () => setHasFailed(true);
 
-    return fetchTrips(params)
+    return fetchTrips(queryParams)
       .then(onSuccess)
       .catch(onError);
   };
@@ -109,9 +108,9 @@ const TripsPage = ({ location }) => {
     const onError = () => setHasFailed(true);
 
     return fetchTrips({
+      ...queryParams,
       from: to,
       to: from,
-      ...formData,
     })
       .then(onSuccess)
       .catch(onError);
@@ -192,7 +191,7 @@ const TripsPage = ({ location }) => {
     <div className="Page Page--trips">
       <Header>
         <SearchForm
-          formData={formData}
+          formData={queryParams}
           isLoading={isSearchFormLoading}
           onSubmit={handleSearchSubmit}
         />
