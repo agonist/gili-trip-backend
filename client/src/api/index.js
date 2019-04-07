@@ -48,7 +48,7 @@ export const validateCoupon = ({ code, booking_id }) =>
     booking_id,
   });
 
-export const createBrainTreeDropin = amount =>
+export const getDropinInstance = amount =>
   brainTreeDropin.create({
     authorization: BRAINTREE_AUTHORIZATION,
     container: "#payment-test",
@@ -63,16 +63,4 @@ export const paymentCheckout = ({ id, nonce }) =>
   api.post("payments/checkout", {
     booking_id: id,
     payment_method_nonce: nonce,
-  });
-
-export const initPayment = ({ amount }) =>
-  new Promise(async resolve => {
-    const dropinInstance = await createBrainTreeDropin(amount);
-
-    const onRequestPaymentMethod = (err, payload) => resolve(payload);
-
-    const onPaymentMethodRequestable = () =>
-      dropinInstance.requestPaymentMethod(onRequestPaymentMethod);
-
-    dropinInstance.on("paymentMethodRequestable", onPaymentMethodRequestable);
   });

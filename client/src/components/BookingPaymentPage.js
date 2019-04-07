@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Alert, Button, Heading, Pane, Paragraph } from "evergreen-ui";
+import { Alert, Button, Heading, Pane, Paragraph, Spinner } from "evergreen-ui";
 
 import Container from "./Container";
 import Header from "./Header";
@@ -8,9 +8,11 @@ import Item from "./Item";
 
 import { CONTACT_EMAIL, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { navigateWithData } from "../helpers";
-import { initPayment, paymentCheckout } from "../api";
+import { getDropinInstance, paymentCheckout } from "../api";
 
 const BookingPaymentPage = ({ location }) => {
+  const [dropinInstance, setDropinInstance] = React.useState(null);
+  const [hasPaymentOption, setHasPaymentOption] = React.useState(false);
   const [hasErrored, setHasErrored] = React.useState(false);
 
   const { id, final_price } = location.state;
@@ -20,27 +22,39 @@ const BookingPaymentPage = ({ location }) => {
       data: location.state,
     });
 
-  const handlePayment = async () => {
-    try {
-      const { nonce } = await initPayment({
-        amount: final_price,
-      });
+  const handleCheckout = async ({ nonce }) => {
+    const { data, status } = await paymentCheckout({ id, nonce });
 
-      const { payment_status } = await paymentCheckout({ id, nonce });
-
-      if (payment_status === "success") {
-        console.log("success, yay");
-      } else {
-        setHasErrored(true);
-      }
-    } catch (e) {
+    if (status !== 200) {
       setHasErrored(true);
+      return;
     }
+
+    console.log("do something with", data);
+  };
+
+  const handlePaymentMethodRequestable = () =>
+    dropinInstance.requestPaymentMethod(handleCheckout);
+
+  const handlePaymentOptionSelected = (...args) => {
+    console.log(args);
+    setHasPaymentOption(true);
   };
 
   React.useEffect(() => {
-    handlePayment();
+    getDropinInstance(final_price).then(setDropinInstance);
   }, []);
+
+  React.useEffect(() => {
+    if (dropinInstance) {
+      dropinInstance.on(
+        "paymentMethodRequestable",
+        handlePaymentMethodRequestable,
+      );
+
+      dropinInstance.on("paymentOptionSelected", handlePaymentOptionSelected);
+    }
+  }, [!!dropinInstance]);
 
   return (
     <div className="Page Page--booking">
@@ -66,20 +80,30 @@ const BookingPaymentPage = ({ location }) => {
           </Alert>
         )}
 
-        <Item id="payment-test" display="block" />
+        {!dropinInstance && (
+          <Item>
+            <Spinner />
+          </Item>
+        )}
 
-        <Pane display="flex" justifyContent="space-between">
-          <Button
-            appearance="primary"
-            intent="danger"
-            height={ITEM_HEIGHT}
-            iconBefore="arrow-left"
-            onClick={handleCancel}
-            marginRight={ITEM_SPACE}
-          >
-            Cancel and go back
-          </Button>
-        </Pane>
+        {!hasErrored && (
+          <Item id="payment-test" display={dropinInstance ? "block" : "none"} />
+        )}
+
+        {!hasPaymentOption && (
+          <Pane display="flex" justifyContent="space-between">
+            <Button
+              appearance="primary"
+              intent="danger"
+              height={ITEM_HEIGHT}
+              iconBefore="arrow-left"
+              onClick={handleCancel}
+              marginRight={ITEM_SPACE}
+            >
+              Cancel and go back
+            </Button>
+          </Pane>
+        )}
       </Container>
     </div>
   );
