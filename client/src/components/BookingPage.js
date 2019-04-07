@@ -1,18 +1,42 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Pane } from "evergreen-ui";
+import { Alert, Button, Heading, Pane } from "evergreen-ui";
 
 import BookingResume from "./BookingResume";
 import Container from "./Container";
+import CouponForm from "./CouponForm";
 import Header from "./Header";
+import Item from "./Item";
+import TicketsTable from "./TicketsTable";
 import { Mobile } from "./Media";
 
 import { CURRENCY_SYMBOL, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { formatTickets, navigateWithData } from "../helpers";
+import { validateCoupon } from "../api";
+
+const itemProps = {
+  flexDirection: "column",
+  alignItems: "baseline",
+};
 
 const BookingPage = ({ id, location }) => {
-  const { extra, final_price, tickets } = location.state;
+  const { extra, final_price, quantity, tickets } = location.state;
   const { bookingData } = extra;
+
+  const [hasCouponFailed, setHasCouponFailed] = React.useState(false);
+
+  const handleValidateCoupon = ({ code }) => {
+    if (!code) {
+      return null;
+    }
+
+    return validateCoupon({
+      code,
+      booking_id: id,
+    })
+      .then(console.log)
+      .catch(setHasCouponFailed);
+  };
 
   const handlePayment = async () => {
     navigateWithData(`/booking/${id}/payment`, {
@@ -55,7 +79,35 @@ const BookingPage = ({ id, location }) => {
               </Alert>
             )} */}
 
-            <BookingResume {...location.state} />
+            <TicketsTable
+              tickets={formatTickets(tickets)}
+              quantity={quantity}
+              final_price={final_price}
+              marginBottom={ITEM_SPACE}
+            />
+
+            <Pane display="flex" justifyContent="space-between">
+              <Item {...itemProps} width="70%" marginRight={ITEM_SPACE}>
+                <BookingResume {...location.state} />
+              </Item>
+
+              <Item {...itemProps} width="30%" justifyContent="end">
+                <Heading size={500} marginBottom={ITEM_SPACE}>
+                  Coupon
+                </Heading>
+
+                <CouponForm onSubmit={handleValidateCoupon} />
+
+                {hasCouponFailed && (
+                  <Alert
+                    intent="danger"
+                    title="Coupon not valid"
+                    width="100%"
+                    marginTop={ITEM_SPACE}
+                  />
+                )}
+              </Item>
+            </Pane>
 
             <Pane display="flex" justifyContent="space-between">
               <Button

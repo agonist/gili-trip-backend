@@ -42,6 +42,12 @@ export const putBooking = (bookingId, payload) =>
     })
     .then(getData);
 
+export const validateCoupon = ({ code, booking_id }) =>
+  api.post("/api/v1/coupons/validate", {
+    code,
+    booking_id,
+  });
+
 export const createBrainTreeDropin = amount =>
   brainTreeDropin.create({
     authorization: BRAINTREE_AUTHORIZATION,
