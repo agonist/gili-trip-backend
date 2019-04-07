@@ -295,9 +295,11 @@ class TripsPage extends React.Component {
     const { travel_type } = formData;
     const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
 
-    const isSearchFormLoading = isRoundTrip
-      ? isFetchingDepartureTrips || isFetchingReturnTrips
-      : isFetchingDepartureTrips;
+    const isSearchFormLoading =
+      !hasFailed &&
+      (isRoundTrip
+        ? isFetchingDepartureTrips || isFetchingReturnTrips
+        : isFetchingDepartureTrips);
 
     const hasSelectedAllTickets = isRoundTrip
       ? departureTicket && returnTicket
@@ -320,7 +322,13 @@ class TripsPage extends React.Component {
         </Header>
 
         <Container>
-          {hasFailed ? <ErrorState /> : this.renderTrips()}
+          {hasFailed ? (
+            <ErrorState>
+              <Button onClick={this.fetchTrips}>Try again</Button>
+            </ErrorState>
+          ) : (
+            this.renderTrips()
+          )}
 
           <Pane textAlign="right" paddingTop={majorScale(4)}>
             <Button
