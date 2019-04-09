@@ -4,7 +4,9 @@ import qs from "query-string";
 
 import { DATE_FORMAT, LOCATIONS, TRAVEL_TYPES, OPERATORS } from "../constants";
 
-export const formatDate = date => dateFns.format(date, DATE_FORMAT);
+export const formatDate = (date, format = DATE_FORMAT) =>
+  dateFns.format(date, format);
+
 export const stringToDate = date => dateFns.parse(date);
 
 export const getOperatorLogo = id =>
@@ -16,12 +18,12 @@ export const getLocationId = name =>
 export const getLocationName = id =>
   LOCATIONS.find(({ id: _id }) => id === _id).name;
 
-export const formatTicket = ({ trip, ...ticket }) => ({
+export const flattenTicket = ({ trip, ...ticket }) => ({
   ...trip,
   ...ticket,
 });
 
-export const formatTickets = tickets => tickets.map(formatTicket);
+export const flattenTickets = tickets => tickets.map(flattenTicket);
 
 export const hasReturn = travel_type => travel_type === TRAVEL_TYPES.ROUND;
 
@@ -102,3 +104,7 @@ export const convertMinsToHrsMins = (mins, separator = ":") => {
 
 export const composeValidators = (...validators) => value =>
   validators.reduce((error, validator) => error || validator(value), undefined);
+
+export const formValidations = {
+  required: value => (value ? undefined : "Required"),
+};

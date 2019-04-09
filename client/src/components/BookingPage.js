@@ -1,29 +1,67 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Alert, Button, Heading, Pane } from "evergreen-ui";
+import { Form } from "react-final-form";
+import {
+  Alert,
+  Button,
+  Heading,
+  IconButton,
+  Pane,
+  Spinner,
+} from "evergreen-ui";
 
+import BookingFormInner from "./BookingFormInner";
 import BookingResume from "./BookingResume";
 import Container from "./Container";
 import CouponForm from "./CouponForm";
 import Header from "./Header";
 import Item from "./Item";
 import TicketsTable from "./TicketsTable";
-import { Mobile } from "./Media";
 
 import { CURRENCY_SYMBOL, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
-import { formatTickets, navigateWithData } from "../helpers";
-import { validateCoupon } from "../api";
+import { flattenTickets, navigateWithData } from "../helpers";
+import { fetchBooking, putBooking, validateCoupon } from "../api";
 
 const itemProps = {
   flexDirection: "column",
   alignItems: "baseline",
+  position: "relative",
 };
 
-const BookingPage = ({ id, location }) => {
-  const { extra, final_price, quantity, tickets } = location.state;
-  const { bookingData } = extra;
+const extractFormData = ({ booking_email, passengers, tickets }) => ({
+  booking_email,
+  passengers,
+  tickets,
+});
 
+const BookingPage = ({ id }) => {
+  const [bookingData, setBookingData] = React.useState({});
+  const [isFetchingBooking, setIsFetchingBooking] = React.useState(true);
+  const [isEditingBooking, setIsEditingBooking] = React.useState(false);
   const [isCouponValid, setIsCouponValid] = React.useState(true);
+
+  const bookingFormData = extractFormData(bookingData);
+  const { final_price, quantity, tickets } = bookingData;
+
+  const handleUpdateBookingData = data =>
+    setBookingData({
+      ...data,
+      tickets: flattenTickets(data.tickets),
+    });
+
+  const handleFetchBooking = () => {
+    const onSuccess = data => {
+      handleUpdateBookingData(data);
+      setIsFetchingBooking(false);
+    };
+
+    fetchBooking(id)
+      .then(onSuccess)
+      .catch(console.error);
+  };
+
+  const toggleSetIsEditingBooking = () =>
+    setIsEditingBooking(!isEditingBooking);
 
   const handleValidateCoupon = ({ code }) => {
     if (!code) {
@@ -45,30 +83,121 @@ const BookingPage = ({ id, location }) => {
 
   const handlePayment = async () => {
     navigateWithData(`/booking/${id}/payment`, {
-      data: location.state,
+      data: bookingData,
     });
   };
 
-  const handleEditInfos = () =>
-    navigateWithData("/booking", {
-      data: {
-        ...bookingData,
-        tickets: formatTickets(tickets),
-        extra: {
-          bookingId: id,
-          ...extra,
-        },
-      },
-    });
+  const handleUpdateBooking = formData => {
+    const onSuccess = data => {
+      handleUpdateBookingData(data);
+      setIsEditingBooking(false);
+    };
+
+    return putBooking(id, formData)
+      .then(onSuccess)
+      .catch(console.error);
+  };
+
+  React.useEffect(() => {
+    handleFetchBooking();
+  }, []);
 
   return (
-    <Mobile>
-      {isMobile => (
-        <div className="Page Page--payment">
-          <Header />
+    <div className="Page Page--payment">
+      <Header />
 
-          <Container>
-            {/* {hasPayed && (
+      <Container>
+        {isFetchingBooking ? (
+          <Item>
+            <Spinner />
+          </Item>
+        ) : (
+          <>
+            <TicketsTable
+              tickets={tickets}
+              quantity={quantity}
+              final_price={final_price}
+              marginBottom={ITEM_SPACE}
+            />
+
+            <Pane display="flex" justifyContent="space-between">
+              <Item
+                {...itemProps}
+                width={isEditingBooking ? "100%" : "70%"}
+                marginRight={isEditingBooking ? 0 : ITEM_SPACE}
+              >
+                <IconButton
+                  appearance="minimal"
+                  icon="cog"
+                  position="absolute"
+                  top={ITEM_SPACE / 2}
+                  right={ITEM_SPACE / 2}
+                  onClick={toggleSetIsEditingBooking}
+                />
+
+                {isEditingBooking ? (
+                  <Form
+                    initialValues={{ ...bookingFormData, quantity }}
+                    onSubmit={handleUpdateBooking}
+                  >
+                    {({ form, handleSubmit, submitting }) => (
+                      <form onSubmit={handleSubmit}>
+                        <BookingFormInner
+                          quantity={quantity}
+                          tickets={tickets}
+                        />
+
+                        <Button
+                          appearance="primary"
+                          isLoading={submitting}
+                          marginTop={ITEM_SPACE}
+                          type="submit"
+                        >
+                          EDIT INFORMATIONS
+                        </Button>
+                      </form>
+                    )}
+                  </Form>
+                ) : (
+                  <BookingResume {...bookingData} />
+                )}
+              </Item>
+
+              {!isEditingBooking && (
+                <Item {...itemProps} width="30%" justifyContent="end">
+                  <Heading size={500} marginBottom={ITEM_SPACE}>
+                    Promo code
+                  </Heading>
+
+                  <CouponForm onSubmit={handleValidateCoupon} />
+
+                  {!isCouponValid && (
+                    <Alert
+                      intent="danger"
+                      title="Coupon not valid"
+                      width="100%"
+                      marginTop={ITEM_SPACE}
+                    />
+                  )}
+                </Item>
+              )}
+            </Pane>
+
+            {!isEditingBooking && (
+              <Pane display="flex" justifyContent="flex-end">
+                <Button
+                  appearance="primary"
+                  height={ITEM_HEIGHT}
+                  iconAfter="arrow-right"
+                  onClick={handlePayment}
+                >
+                  {`CONFIRM AND PAY ${final_price}${CURRENCY_SYMBOL}`}
+                </Button>
+              </Pane>
+            )}
+          </>
+        )}
+        {/* {hasPayed && (
               <Alert
                 intent="success"
                 title="Payment succeeded"
@@ -83,75 +212,17 @@ const BookingPage = ({ id, location }) => {
                 </Paragraph>
               </Alert>
             )} */}
-
-            <TicketsTable
-              tickets={formatTickets(tickets)}
-              quantity={quantity}
-              final_price={final_price}
-              marginBottom={ITEM_SPACE}
-            />
-
-            <Pane display="flex" justifyContent="space-between">
-              <Item {...itemProps} width="70%" marginRight={ITEM_SPACE}>
-                <BookingResume {...location.state} />
-              </Item>
-
-              <Item {...itemProps} width="30%" justifyContent="end">
-                <Heading size={500} marginBottom={ITEM_SPACE}>
-                  Promo code
-                </Heading>
-
-                <CouponForm onSubmit={handleValidateCoupon} />
-
-                {!isCouponValid && (
-                  <Alert
-                    intent="danger"
-                    title="Coupon not valid"
-                    width="100%"
-                    marginTop={ITEM_SPACE}
-                  />
-                )}
-              </Item>
-            </Pane>
-
-            <Pane display="flex" justifyContent="space-between">
-              <Button
-                height={ITEM_HEIGHT}
-                iconBefore="arrow-left"
-                onClick={handleEditInfos}
-                marginRight={ITEM_SPACE}
-              >
-                {isMobile ? "EDIT INFOS" : "EDIT MY INOFRMATIONS"}
-              </Button>
-
-              <Button
-                appearance="primary"
-                height={ITEM_HEIGHT}
-                iconAfter="arrow-right"
-                onClick={handlePayment}
-              >
-                {isMobile
-                  ? "CONTINUE TO PAYMENT"
-                  : `CONTINUE AND PAY ${final_price}${CURRENCY_SYMBOL}`}
-              </Button>
-            </Pane>
-          </Container>
-        </div>
-      )}
-    </Mobile>
+      </Container>
+    </div>
   );
 };
 
 BookingPage.propTypes = {
   id: PropTypes.string,
-  location: PropTypes.shape({
-    state: PropTypes.shape({}),
-  }),
 };
 
 BookingPage.defaultProps = {
-  id: null,
-  location: {},
+  id: undefined,
 };
 
 export default BookingPage;

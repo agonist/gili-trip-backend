@@ -4,7 +4,7 @@ import { Checkbox, FormField, Heading } from "evergreen-ui";
 
 import BookingResumePickupField from "./BookingResumePickupField";
 import { ITEM_SPACE } from "../constants";
-import { formatTickets, hasPickup } from "../helpers";
+import { flattenTickets, hasPickup } from "../helpers";
 
 const headingProps = {
   size: 500,
@@ -16,7 +16,7 @@ const formFieldProps = {
 };
 
 const BookingResume = ({ booking_email, passengers, tickets }) => {
-  const [departureTicket, returnTicket] = formatTickets(tickets);
+  const [departureTicket, returnTicket] = flattenTickets(tickets);
   const withPickup = hasPickup(departureTicket);
   const withDropoff = hasPickup(returnTicket);
 

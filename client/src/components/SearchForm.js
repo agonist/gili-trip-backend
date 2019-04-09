@@ -15,13 +15,14 @@ import {
 } from "evergreen-ui";
 
 import {
-  DATE_FORMAT,
   ITEM_HEIGHT,
   ITEM_SPACE,
   LOCATIONS,
   TODAY_DATE,
   TRAVEL_TYPES,
 } from "../constants";
+
+import { formatDate, formValidations, hasReturn } from "../helpers";
 
 import { Mobile, Tablet, Desktop } from "./Media";
 
@@ -48,9 +49,7 @@ const radioProps = {
   marginRight: ITEM_SPACE,
 };
 
-const hasReturn = travel_type => travel_type === TRAVEL_TYPES.ROUND;
-const formatDate = date => dateFns.format(date, DATE_FORMAT);
-const required = value => (value ? undefined : "Required");
+const { required } = formValidations;
 
 const renderLocations = () =>
   LOCATIONS.map(({ id, name }) => (

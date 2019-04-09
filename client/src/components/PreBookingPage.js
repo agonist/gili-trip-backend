@@ -1,14 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Alert } from "evergreen-ui";
+import { Form } from "react-final-form";
+import { Alert, Button, Heading, Pane } from "evergreen-ui";
 
-import BookingForm from "./BookingForm";
+import BookingFormInner from "./BookingFormInner";
 import Container from "./Container";
 import Header from "./Header";
+import Item from "./Item";
 import TicketsTable from "./TicketsTable";
 
-import { ITEM_HEIGHT } from "../constants";
-import { postBooking, putBooking } from "../api";
+import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
+import { postBooking } from "../api";
 import { navigateWithData } from "../helpers";
 
 const formatTicket = ({ date, ...data }) => ({
@@ -30,7 +32,7 @@ const mergeTickets = (tickets, ticketsExtras = []) =>
 const PreBookingPage = ({ location, navigate }) => {
   const { state } = location;
   const { final_price, quantity, tickets, extra = {} } = state;
-  const { bookingId, bookingFormData } = extra;
+  const { bookingFormData } = extra;
 
   if (!state || (state && !state.tickets)) {
     navigate("/trips");
@@ -43,7 +45,6 @@ const PreBookingPage = ({ location, navigate }) => {
     );
 
     const extraData = {
-      bookingData: state,
       bookingFormData: formData,
     };
 
@@ -58,12 +59,6 @@ const PreBookingPage = ({ location, navigate }) => {
     const onError = data => {
       console.log("onError", data);
     };
-
-    if (bookingId) {
-      return putBooking(bookingId, payload)
-        .then(onSuccess)
-        .catch(onError);
-    }
 
     return postBooking(payload)
       .then(onSuccess)
@@ -87,11 +82,38 @@ const PreBookingPage = ({ location, navigate }) => {
           final_price={final_price}
         />
 
-        <BookingForm
+        <Form
           initialValues={{ quantity, ...bookingFormData }}
-          tickets={tickets}
           onSubmit={handleFormSubmit}
-        />
+        >
+          {({ form, handleSubmit, submitting }) => (
+            <form onSubmit={handleSubmit}>
+              <Heading
+                size={700}
+                marginTop={ITEM_HEIGHT}
+                marginBottom={ITEM_SPACE}
+              >
+                Fill your informations
+              </Heading>
+
+              <Item flexDirection="column" alignItems="baseline">
+                <BookingFormInner quantity={quantity} tickets={tickets} />
+              </Item>
+
+              <Pane textAlign="right">
+                <Button
+                  appearance="primary"
+                  height={ITEM_HEIGHT}
+                  iconAfter="arrow-right"
+                  isLoading={submitting}
+                  type="submit"
+                >
+                  CONTINUE TO PAYMENT
+                </Button>
+              </Pane>
+            </form>
+          )}
+        </Form>
       </Container>
     </div>
   );
