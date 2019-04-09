@@ -84,11 +84,10 @@ const BookingForm = ({ initialValues, tickets, onSubmit }) => {
             <Heading size={600}>Optional</Heading>
 
             <BookingFormOptionalField path="tickets[0]" isShown={withPickup}>
-              <Checkbox
+              
+              <FormField
+                {...formFieldProps}
                 label={`I need a pickup from ${departureTicket.from.name}`}
-                checked={withPickup}
-                onChange={handleWithPickupChange}
-                marginBottom={0}
               />
             </BookingFormOptionalField>
 

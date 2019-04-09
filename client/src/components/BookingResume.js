@@ -30,16 +30,23 @@ const BookingResume = ({ booking_email, passengers, tickets }) => {
         description={booking_email}
       />
 
+      {passengers.map((passenger, i) => (
+        <FormField
+          {...formFieldProps}
+          key={passenger}
+          label={`Passenger ${i + 1}`}
+          description={passenger}
+        />
+      ))}
+
       {withPickup && (
         <BookingResumePickupField
           ticket={departureTicket}
           formFieldProps={formFieldProps}
         >
-          <Checkbox
-            label={`I need a pickup from ${departureTicket.from.name}`}
-            disabled
-            checked={withPickup}
-          />
+        <FormField
+          label={`Pickup from ${departureTicket.from.name}`}
+        />
         </BookingResumePickupField>
       )}
 
@@ -56,14 +63,7 @@ const BookingResume = ({ booking_email, passengers, tickets }) => {
         </BookingResumePickupField>
       )}
 
-      {passengers.map((passenger, i) => (
-        <FormField
-          {...formFieldProps}
-          key={passenger}
-          label={`Passenger ${i + 1}`}
-          description={passenger}
-        />
-      ))}
+
     </div>
   );
 };
