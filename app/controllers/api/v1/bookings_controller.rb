@@ -43,6 +43,11 @@ class Api::V1::BookingsController < ApiController
     end
   end
 
+  def get
+    @booking = Booking.find(params[:id])
+    render json: @booking
+  end
+
   def booking_update_params
      booking = params.require(:booking)
      booking[:tickets_attributes] = booking.delete(:tickets) if booking.key?(:tickets)

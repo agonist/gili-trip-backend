@@ -6,6 +6,8 @@ Rails.application.routes.draw do
       get '/trips', to: 'trips#get_trips'
       post '/bookings', to: 'bookings#create'
       put '/bookings/:id', to: 'bookings#update'
+      get '/bookings/:id', to: 'bookings#get'
+
       resources :locations
       get '/payments/token', to: 'payments#generate_braintree_token'
       post '/payments/checkout', to: 'payments#checkout'

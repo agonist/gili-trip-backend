@@ -43,7 +43,7 @@ export const putBooking = (bookingId, payload) =>
     .then(getData);
 
 export const validateCoupon = ({ code, booking_id }) =>
-  api.post("/api/v1/coupons/validate", {
+  api.post("/coupons/validate", {
     code,
     booking_id,
   });
