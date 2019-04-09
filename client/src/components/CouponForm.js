@@ -19,7 +19,7 @@ const CouponForm = ({ initialValues, onSubmit }) => (
           type="submit"
           marginTop={ITEM_SPACE}
         >
-          Apply
+          APPLY
         </Button>
       </form>
     )}

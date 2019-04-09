@@ -76,7 +76,7 @@ const Ticket = ({
                   </React.Fragment>
                 ) : (
                   <Button appearance="primary" onClick={handleSelect}>
-                    Reserve
+                    BOOK
                   </Button>
                 )}
               </Pane>

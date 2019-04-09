@@ -73,7 +73,7 @@ const renderTravelType = () => (
       {({ input }) => <Radio label="One way" {...input} {...radioProps} />}
     </Field>
     <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ROUND}>
-      {({ input }) => <Radio label="Round trip" {...input} {...radioProps} />}
+      {({ input }) => <Radio label="Return" {...input} {...radioProps} />}
     </Field>
   </Pane>
 );
@@ -230,7 +230,7 @@ const renderSubmit = (submitting, isLoading) => (
       type="submit"
       justifyContent="center"
     >
-      Search
+      SEARCH
     </Button>
   </Pane>
 );

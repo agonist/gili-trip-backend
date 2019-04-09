@@ -19,6 +19,7 @@ const Header = ({ children }) => (
     background={`url(${backgroundImg}) bottom center`}
     backgroundSize="cover"
   >
+  
     <Container>
       <Link
         to="/"

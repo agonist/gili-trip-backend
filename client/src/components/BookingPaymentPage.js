@@ -100,7 +100,7 @@ const BookingPaymentPage = ({ location }) => {
               onClick={handleCancel}
               marginRight={ITEM_SPACE}
             >
-              Cancel and go back
+              CANCEL AND GO BACK
             </Button>
           </Pane>
         )}

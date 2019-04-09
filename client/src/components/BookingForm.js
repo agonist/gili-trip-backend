@@ -112,7 +112,7 @@ const BookingForm = ({ initialValues, tickets, onSubmit }) => {
               isLoading={submitting}
               type="submit"
             >
-              Confirm and book tickets
+              CONTINUE TO PAYMENT
             </Button>
           </Pane>
         </form>

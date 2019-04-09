@@ -93,7 +93,7 @@ const BookingPage = ({ id, location }) => {
 
               <Item {...itemProps} width="30%" justifyContent="end">
                 <Heading size={500} marginBottom={ITEM_SPACE}>
-                  Coupon
+                  Promo code
                 </Heading>
 
                 <CouponForm onSubmit={handleValidateCoupon} />
@@ -116,7 +116,7 @@ const BookingPage = ({ id, location }) => {
                 onClick={handleEditInfos}
                 marginRight={ITEM_SPACE}
               >
-                {isMobile ? "Edit" : "Edit my informations"}
+                {isMobile ? "EDIT INFOS" : "EDIT MY INOFRMATIONS"}
               </Button>
 
               <Button
@@ -126,8 +126,8 @@ const BookingPage = ({ id, location }) => {
                 onClick={handlePayment}
               >
                 {isMobile
-                  ? "Confirm and pay"
-                  : `Confirm and pay ${final_price}${CURRENCY_SYMBOL}`}
+                  ? "CONTINUE TO PAYMENT"
+                  : `CONTINUE AND PAY ${final_price}${CURRENCY_SYMBOL}`}
               </Button>
             </Pane>
           </Container>

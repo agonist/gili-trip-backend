@@ -214,7 +214,7 @@ const TripsPage = ({ location }) => {
             onClick={handleBookTickets}
             disabled={!hasSelectedAllTickets}
           >
-            Confirm and book tickets
+            CONTINUE TO CHECKOUT
           </Button>
         </Pane>
       </Container>
