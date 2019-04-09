@@ -23,7 +23,7 @@ const BookingPage = ({ id, location }) => {
   const { extra, final_price, quantity, tickets } = location.state;
   const { bookingData } = extra;
 
-  const [hasCouponFailed, setHasCouponFailed] = React.useState(false);
+  const [isCouponValid, setIsCouponValid] = React.useState(true);
 
   const handleValidateCoupon = ({ code }) => {
     if (!code) {
@@ -34,8 +34,13 @@ const BookingPage = ({ id, location }) => {
       code,
       booking_id: id,
     })
-      .then(console.log)
-      .catch(setHasCouponFailed);
+      .then(({ data }) => {
+        const { valid } = data;
+        setIsCouponValid(valid);
+      })
+      .catch(() => {
+        setIsCouponValid(false);
+      });
   };
 
   const handlePayment = async () => {
@@ -98,7 +103,7 @@ const BookingPage = ({ id, location }) => {
 
                 <CouponForm onSubmit={handleValidateCoupon} />
 
-                {hasCouponFailed && (
+                {!isCouponValid && (
                   <Alert
                     intent="danger"
                     title="Coupon not valid"
