@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_06_122409) do
+ActiveRecord::Schema.define(version: 2019_04_10_062359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -120,6 +120,8 @@ ActiveRecord::Schema.define(version: 2019_03_06_122409) do
     t.datetime "updated_at", null: false
     t.boolean "high_season"
     t.integer "high_season_percentage_multiplier"
+    t.boolean "has_pickup", default: false
+    t.boolean "has_dropoff", default: false
     t.index ["from_id"], name: "index_trips_on_from_id"
     t.index ["operator_id"], name: "index_trips_on_operator_id"
     t.index ["to_id"], name: "index_trips_on_to_id"

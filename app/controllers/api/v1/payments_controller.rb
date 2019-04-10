@@ -42,6 +42,10 @@ class Api::V1::PaymentsController < ApiController
       @booking.payment_status = "success"
       @booking.booking_status = "success"
 
+      @coupon = @booking.coupon
+      @coupon.used += 1
+      @coupon.save
+
       if @booking.save
         infos = get_booking_infos(@booking)
         send_confirmation_email(infos)
