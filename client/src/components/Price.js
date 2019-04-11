@@ -4,8 +4,14 @@ import { Heading } from "evergreen-ui";
 
 import { CURRENCY_SYMBOL } from "../constants";
 
-const Price = ({ price }) => (
-  <Heading size={700} textAlign="center" fontWeight={600}>
+const Price = ({ price, ...props }) => (
+  <Heading
+    size={700}
+    textAlign="center"
+    fontWeight={400}
+    color="#FFFFFF"
+    {...props}
+  >
     {`${price}${CURRENCY_SYMBOL}`}
   </Heading>
 );

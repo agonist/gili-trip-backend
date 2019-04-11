@@ -146,14 +146,14 @@ const TripsPage = ({ location }) => {
 
     return (
       <>
-        <TripsTitle from={fromName} to={toName} />
-
         {isFetchingTrips ? (
           <Item>
             <Spinner />
           </Item>
         ) : (
           <Trips
+            from={fromName}
+            to={toName}
             trips={departureTrips}
             selected={departureTicket && departureTicket.id}
             handleSelect={setDepartureTicket}
@@ -163,14 +163,14 @@ const TripsPage = ({ location }) => {
 
         {isRoundTrip && (
           <Pane marginTop={majorScale(4)}>
-            <TripsTitle from={toName} to={fromName} />
-
             {isFetchingTrips ? (
               <Item>
                 <Spinner />
               </Item>
             ) : (
               <Trips
+                from={toName}
+                to={fromName}
                 trips={returnTrips}
                 selected={returnTicket && returnTicket.id}
                 handleSelect={setReturnTicket}

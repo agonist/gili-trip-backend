@@ -1,17 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Pane, majorScale } from "evergreen-ui";
+import { Icon, Pane } from "evergreen-ui";
 
 import Content from "./TicketContent";
-import Icons from "./TicketIcons";
+// import Icons from "./TicketIcons";
 import Item from "./Item";
 import Price from "./Price";
 import OperatorLogo from "./OperatorLogo";
-import { Mobile } from "./Media";
 
-import { ITEM_SPACE } from "../constants";
+import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 
-const buttonHeight = 32;
 const baseZindex = 10;
 
 const pileItemProps = index => ({
@@ -34,68 +32,57 @@ const Ticket = ({
   canSelectTicket,
   vehicle,
 }) => (
-  <Mobile>
-    {isMobile => (
-      <Pane position="relative">
-        <Item
-          className={`Ticket ${isSelected && "is-selected"}`}
-          position="relative"
-          zIndex={baseZindex}
-          cursor={isSelected ? "pointer" : "default"}
-          onClick={isSelected ? handleUnselect : null}
-          flexWrap="wrap"
+  <Pane position="relative">
+    <Item
+      className={`Ticket ${isSelected && "is-selected"}`}
+      position="relative"
+      padding={0}
+      paddingLeft={ITEM_HEIGHT}
+      overflow="hidden"
+      zIndex={baseZindex}
+      onClick={isSelected ? handleUnselect : null}
+    >
+      <OperatorLogo {...vehicle} />
+
+      <Content
+        arrival_time={arrival_time}
+        departure_time={departure_time}
+        duration={duration}
+        paddingY={ITEM_HEIGHT}
+      />
+
+      {canSelectTicket && (
+        <Pane
+          alignSelf="normal"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          backgroundColor="#1070CA"
+          cursor="pointer"
+          onClick={handleSelect}
         >
-          <OperatorLogo {...vehicle} />
+          <Price price={price} paddingX={ITEM_HEIGHT} />
 
-          <Content
-            arrival_time={arrival_time}
-            departure_time={departure_time}
-            duration={duration}
+          <Icon
+            icon={isSelected ? "cross" : "arrow-right"}
+            color="#FFF"
+            marginTop={ITEM_SPACE}
           />
+        </Pane>
+      )}
+    </Item>
 
-          {canSelectTicket && (
-            <Pane
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center"
-              marginTop={isMobile ? ITEM_SPACE : 0}
-            >
-              <Price price={price} />
-
-              <Pane height={buttonHeight} marginTop={majorScale(1)}>
-                {isSelected ? (
-                  <React.Fragment>
-                    {isMobile ? (
-                      <Button appearance="primary" intent="danger">
-                        Cancel
-                      </Button>
-                    ) : (
-                      <Icons />
-                    )}
-                  </React.Fragment>
-                ) : (
-                  <Button appearance="primary" onClick={handleSelect}>
-                    BOOK
-                  </Button>
-                )}
-              </Pane>
-            </Pane>
-          )}
-        </Item>
-
-        {isSelected &&
-          [1, 2].map(value => (
-            <Item
-              key={value}
-              style={{
-                ...pileItemProps(value),
-              }}
-            />
-          ))}
-      </Pane>
-    )}
-  </Mobile>
+    {isSelected &&
+      [1, 2].map(value => (
+        <Item
+          key={value}
+          style={{
+            ...pileItemProps(value),
+          }}
+        />
+      ))}
+  </Pane>
 );
 
 Ticket.propTypes = {

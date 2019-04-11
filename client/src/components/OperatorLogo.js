@@ -6,10 +6,10 @@ import { Mobile } from "./Media";
 import { getOperatorLogo } from "../helpers";
 import { ITEM_SPACE } from "../constants";
 
-const OperatorLogo = ({ id, subtype, ...props }) => (
+const OperatorLogo = ({ id, subtype }) => (
   <Mobile>
     {isMobile => (
-      <Pane {...props}>
+      <Pane>
         <img
           src={getOperatorLogo(id)}
           alt={subtype}
