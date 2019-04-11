@@ -1,7 +1,13 @@
 import { majorScale } from "evergreen-ui";
 import operator1 from "../assets/wahana-logo.png";
 
-export const BASE_API_URL = "http://localhost:3001/api/v1/";
+const { NODE_ENV } = process.env;
+
+export const IS_DEV = NODE_ENV === "development";
+
+export const BASE_API_URL = IS_DEV
+  ? "http://localhost:3001/api/v1/"
+  : "https://gili-trip-staging.herokuapp.com/api/v1";
 
 export const CONTACT_EMAIL = "gili-sos@gmail.com";
 
