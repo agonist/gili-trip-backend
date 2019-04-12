@@ -5,6 +5,7 @@ import { Pane } from "evergreen-ui";
 import Content from "./TicketContent";
 import Icons from "./TicketIcons";
 import Item from "./Item";
+import PileItems from "./TicketPileItems";
 import Price from "./Price";
 import OperatorLogo from "./OperatorLogo";
 
@@ -12,15 +13,6 @@ import useHover from "../hooks/useHover";
 import { ITEM_HEIGHT } from "../constants";
 
 const baseZindex = 10;
-
-const pileItemProps = index => ({
-  position: "absolute",
-  bottom: `${0 - index * 5}%`,
-  left: `${index * 2}%`,
-  right: `${index * 2}%`,
-  margin: 0,
-  zIndex: baseZindex - index * 10,
-});
 
 const Ticket = ({
   arrival_time,
@@ -69,15 +61,7 @@ const Ticket = ({
         )}
       </Item>
 
-      {isSelected &&
-        [1, 2].map(value => (
-          <Item
-            key={value}
-            style={{
-              ...pileItemProps(value),
-            }}
-          />
-        ))}
+      <PileItems baseZindex={baseZindex} isShown={isSelected} />
     </Pane>
   );
 };

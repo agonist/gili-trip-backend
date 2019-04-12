@@ -9,7 +9,7 @@ import TripsTitle from "./TripsTitle";
 import { ITEM_HEIGHT } from "../constants";
 
 const Trips = ({ from, to, handleSelect, handleUnselect, selected, trips }) => (
-  <Pane display="flex" paddingBottom={selected ? majorScale(1) : 0}>
+  <Pane display="flex">
     <Pane paddingRight={ITEM_HEIGHT}>
       <TripsTitle from={from} to={to} />
     </Pane>
