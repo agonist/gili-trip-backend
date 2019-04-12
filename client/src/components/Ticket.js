@@ -1,14 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Icon, Pane } from "evergreen-ui";
+import { Pane } from "evergreen-ui";
 
 import Content from "./TicketContent";
-// import Icons from "./TicketIcons";
+import Icons from "./TicketIcons";
 import Item from "./Item";
 import Price from "./Price";
 import OperatorLogo from "./OperatorLogo";
 
-import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
+import useHover from "../hooks/useHover";
+import { ITEM_HEIGHT } from "../constants";
 
 const baseZindex = 10;
 
@@ -31,59 +32,55 @@ const Ticket = ({
   price,
   canSelectTicket,
   vehicle,
-}) => (
-  <Pane position="relative">
-    <Item
-      className={`Ticket ${isSelected && "is-selected"}`}
-      position="relative"
-      padding={0}
-      paddingLeft={ITEM_HEIGHT}
-      overflow="hidden"
-      zIndex={baseZindex}
-      onClick={isSelected ? handleUnselect : null}
-    >
-      <OperatorLogo {...vehicle} />
+}) => {
+  const [isHovering, hoveringProps] = useHover();
+  return (
+    <Pane position="relative">
+      <Item
+        className={`Ticket ${isSelected && "is-selected"}`}
+        position="relative"
+        padding={0}
+        paddingLeft={ITEM_HEIGHT}
+        overflow="hidden"
+        zIndex={baseZindex}
+      >
+        <OperatorLogo {...vehicle} />
 
-      <Content
-        arrival_time={arrival_time}
-        departure_time={departure_time}
-        duration={duration}
-        paddingY={ITEM_HEIGHT}
-      />
-
-      {canSelectTicket && (
-        <Pane
-          alignSelf="normal"
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
-          backgroundColor="#1070CA"
-          cursor="pointer"
-          onClick={handleSelect}
-        >
-          <Price price={price} paddingX={ITEM_HEIGHT} />
-
-          <Icon
-            icon={isSelected ? "cross" : "arrow-right"}
-            color="#FFF"
-            marginTop={ITEM_SPACE}
-          />
-        </Pane>
-      )}
-    </Item>
-
-    {isSelected &&
-      [1, 2].map(value => (
-        <Item
-          key={value}
-          style={{
-            ...pileItemProps(value),
-          }}
+        <Content
+          arrival_time={arrival_time}
+          departure_time={departure_time}
+          duration={duration}
+          paddingY={ITEM_HEIGHT}
         />
-      ))}
-  </Pane>
-);
+
+        {canSelectTicket && (
+          <Pane
+            {...hoveringProps}
+            position="relative"
+            alignSelf="normal"
+            backgroundColor={isSelected ? "#47B881" : "#3D8BD4"}
+            cursor="pointer"
+            onClick={isSelected ? handleUnselect : handleSelect}
+            transition="background-color 0.2s ease-out"
+          >
+            <Price price={price} padding={ITEM_HEIGHT} />
+            <Icons isHovering={isHovering} isSelected={isSelected} />
+          </Pane>
+        )}
+      </Item>
+
+      {isSelected &&
+        [1, 2].map(value => (
+          <Item
+            key={value}
+            style={{
+              ...pileItemProps(value),
+            }}
+          />
+        ))}
+    </Pane>
+  );
+};
 
 Ticket.propTypes = {
   arrival_time: PropTypes.string.isRequired,

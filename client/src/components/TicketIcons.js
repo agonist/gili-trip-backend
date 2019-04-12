@@ -1,22 +1,57 @@
 import React from "react";
-import { Icon, Pane, majorScale } from "evergreen-ui";
+import PropTypes from "prop-types";
+import { Icon } from "evergreen-ui";
 
-const iconSize = majorScale(3);
+import { ITEM_SPACE } from "../constants";
 
-const TicketIcons = () => (
-  <Pane
-    className="Ticket-icons"
-    width={iconSize}
-    height={iconSize}
-    position="relative"
-  >
-    <span className="Ticket-icon Ticket-icon--circle">
-      <Icon size={iconSize} icon="tick-circle" color="success" />
-    </span>
-    <span className="Ticket-icon Ticket-icon--ban">
-      <Icon size={iconSize} icon="ban-circle" color="danger" />
-    </span>
-  </Pane>
-);
+const iconProps = {
+  size: 24,
+  color: "#FFF",
+  position: "absolute",
+  left: "50%",
+  marginLeft: -12,
+  bottom: ITEM_SPACE * 2,
+  transition: "all 0.2s ease-out",
+};
+
+const iconHoverableProps = {
+  opacity: 0,
+  transform: "scale(0.5)",
+};
+
+const iconHoveredProps = {
+  opacity: 1,
+  transform: "scale(1)",
+};
+
+const TicketIcons = ({ isHovering, isSelected }) =>
+  isSelected ? (
+    <>
+      <Icon
+        {...iconProps}
+        {...iconHoverableProps}
+        {...isHovering && iconHoveredProps}
+        icon="cross"
+      />
+      <Icon
+        {...iconProps}
+        {...iconHoverableProps}
+        {...!isHovering && iconHoveredProps}
+        icon="tick-circle"
+      />
+    </>
+  ) : (
+    <Icon {...iconProps} icon="arrow-right" />
+  );
+
+TicketIcons.propTypes = {
+  isHovering: PropTypes.bool,
+  isSelected: PropTypes.bool,
+};
+
+TicketIcons.defaultProps = {
+  isHovering: false,
+  isSelected: false,
+};
 
 export default TicketIcons;
