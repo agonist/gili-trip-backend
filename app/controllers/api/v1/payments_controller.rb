@@ -47,12 +47,12 @@ class Api::V1::PaymentsController < ApiController
         @coupon.used += 1
         @coupon.save
       end
-    
+
       if @booking.save
         infos = get_booking_infos(@booking)
         send_confirmation_email(infos)
         send_slack_bot(infos)
-        send_whatsapp(infos)
+        # send_whatsapp(infos)
         render json: @booking
       else
         render json: @booking.errors, status: :unprocessable_entity
