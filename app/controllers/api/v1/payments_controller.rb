@@ -67,10 +67,7 @@ class Api::V1::PaymentsController < ApiController
     env =  :sandbox
 
     @gateway ||= Braintree::Gateway.new(
-      :environment => env && env.to_sym,
-      :merchant_id => ENV['BRAINTREE_CLIENT_ID'],
-      :public_key => ENV['BRAINTREE_PUBLIC'],
-      :private_key => ENV['BRAINTREE_PRIVATE'],
+      :access_token => ENV['PAYPAL_ACCESS_TOKEN']
     )
   end
 

@@ -52,6 +52,7 @@ gem 'devise'
 gem 'activeadmin'
 gem 'active_model_serializers'
 gem 'braintree'
+
 gem 'dotenv-rails', groups: [:development, :test, :staging]
 gem 'sendgrid-ruby'
 gem 'rack-attack'
