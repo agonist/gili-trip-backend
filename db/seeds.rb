@@ -100,7 +100,7 @@ if Rails.env.staging? || Rails.env.production?
   Vehicle.create(kind: 'Boat', subtype: 'Wahana Gili Ocean III', description: '')
   Vehicle.create(kind: 'Boat', subtype: 'Wahana Gili Ocean V', description: '')
 
-  Operator.create(name: 'Wahana Gili Ocean', logo: '', website: 'https://wahanagiliocean.com/', contact_email: '', contact_phone: '')
+  Operator.create(name: 'Wahana Gili Ocean', logo: '', website: 'https://wahanagiliocean.com/', contact_email: '', contact_phone: '', whatsapp_for_notif: 'whatsapp:+14155238886')
 
   Trip.create(name: 'Bali (Padangbai) to Gili Trawangan', from_id: 1, to_id: 3, operator_id: 1, price: '32', currency: "$", departure_time:  "09:00", arrival_time:  "10:30", duration: '90', vehicle_id: 1, high_season_percentage_multiplier: 5, has_pickup: true)
   Trip.create(name: 'Bali (Padangbai) to Gili Trawangan', from_id: 1, to_id: 3, operator_id: 1, price: '32', currency: "$", departure_time:  "14:00", arrival_time:  "15:30", duration: '90', vehicle_id: 1, high_season_percentage_multiplier: 5, has_pickup: true)
