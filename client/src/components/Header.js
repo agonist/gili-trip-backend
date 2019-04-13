@@ -1,12 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "@reach/router";
-import { Heading, Pane, Paragraph, majorScale } from "evergreen-ui";
+import { Pane, majorScale } from "evergreen-ui";
 
 import Container from "./Container";
 
 import backgroundImg from "../assets/185489.jpg";
-import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
+import { ITEM_HEIGHT } from "../constants";
 
 const Header = ({ children }) => (
   <Pane
@@ -19,10 +18,7 @@ const Header = ({ children }) => (
     background={`url(${backgroundImg}) bottom center`}
     backgroundSize="cover"
   >
-
     <Container>
-
-
       {children && (
         <Pane
           display="flex"

@@ -1,67 +1,67 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { Heading, Pane } from "evergreen-ui";
+import { Heading, Paragraph, Icon, Pane } from "evergreen-ui";
 
 import Container from "./Container";
-import Item from "./TaglineItem";
 import { Mobile } from "./Media";
 
 import { ITEM_SPACE } from "../constants";
 
 const items = [
   {
-    id: 1,
     icon: "tag",
     title: "Find the best price for your journey",
-    text: "Compare prices of the different boat trip instantly, no need to bargain!",
+    text:
+      "Compare prices of the different boat trip instantly, no need to bargain!",
   },
   {
-    id: 2,
     icon: "help",
     title: "Do you have any questions?",
     text: "We are here to answer and provide help regarding your trip. Ask us.",
   },
   {
-    id: 3,
     icon: "credit-card",
     title: "Pay securely",
-    text: "Buy tickets with paypal and all international credit cards in total security.",
-  }
+    text:
+      "Buy tickets with paypal and all international credit cards in total security.",
+  },
 ];
 
-const Tagline = ({ }) => (
-  <Container>
-    <Mobile>
-      {isMobile => {
-        const renderItems = (from, to) =>
-          items
-            .slice(from, to)
-            .map(({ id, ...item }) => (
-              <Item
-                key={id}
-                onClick={() => onClick(item)}
-                isMobile={isMobile}
-                {...item}
+const Tagline = () => (
+  <Mobile>
+    {isMobile => (
+      <Container paddingBottom={0}>
+        <Pane
+          display={isMobile ? "block" : "flex"}
+          justifyContent="space-between"
+        >
+          {items.map(({ icon, title, text }) => (
+            <Pane
+              display="flex"
+              flexDirection="row"
+              flex={1}
+              padding={ITEM_SPACE}
+              paddingLeft={ITEM_SPACE / 2}
+            >
+              <Icon
+                icon={icon}
+                size={ITEM_SPACE}
+                marginTop={ITEM_SPACE / 2}
+                color="#34d1b6"
+                flexShrink={0}
               />
-            ));
 
-        return isMobile ? (
-          renderItems(0, 3)
-        ) : (
-          <React.Fragment>
-            <Pane display="flex" justifyContent="space-between">
-            {renderItems(0, 3)}
+              <Pane paddingLeft={ITEM_SPACE}>
+                <Heading marginBottom={isMobile ? 6 : ITEM_SPACE / 2}>
+                  {title}
+                </Heading>
+                <Paragraph>{text}</Paragraph>
+              </Pane>
             </Pane>
-
-          </React.Fragment>
-        );
-      }}
-    </Mobile>
-  </Container>
+          ))}
+        </Pane>
+      </Container>
+    )}
+  </Mobile>
 );
-
-Tagline.propTypes = {
-
-};
 
 export default Tagline;

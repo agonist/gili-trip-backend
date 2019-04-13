@@ -1,53 +1,67 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Link } from "@reach/router";
-import { Heading, Pane, Paragraph, majorScale, Text } from "evergreen-ui";
+import { Pane, Text } from "evergreen-ui";
 import logo from "../assets/gili-trip-logo.png";
 
 import Container from "./Container";
+import { Mobile } from "./Media";
 
-import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
+import { ITEM_SPACE } from "../constants";
 
-const TopMenu = ({  }) => (
+const links = [
+  {
+    to: "#booking",
+    text: "Booking",
+  },
+  {
+    to: "#fast-boats",
+    text: "Fast boats",
+  },
+  {
+    to: "#help",
+    text: "Help",
+  },
+];
 
-  <Pane
-    height={100}
-    display="flex"
-    border="default"
-  >
-    <Pane marginLeft={230} flex={1} alignItems="center" display="flex">
-    <Link
-      to="/"
-      style={{
-        display: "inline-block",
-        textDecoration: "none",
-      }}>
-        <img
-          src={logo}
-          width={150}
-          style={{
-            display: "block"
-          }}
-        />
-    </Link>
-    <Pane marginRight={230} marginTop={22} display="flex" flex={3} justifyContent="flex-end">
-        <Link to="/" style={{
-          textDecoration: "none"
-        }}><Heading  marginRight={majorScale(2)}>Booking</Heading>
+const TopMenu = () => (
+  <Mobile>
+    {isMobile => (
+      <Container display="flex">
+        <Link to="/">
+          <img
+            src={logo}
+            width={isMobile ? 100 : 150}
+            alt="Gili Trip, easy fast boat booking"
+          />
         </Link>
 
-        <Link to="/" style={{
-          textDecoration: "none"
-        }}><Heading marginRight={majorScale(2)}>Fast boats</Heading>
-        </Link>
-
-        <Link to="/" style={{
-          textDecoration: "none"
-        }}><Heading  marginRight={majorScale(2)}>Help</Heading>
-        </Link>
-     </Pane>
-    </Pane>
-  </Pane>
+        <Pane
+          display="flex"
+          alignItems="center"
+          justifyContent="flex-end"
+          flexGrow={1}
+        >
+          {links.map(({ to, text }) => (
+            <Link
+              to={to}
+              key={to}
+              style={{
+                display: "inline-block",
+                paddingTop: isMobile ? 6 : ITEM_SPACE,
+                paddingBottom: isMobile ? 6 : ITEM_SPACE,
+                paddingLeft: isMobile ? ITEM_SPACE / 2 : ITEM_SPACE * 2,
+                paddingRight: isMobile ? ITEM_SPACE / 2 : ITEM_SPACE * 2,
+              }}
+            >
+              <Text fontWeight={500} fontSize={isMobile ? 12 : 16}>
+                {text}
+              </Text>
+            </Link>
+          ))}
+        </Pane>
+      </Container>
+    )}
+  </Mobile>
 );
 
 export default TopMenu;
