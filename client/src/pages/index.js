@@ -4,8 +4,6 @@ import Header from "../components/Header";
 import Popular from "../components/Popular";
 import SearchForm from "../components/SearchForm";
 import Tagline from "../components/Tagline";
-import TopMenu from "../components/TopMenu";
-import { Pane } from "evergreen-ui";
 
 import { navigateWithData } from "../helpers";
 
@@ -24,7 +22,6 @@ const IndexPage = () => {
 
   return (
     <div className="Page Page--index">
-      <TopMenu/>
       <Header>
         <SearchForm formData={formData} onSubmit={onSubmit} />
       </Header>

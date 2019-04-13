@@ -17,7 +17,6 @@ import CouponForm from "./CouponForm";
 import Header from "./Header";
 import Item from "./Item";
 import TicketsTable from "./TicketsTable";
-import TopMenu from "../components/TopMenu";
 
 import { CURRENCY_SYMBOL, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { flattenTickets, navigateWithData } from "../helpers";
@@ -105,7 +104,6 @@ const BookingPage = ({ id }) => {
 
   return (
     <div className="Page Page--payment">
-      <TopMenu/>
       <Header />
 
       <Container>

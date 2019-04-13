@@ -5,7 +5,6 @@ import { Alert, Button, Heading, Pane, Paragraph, Spinner } from "evergreen-ui";
 import Container from "./Container";
 import Header from "./Header";
 import Item from "./Item";
-import TopMenu from "../components/TopMenu";
 
 import { CONTACT_EMAIL, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { navigateWithData } from "../helpers";
@@ -59,7 +58,6 @@ const BookingPaymentPage = ({ location }) => {
 
   return (
     <div className="Page Page--booking">
-      <TopMenu/>
       <Header />
 
       <Container>
