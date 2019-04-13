@@ -8,6 +8,7 @@ import Container from "./Container";
 import Header from "./Header";
 import Item from "./Item";
 import TicketsTable from "./TicketsTable";
+import TopMenu from "../components/TopMenu";
 
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { postBooking } from "../api";
@@ -67,6 +68,7 @@ const PreBookingPage = ({ location, navigate }) => {
 
   return (
     <div className="Page Page--preBooking">
+      <TopMenu/>
       <Header />
 
       <Container>

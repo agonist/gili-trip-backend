@@ -10,6 +10,7 @@ import Item from "./Item";
 import SearchForm from "./SearchForm";
 import Trips from "./Trips";
 import TripsTitle from "./TripsTitle";
+import TopMenu from "../components/TopMenu";
 
 import { ITEM_HEIGHT, TRAVEL_TYPES } from "../constants";
 import { fetchTrips } from "../api";
@@ -189,6 +190,7 @@ const TripsPage = ({ location }) => {
 
   return (
     <div className="Page Page--trips">
+      <TopMenu />
       <Header>
         <SearchForm
           formData={queryParams}
