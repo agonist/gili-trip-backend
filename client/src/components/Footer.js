@@ -52,19 +52,19 @@ const Footer = () => (
               About us
             </Paragraph>
           </Link>
-          <Link to="/">
+          <Link to="/terms">
             <Paragraph fontWeight={500}>
-              Terms and conditions
+              Terms of service
             </Paragraph>
           </Link>
-          <Link to="/">
+          <Link to="/privacy">
             <Paragraph fontWeight={500}>
               Privacy policy
             </Paragraph>
           </Link>
-          <Link to="/">
+          <Link to="/your-data">
             <Paragraph fontWeight={500}>
-              Contact us
+              Cookies
             </Paragraph>
           </Link>
           </Pane>

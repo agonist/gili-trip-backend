@@ -6,6 +6,9 @@ import Trips from "./TripsPage";
 import PreBooking from "./PreBookingPage";
 import Booking from "./BookingPage";
 import Payment from "./BookingPaymentPage";
+import Tos from "./TosPage";
+import Privacy from "./PrivacyPage";
+import Cookies from "./CookiesPage";
 
 import TopMenu from "./TopMenu";
 import Footer from "./Footer";
@@ -19,6 +22,9 @@ const App = () => (
         <PreBooking exact path="/booking" />
         <Booking exact path="/booking/:id" />
         <Payment path="/booking/:id/payment" />
+        <Tos path="/terms" />
+        <Privacy path="/privacy" />
+        <Cookies path="/your-data" />
         <Routes default />
       </Router>
     </Root>
