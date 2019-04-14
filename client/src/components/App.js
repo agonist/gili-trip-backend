@@ -8,6 +8,7 @@ import Booking from "./BookingPage";
 import Payment from "./BookingPaymentPage";
 
 import TopMenu from "./TopMenu";
+import Footer from "./Footer";
 
 const App = () => (
   <div className="App">
@@ -21,6 +22,7 @@ const App = () => (
         <Routes default />
       </Router>
     </Root>
+    <Footer />
   </div>
 );
 
