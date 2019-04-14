@@ -9,6 +9,7 @@ import Payment from "./BookingPaymentPage";
 import Tos from "./TosPage";
 import Privacy from "./PrivacyPage";
 import Cookies from "./CookiesPage";
+import Contact from "./ContactPage";
 
 import TopMenu from "./TopMenu";
 import Footer from "./Footer";
@@ -25,6 +26,7 @@ const App = () => (
         <Tos path="/terms" />
         <Privacy path="/privacy" />
         <Cookies path="/your-data" />
+        <Contact path="/contact" />
         <Routes default />
       </Router>
     </Root>

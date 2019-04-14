@@ -67,6 +67,11 @@ const Footer = () => (
               Cookies
             </Paragraph>
           </Link>
+          <Link to="/contact">
+            <Paragraph fontWeight={500}>
+              Contact
+            </Paragraph>
+          </Link>
           </Pane>
 
           <Pane flexDirection="row">
@@ -79,7 +84,7 @@ const Footer = () => (
               alt="Follow us on facebook"
             />
           </Link>
-          <Link to="/" flex={1}>
+          <Link to="https://www.instagram.com/gili.trip/" flex={1}>
             <img
               width={32}
               src={ig}
@@ -94,7 +99,7 @@ const Footer = () => (
           <img
             width={150}
             src={paypal}
-            alt="Follow us on facebook"
+            alt="we accept Paypal"
           />
           </Pane>
 

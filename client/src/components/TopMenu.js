@@ -47,8 +47,8 @@ const TopMenu = () => (
               key={to}
               style={{
                 display: "inline-block",
-                paddingTop: isMobile ? 6 : ITEM_SPACE,
-                paddingBottom: isMobile ? 6 : ITEM_SPACE,
+                paddingTop: isMobile ? 6 : 6,
+                paddingBottom: isMobile ? 6 : 6,
                 paddingLeft: isMobile ? ITEM_SPACE / 2 : ITEM_SPACE * 2,
                 paddingRight: isMobile ? ITEM_SPACE / 2 : ITEM_SPACE * 2,
               }}
