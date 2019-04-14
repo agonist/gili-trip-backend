@@ -9,7 +9,6 @@ import Header from "./Header";
 import Item from "./Item";
 import SearchForm from "./SearchForm";
 import Trips from "./Trips";
-import TripsTitle from "./TripsTitle";
 
 import { ITEM_HEIGHT, TRAVEL_TYPES } from "../constants";
 import { fetchTrips } from "../api";

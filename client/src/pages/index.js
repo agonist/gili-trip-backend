@@ -3,6 +3,7 @@ import React from "react";
 import Header from "../components/Header";
 import Popular from "../components/Popular";
 import SearchForm from "../components/SearchForm";
+import Tagline from "../components/Tagline";
 
 import { navigateWithData } from "../helpers";
 
@@ -24,7 +25,7 @@ const IndexPage = () => {
       <Header>
         <SearchForm formData={formData} onSubmit={onSubmit} />
       </Header>
-
+      <Tagline />
       <Popular onClick={handlePopularItemClick} />
     </div>
   );

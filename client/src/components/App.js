@@ -7,8 +7,11 @@ import PreBooking from "./PreBookingPage";
 import Booking from "./BookingPage";
 import Payment from "./BookingPaymentPage";
 
+import TopMenu from "./TopMenu";
+
 const App = () => (
   <div className="App">
+    <TopMenu />
     <Root>
       <Router>
         <Trips path="/trips" />
