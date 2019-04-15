@@ -47,13 +47,14 @@ const TopMenu = () => (
               key={to}
               style={{
                 display: "inline-block",
-                paddingTop: isMobile ? 6 : 6,
-                paddingBottom: isMobile ? 6 : 6,
-                paddingLeft: isMobile ? ITEM_SPACE / 2 : ITEM_SPACE * 2,
-                paddingRight: isMobile ? ITEM_SPACE / 2 : ITEM_SPACE * 2,
               }}
             >
-              <Text fontWeight={500} fontSize={isMobile ? 12 : 16}>
+              <Text
+                fontWeight={500}
+                fontSize={isMobile ? 12 : 16}
+                paddingX={isMobile ? ITEM_SPACE / 2 : ITEM_SPACE * 2}
+                paddingY={isMobile ? 6 : ITEM_SPACE}
+              >
                 {text}
               </Text>
             </Link>

@@ -36,6 +36,7 @@ const Tagline = () => (
         >
           {items.map(({ icon, title, text }) => (
             <Pane
+              key={title}
               display="flex"
               flexDirection="row"
               flex={1}
