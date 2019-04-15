@@ -6,10 +6,12 @@ import Trips from "./TripsPage";
 import PreBooking from "./PreBookingPage";
 import Booking from "./BookingPage";
 import Payment from "./BookingPaymentPage";
-import Tos from "./TosPage";
-import Privacy from "./PrivacyPage";
-import Cookies from "./CookiesPage";
+import Tos from "./legal/TosPage";
+import Privacy from "./legal/PrivacyPage";
+import Cookies from "./legal/CookiesPage";
 import Contact from "./ContactPage";
+
+import Wahana from "./operators/WahanaPage";
 
 import TopMenu from "./TopMenu";
 import Footer from "./Footer";
@@ -27,6 +29,7 @@ const App = () => (
         <Privacy path="/privacy" />
         <Cookies path="/your-data" />
         <Contact path="/contact" />
+        <Wahana path="/operator/wahana" />
         <Routes default />
       </Router>
     </Root>
