@@ -32,7 +32,6 @@ const TripsTitle = ({ from, to }) => (
         size: 500,
         display: isMobile ? "block" : "flex",
         alignItems: "center",
-        // fontWeight: 500,
         marginBottom: ITEM_SPACE,
       };
 

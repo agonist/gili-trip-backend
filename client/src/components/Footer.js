@@ -1,9 +1,11 @@
 import React from "react";
-import { Pane, Paragraph } from "evergreen-ui";
+import { Pane } from "evergreen-ui";
 
 import Container from "./Container";
 import FooterLink from "./FooterLink";
 import FooterHeading from "./FooterHeading";
+import P from "./P";
+import { Mobile } from "./Media";
 
 import fbLogo from "../assets/fb-logo.svg";
 import igLogo from "../assets/ig-logo.svg";
@@ -24,52 +26,67 @@ const logoStyles = {
   width: 26,
 };
 
+const paneProps = {
+  flexGrow: 1,
+  marginBottom: ITEM_SPACE,
+};
+
 const Footer = () => (
-  <Pane borderTop="1px solid #E4E7EB">
-    <Container display="flex" flexDirection="row">
-      <Pane flexGrow={1}>
-        <FooterHeading>Book your travel</FooterHeading>
-        <FooterLink to="/">Bali to Gili Trawangan</FooterLink>
-        <FooterLink to="/">Bali to Gili Air</FooterLink>
-        <FooterLink to="/">Bali to Lombok</FooterLink>
-      </Pane>
+  <Pane borderTop="1px solid #E4E7EB" paddingBottom={ITEM_SPACE * 2}>
+    <Mobile>
+      {isMobile => (
+        <Container display="flex" flexDirection={isMobile ? "column" : "row"}>
+          <Pane {...paneProps}>
+            <FooterHeading>Book your travel</FooterHeading>
+            <FooterLink to="/">Bali to Gili Trawangan</FooterLink>
+            <FooterLink to="/">Bali to Gili Air</FooterLink>
+            <FooterLink to="/">Bali to Lombok</FooterLink>
+          </Pane>
 
-      <Pane flexGrow={1}>
-        <FooterHeading>Company</FooterHeading>
-        <FooterLink to="/">About us</FooterLink>
-        <FooterLink to="/terms">Terms of service</FooterLink>
-        <FooterLink to="/privacy">Privacy policy</FooterLink>
-        <FooterLink to="/your-data">Cookies</FooterLink>
-        <FooterLink to="/contact">Contact</FooterLink>
-      </Pane>
+          <Pane {...paneProps}>
+            <FooterHeading>Company</FooterHeading>
+            <FooterLink to="/">About us</FooterLink>
+            <FooterLink to="/terms">Terms of service</FooterLink>
+            <FooterLink to="/privacy">Privacy policy</FooterLink>
+            <FooterLink to="/your-data">Cookies</FooterLink>
+            <FooterLink to="/contact">Contact</FooterLink>
+          </Pane>
 
-      <Pane flexGrow={1}>
-        <FooterHeading>Follow us</FooterHeading>
-        <a {...logoWrapperProps} href="https://www.facebook.com/easygilitrip">
-          <img
-            styles={logoStyles}
-            width={logoStyles.width}
-            src={fbLogo}
-            alt="Follow us on facebook"
-          />
-        </a>
-        <a {...logoWrapperProps} href="https://www.instagram.com/gili.trip/">
-          <img
-            styles={logoStyles}
-            width={logoStyles.width}
-            src={igLogo}
-            alt="Follow us on instagram"
-          />
-        </a>
-      </Pane>
+          <Pane {...paneProps}>
+            <FooterHeading>Follow us</FooterHeading>
+            <a
+              {...logoWrapperProps}
+              href="https://www.facebook.com/easygilitrip"
+            >
+              <img
+                styles={logoStyles}
+                width={logoStyles.width}
+                src={fbLogo}
+                alt="Follow us on facebook"
+              />
+            </a>
+            <a
+              {...logoWrapperProps}
+              href="https://www.instagram.com/gili.trip/"
+            >
+              <img
+                styles={logoStyles}
+                width={logoStyles.width}
+                src={igLogo}
+                alt="Follow us on instagram"
+              />
+            </a>
+          </Pane>
 
-      <Pane flexGrow={1}>
-        <FooterHeading>We accept</FooterHeading>
-        <img width={150} src={paypal} alt="we accept Paypal" />
-      </Pane>
-    </Container>
+          <Pane {...paneProps}>
+            <FooterHeading>We accept</FooterHeading>
+            <img width={150} src={paypal} alt="we accept Paypal" />
+          </Pane>
+        </Container>
+      )}
+    </Mobile>
 
-    <Paragraph textAlign="center">Copyright © 2019 Gili Hidup Bebas</Paragraph>
+    <P textAlign="center">Copyright © 2019 Gili Hidup Bebas</P>
   </Pane>
 );
 
