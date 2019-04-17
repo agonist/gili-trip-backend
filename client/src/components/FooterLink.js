@@ -1,16 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "@reach/router";
-import { Paragraph, Text } from "evergreen-ui";
+import { Text } from "evergreen-ui";
+
+import P from "./P";
 
 const FooterLink = ({ children, to }) => (
-  <Paragraph>
+  <P margin={0}>
     <Link to={to} style={{ display: "block" }}>
       <Text display="inline-block" paddingY={2}>
         {children}
       </Text>
     </Link>
-  </Paragraph>
+  </P>
 );
 
 FooterLink.propTypes = {

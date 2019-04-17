@@ -1,7 +1,8 @@
 import React from "react";
-import { Heading, Paragraph, Icon, Pane } from "evergreen-ui";
+import { Heading, Icon, Pane } from "evergreen-ui";
 
 import Container from "./Container";
+import P from "./P";
 import { Mobile } from "./Media";
 
 import { ITEM_SPACE } from "../constants";
@@ -52,10 +53,8 @@ const Tagline = () => (
               />
 
               <Pane paddingLeft={ITEM_SPACE}>
-                <Heading marginBottom={isMobile ? 6 : ITEM_SPACE / 2}>
-                  {title}
-                </Heading>
-                <Paragraph>{text}</Paragraph>
+                <Heading>{title}</Heading>
+                <P marginTop={isMobile ? 6 : ITEM_SPACE / 2}>{text}</P>
               </Pane>
             </Pane>
           ))}
