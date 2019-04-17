@@ -42,6 +42,13 @@ const WahanaPage = ({  }) => {
           </Paragraph>
           <br />
           <Heading size={700}>Contact</Heading>
+          <Paragraph>WAHANA GILI OCEAN – OFFICE:</Paragraph>
+          <Paragraph>Jl. Rama No.4 – Klungkung, Bali</Paragraph>
+          <Paragraph>T : +62 366 – 559 6044 / 532 2603</Paragraph>
+          <Paragraph>e-mail : reservation@wahanagiliocean.com / info@wahanagiliocean.com</Paragraph>
+          <Paragraph> W : www.wahanagiliocean.com</Paragraph>
+          <Paragraph></Paragraph>
+
 
         </Pane>
 
