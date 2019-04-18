@@ -9,19 +9,26 @@ import TripsTitle from "./TripsTitle";
 import { ITEM_HEIGHT } from "../constants";
 
 const Trips = ({ from, to, handleSelect, handleUnselect, selected, trips }) => (
-  <Pane display="flex">
+  <Pane display="flex" className="Trips">
     <Pane paddingRight={ITEM_HEIGHT}>
       <TripsTitle from={from} to={to} />
     </Pane>
 
     <Pane flexGrow={1}>
-      {trips.length > 0 ? (
-        trips.map(trip => {
+      <Item flexDirection="column" padding={0} overflow="hidden">
+        {trips.length === 0 && (
+          <>
+            <Icon icon="info-sign" color="info" marginRight={majorScale(1)} />
+            <Text>There is no trip matching your research</Text>
+          </>
+        )}
+
+        {trips.map((trip, i) => {
           const { id } = trip;
           const isSelected = trip.id === selected;
+          const isLast = i + 1 === trips.length;
           const _handleSelect = () => handleSelect(trip);
 
-          // items when another one is selected
           if (selected && !isSelected) {
             return null;
           }
@@ -32,16 +39,12 @@ const Trips = ({ from, to, handleSelect, handleUnselect, selected, trips }) => (
               key={id}
               handleSelect={_handleSelect}
               handleUnselect={handleUnselect}
+              hasBorder={!isLast && !isSelected}
               isSelected={isSelected}
             />
           );
-        })
-      ) : (
-        <Item>
-          <Icon icon="info-sign" color="info" marginRight={majorScale(1)} />
-          <Text>There is no trip matching your research</Text>
-        </Item>
-      )}
+        })}
+      </Item>
     </Pane>
   </Pane>
 );

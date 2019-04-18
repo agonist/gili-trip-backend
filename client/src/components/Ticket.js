@@ -4,15 +4,11 @@ import { Pane } from "evergreen-ui";
 
 import Content from "./TicketContent";
 import Icons from "./TicketIcons";
-import Item from "./Item";
-import PileItems from "./TicketPileItems";
 import Price from "./Price";
 import OperatorLogo from "./OperatorLogo";
 
 import useHover from "../hooks/useHover";
-import { ITEM_HEIGHT } from "../constants";
-
-const baseZindex = 10;
+import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 
 const Ticket = ({
   arrival_time,
@@ -20,6 +16,7 @@ const Ticket = ({
   duration,
   handleSelect,
   handleUnselect,
+  hasBorder,
   isSelected,
   price,
   canSelectTicket,
@@ -27,14 +24,20 @@ const Ticket = ({
 }) => {
   const [isHovering, hoveringProps] = useHover();
   return (
-    <Pane position="relative">
-      <Item
-        className={`Ticket ${isSelected && "is-selected"}`}
-        position="relative"
-        padding={0}
-        paddingLeft={ITEM_HEIGHT}
-        overflow="hidden"
-        zIndex={baseZindex}
+    <Pane
+      className="Ticket"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      width="100%"
+      borderBottom={hasBorder ? "1px solid #E4E7EB" : "none"}
+    >
+      <Pane
+        flexGrow={1}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        paddingX={ITEM_SPACE}
       >
         <OperatorLogo {...vehicle} />
 
@@ -44,24 +47,22 @@ const Ticket = ({
           duration={duration}
           paddingY={ITEM_HEIGHT}
         />
+      </Pane>
 
-        {canSelectTicket && (
-          <Pane
-            {...hoveringProps}
-            position="relative"
-            alignSelf="normal"
-            backgroundColor={isSelected ? "#47B881" : "#3D8BD4"}
-            cursor="pointer"
-            onClick={isSelected ? handleUnselect : handleSelect}
-            transition="background-color 0.2s ease-out"
-          >
-            <Price price={price} padding={ITEM_HEIGHT} />
-            <Icons isHovering={isHovering} isSelected={isSelected} />
-          </Pane>
-        )}
-      </Item>
-
-      <PileItems baseZindex={baseZindex} isShown={isSelected} />
+      {canSelectTicket && (
+        <Pane
+          {...hoveringProps}
+          position="relative"
+          alignSelf="normal"
+          backgroundColor={isSelected ? "#47B881" : "#3D8BD4"}
+          cursor="pointer"
+          onClick={isSelected ? handleUnselect : handleSelect}
+          transition="background-color 0.2s ease-out"
+        >
+          <Price price={price} padding={ITEM_HEIGHT} />
+          <Icons isHovering={isHovering} isSelected={isSelected} />
+        </Pane>
+      )}
     </Pane>
   );
 };
@@ -72,6 +73,7 @@ Ticket.propTypes = {
   duration: PropTypes.number.isRequired,
   handleSelect: PropTypes.func,
   handleUnselect: PropTypes.func,
+  hasBorder: PropTypes.bool,
   isSelected: PropTypes.bool,
   price: PropTypes.string.isRequired,
   canSelectTicket: PropTypes.bool,
@@ -82,6 +84,7 @@ Ticket.defaultProps = {
   canSelectTicket: true,
   handleSelect: null,
   handleUnselect: null,
+  hasBorder: false,
   isSelected: false,
 };
 

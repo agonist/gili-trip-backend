@@ -9,6 +9,7 @@ const Item = ({ children, ...props }) => (
   <Mobile>
     {isMobile => (
       <Card
+        className="Item"
         display="flex"
         justifyContent="center"
         alignItems="center"

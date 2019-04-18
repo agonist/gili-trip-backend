@@ -4,10 +4,11 @@ import { Pane, Text, majorScale } from "evergreen-ui";
 
 import ArrowIcon from "./ArrowIcon";
 import { convertMinsToHrsMins } from "../helpers";
+import { ITEM_SPACE } from "../constants";
 
 const Duration = ({ color, duration }) => (
   <Pane
-    paddingX={majorScale(4)}
+    paddingX={ITEM_SPACE / 2}
     display="flex"
     justifyContent="center"
     flexDirection="column"
@@ -16,7 +17,7 @@ const Duration = ({ color, duration }) => (
       {convertMinsToHrsMins(duration, "h")}
     </Text>
 
-    <ArrowIcon color={color} width={majorScale(6)} />
+    <ArrowIcon color={color} width={majorScale(5)} />
   </Pane>
 );
 

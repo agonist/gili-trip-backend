@@ -5,12 +5,12 @@ import { Heading, Text, minorScale } from "evergreen-ui";
 const Time = ({ title, value }) => (
   <React.Fragment>
     {title && (
-      <Text fontSize={12} textTransform="uppercase">
+      <Text fontSize={10} textTransform="uppercase">
         {title}
       </Text>
     )}
 
-    <Heading marginTop={minorScale(1)} size={700} fontWeight={400}>
+    <Heading marginTop={minorScale(1)} size={600} fontWeight={400}>
       {value}
     </Heading>
   </React.Fragment>
