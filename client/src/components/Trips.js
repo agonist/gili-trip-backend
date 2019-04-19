@@ -26,12 +26,9 @@ const Trips = ({ from, to, handleSelect, handleUnselect, selected, trips }) => (
         {trips.map((trip, i) => {
           const { id } = trip;
           const isSelected = trip.id === selected;
+          const isNotSelected = selected && !isSelected;
           const isLast = i + 1 === trips.length;
           const _handleSelect = () => handleSelect(trip);
-
-          if (selected && !isSelected) {
-            return null;
-          }
 
           return (
             <Ticket
@@ -39,8 +36,9 @@ const Trips = ({ from, to, handleSelect, handleUnselect, selected, trips }) => (
               key={id}
               handleSelect={_handleSelect}
               handleUnselect={handleUnselect}
-              hasBorder={!isLast && !isSelected}
+              hasBorder={!isLast}
               isSelected={isSelected}
+              isNotSelected={isNotSelected}
             />
           );
         })}
