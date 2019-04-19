@@ -2,12 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Form } from "react-final-form";
 import {
-  Alert,
   Button,
   Heading,
   IconButton,
   Pane,
   Spinner,
+  toaster,
 } from "evergreen-ui";
 
 import BookingFormInner from "./BookingFormInner";
@@ -34,11 +34,16 @@ const extractFormData = ({ booking_email, passengers, tickets }) => ({
   tickets,
 });
 
+const notifyInvalidCoupon = code =>
+  toaster.danger(`The coupon "${code}" is not valid`, {
+    id: "invalid-coupon",
+    duration: 5,
+  });
+
 const BookingPage = ({ id }) => {
   const [bookingData, setBookingData] = React.useState({});
   const [isFetchingBooking, setIsFetchingBooking] = React.useState(true);
   const [isEditingBooking, setIsEditingBooking] = React.useState(false);
-  const [isCouponValid, setIsCouponValid] = React.useState(true);
 
   const bookingFormData = extractFormData(bookingData);
   const { final_price, quantity, tickets } = bookingData;
@@ -68,17 +73,20 @@ const BookingPage = ({ id }) => {
       return null;
     }
 
+    const onError = err => console.error(err);
+
     return validateCoupon({
       code,
       booking_id: id,
     })
       .then(({ data }) => {
         const { valid } = data;
-        setIsCouponValid(valid);
+
+        if (!valid) {
+          notifyInvalidCoupon(code);
+        }
       })
-      .catch(() => {
-        setIsCouponValid(false);
-      });
+      .catch(onError);
   };
 
   const handlePayment = async () => {
@@ -170,15 +178,6 @@ const BookingPage = ({ id }) => {
                   </Heading>
 
                   <CouponForm onSubmit={handleValidateCoupon} />
-
-                  {!isCouponValid && (
-                    <Alert
-                      intent="danger"
-                      title="Coupon not valid"
-                      width="100%"
-                      marginTop={ITEM_SPACE}
-                    />
-                  )}
                 </Item>
               )}
             </Pane>
