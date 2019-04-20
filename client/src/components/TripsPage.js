@@ -134,7 +134,7 @@ const TripsPage = ({ location }) => {
     arrival_date && arrival_date.toDateString(),
     departure_date && departure_date.toDateString(),
     from,
-    from,
+    to,
     quantity,
     travel_type,
   ]);
