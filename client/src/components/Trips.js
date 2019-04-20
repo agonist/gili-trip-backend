@@ -15,34 +15,34 @@ const Trips = ({ from, to, handleSelect, handleUnselect, selected, trips }) => (
     </Pane>
 
     <Pane flexGrow={1}>
-      <Item flexDirection="column" overflow="hidden">
-        {trips.length === 0 && (
-          <>
-            <Icon icon="info-sign" color="info" marginBottom={minorScale(1)} />
-            <Paragraph>There is no trip matching your research</Paragraph>
-          </>
-        )}
+      {trips.length === 0 ? (
+        <Item flexDirection="column">
+          <Icon icon="info-sign" color="info" marginBottom={minorScale(1)} />
+          <Paragraph>There is no trip matching your research</Paragraph>
+        </Item>
+      ) : (
+        <Item flexDirection="column" padding={0} overflow="hidden">
+          {trips.map((trip, i) => {
+            const { id } = trip;
+            const isSelected = trip.id === selected;
+            const isNotSelected = selected && !isSelected;
+            const isLast = i + 1 === trips.length;
+            const _handleSelect = () => handleSelect(trip);
 
-        {trips.map((trip, i) => {
-          const { id } = trip;
-          const isSelected = trip.id === selected;
-          const isNotSelected = selected && !isSelected;
-          const isLast = i + 1 === trips.length;
-          const _handleSelect = () => handleSelect(trip);
-
-          return (
-            <Ticket
-              {...trip}
-              key={id}
-              handleSelect={_handleSelect}
-              handleUnselect={handleUnselect}
-              hasBorder={!isLast}
-              isSelected={isSelected}
-              isNotSelected={isNotSelected}
-            />
-          );
-        })}
-      </Item>
+            return (
+              <Ticket
+                {...trip}
+                key={id}
+                handleSelect={_handleSelect}
+                handleUnselect={handleUnselect}
+                hasBorder={!isLast}
+                isSelected={isSelected}
+                isNotSelected={isNotSelected}
+              />
+            );
+          })}
+        </Item>
+      )}
     </Pane>
   </Pane>
 );
