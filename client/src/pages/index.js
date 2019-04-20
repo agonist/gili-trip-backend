@@ -16,8 +16,9 @@ const IndexPage = () => {
       withParams: true,
     });
 
-  const handlePopularItemClick = data => {
-    setFormData(data);
+  const handlePopularItemClick = to => {
+    setFormData({ to });
+    window.scroll({ top: 0, left: 0, behavior: "smooth" });
   };
 
   return (

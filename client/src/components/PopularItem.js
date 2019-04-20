@@ -1,29 +1,51 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Heading, Icon, majorScale } from "evergreen-ui";
+import { Heading, Paragraph } from "evergreen-ui";
 
 import Item from "./Item";
-import { ITEM_SPACE } from "../constants";
 import { getLocationName } from "../helpers";
+import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 
-const PopularItem = ({ from, to, isMobile, ...props }) => (
+const PopularItem = ({
+  location,
+  durationFromBali,
+  bg,
+  isMobile,
+  ...props
+}) => (
   <Item
+    display="block"
     className="Popular-item"
     flexGrow={1}
     cursor="pointer"
     width={isMobile ? "100%" : "50%"}
+    paddingX={ITEM_HEIGHT}
+    paddingY={ITEM_HEIGHT * 2}
     marginRight={ITEM_SPACE}
+    background={`url(${bg}) center center`}
+    backgroundSize="cover !important"
+    textAlign="center"
     {...props}
   >
-    <Heading size={600}>{getLocationName(from)}</Heading>
-    <Icon flexShrink={0} icon="arrow-right" marginX={majorScale(1)} />
-    <Heading size={600}>{getLocationName(to)}</Heading>
+    <Heading size={600} fontWeight={600} color="#fff">
+      {getLocationName(location)}
+    </Heading>
+
+    <Paragraph
+      color="#fff"
+      textTransform="uppercase"
+      fontSize={12}
+      opacity={0.7}
+    >
+      {durationFromBali} from Bali
+    </Paragraph>
   </Item>
 );
 
 PopularItem.propTypes = {
-  from: PropTypes.string.isRequired,
-  to: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired,
+  durationFromBali: PropTypes.string.isRequired,
+  bg: PropTypes.string.isRequired,
   isMobile: PropTypes.bool.isRequired,
 };
 
