@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Icon, Pane, Text, majorScale } from "evergreen-ui";
+import { Icon, Pane, Paragraph, minorScale } from "evergreen-ui";
 
 import Item from "./Item";
 import Ticket from "./Ticket";
@@ -15,11 +15,11 @@ const Trips = ({ from, to, handleSelect, handleUnselect, selected, trips }) => (
     </Pane>
 
     <Pane flexGrow={1}>
-      <Item flexDirection="column" padding={0} overflow="hidden">
+      <Item flexDirection="column" overflow="hidden">
         {trips.length === 0 && (
           <>
-            <Icon icon="info-sign" color="info" marginRight={majorScale(1)} />
-            <Text>There is no trip matching your research</Text>
+            <Icon icon="info-sign" color="info" marginBottom={minorScale(1)} />
+            <Paragraph>There is no trip matching your research</Paragraph>
           </>
         )}
 
