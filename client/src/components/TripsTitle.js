@@ -23,6 +23,7 @@ const textProps = {
   display: "block",
   fontSize: 10,
   textTransform: "uppercase",
+  color: "#66788A",
 };
 
 const TripsTitle = ({ from, to }) => (

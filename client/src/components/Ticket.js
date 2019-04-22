@@ -1,18 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Pane } from "evergreen-ui";
+import { Heading, Icon, Pane, Paragraph } from "evergreen-ui";
 
-import Content from "./TicketContent";
-import Icons from "./TicketIcons";
-import Item from "./Item";
-import PileItems from "./TicketPileItems";
-import Price from "./Price";
 import OperatorLogo from "./OperatorLogo";
 
-import useHover from "../hooks/useHover";
-import { ITEM_HEIGHT } from "../constants";
+import { convertMinsToHrsMins } from "../helpers";
+import { CURRENCY_SYMBOL, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 
-const baseZindex = 10;
+const headingProps = {
+  flexGrow: 1,
+  size: 600,
+  fontWeight: 400,
+  textAlign: "center",
+};
 
 const Ticket = ({
   arrival_time,
@@ -20,48 +20,42 @@ const Ticket = ({
   duration,
   handleSelect,
   handleUnselect,
+  hasBorder,
   isSelected,
+  isNotSelected,
   price,
-  canSelectTicket,
   vehicle,
 }) => {
-  const [isHovering, hoveringProps] = useHover();
+  const formattedDuration = convertMinsToHrsMins(duration, "h");
+
   return (
-    <Pane position="relative">
-      <Item
-        className={`Ticket ${isSelected && "is-selected"}`}
-        position="relative"
-        padding={0}
-        paddingLeft={ITEM_HEIGHT}
-        overflow="hidden"
-        zIndex={baseZindex}
-      >
-        <OperatorLogo {...vehicle} />
+    <Pane
+      className="Ticket"
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      width="100%"
+      paddingX={ITEM_HEIGHT}
+      paddingY={ITEM_SPACE * 1.5}
+      borderBottom={hasBorder ? "1px solid #E4E7EB" : "none"}
+      onClick={isSelected ? handleUnselect : handleSelect}
+      cursor="pointer"
+      opacity={isNotSelected ? 0.4 : 1}
+    >
+      <OperatorLogo {...vehicle} />
 
-        <Content
-          arrival_time={arrival_time}
-          departure_time={departure_time}
-          duration={duration}
-          paddingY={ITEM_HEIGHT}
-        />
+      <Heading {...headingProps}>
+        {departure_time} - {arrival_time}
+        <Paragraph color="#66788A">{formattedDuration}</Paragraph>
+      </Heading>
 
-        {canSelectTicket && (
-          <Pane
-            {...hoveringProps}
-            position="relative"
-            alignSelf="normal"
-            backgroundColor={isSelected ? "#47B881" : "#3D8BD4"}
-            cursor="pointer"
-            onClick={isSelected ? handleUnselect : handleSelect}
-            transition="background-color 0.2s ease-out"
-          >
-            <Price price={price} padding={ITEM_HEIGHT} />
-            <Icons isHovering={isHovering} isSelected={isSelected} />
-          </Pane>
-        )}
-      </Item>
+      <Heading {...headingProps}>{`${price}${CURRENCY_SYMBOL}`}</Heading>
 
-      <PileItems baseZindex={baseZindex} isShown={isSelected} />
+      <Icon
+        icon="chevron-right"
+        color={isSelected ? "selected" : "muted"}
+        transition="all .2s ease-out"
+      />
     </Pane>
   );
 };
@@ -72,17 +66,19 @@ Ticket.propTypes = {
   duration: PropTypes.number.isRequired,
   handleSelect: PropTypes.func,
   handleUnselect: PropTypes.func,
+  hasBorder: PropTypes.bool,
   isSelected: PropTypes.bool,
+  isNotSelected: PropTypes.bool,
   price: PropTypes.string.isRequired,
-  canSelectTicket: PropTypes.bool,
   vehicle: PropTypes.shape({}).isRequired,
 };
 
 Ticket.defaultProps = {
-  canSelectTicket: true,
   handleSelect: null,
   handleUnselect: null,
+  hasBorder: false,
   isSelected: false,
+  isNotSelected: false,
 };
 
 export default Ticket;

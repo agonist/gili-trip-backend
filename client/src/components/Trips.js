@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Icon, Pane, Text, majorScale } from "evergreen-ui";
+import { Icon, Pane, Paragraph, minorScale } from "evergreen-ui";
 
 import Item from "./Item";
 import Ticket from "./Ticket";
@@ -9,22 +9,26 @@ import TripsTitle from "./TripsTitle";
 import { ITEM_HEIGHT } from "../constants";
 
 const Trips = ({ from, to, handleSelect, handleUnselect, selected, trips }) => (
-  <Pane display="flex">
+  <Pane display="flex" className="Trips">
     <Pane paddingRight={ITEM_HEIGHT}>
       <TripsTitle from={from} to={to} />
     </Pane>
 
     <Pane flexGrow={1}>
-      {trips.length > 0 ? (
-        trips.map(trip => {
+      <Item flexDirection="column" overflow="hidden">
+        {trips.length === 0 && (
+          <>
+            <Icon icon="info-sign" color="info" marginBottom={minorScale(1)} />
+            <Paragraph>There is no trip matching your research</Paragraph>
+          </>
+        )}
+
+        {trips.map((trip, i) => {
           const { id } = trip;
           const isSelected = trip.id === selected;
+          const isNotSelected = selected && !isSelected;
+          const isLast = i + 1 === trips.length;
           const _handleSelect = () => handleSelect(trip);
-
-          // items when another one is selected
-          if (selected && !isSelected) {
-            return null;
-          }
 
           return (
             <Ticket
@@ -32,16 +36,13 @@ const Trips = ({ from, to, handleSelect, handleUnselect, selected, trips }) => (
               key={id}
               handleSelect={_handleSelect}
               handleUnselect={handleUnselect}
+              hasBorder={!isLast}
               isSelected={isSelected}
+              isNotSelected={isNotSelected}
             />
           );
-        })
-      ) : (
-        <Item>
-          <Icon icon="info-sign" color="info" marginRight={majorScale(1)} />
-          <Text>There is no trip matching your research</Text>
-        </Item>
-      )}
+        })}
+      </Item>
     </Pane>
   </Pane>
 );
