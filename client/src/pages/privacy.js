@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "evergreen-ui";
 
-import Container from "../Container";
-import Header from "../Header";
-import H1 from "../H1";
-import H2 from "../H2";
-import H3 from "../H3";
-import P from "../P";
+import Container from "../components/Container";
+import Header from "../components/Header";
+import H1 from "../components/H1";
+import H2 from "../components/H2";
+import H3 from "../components/H3";
+import P from "../components/P";
 
 const PrivacyPage = () => (
   <div className="Page Page--privacy">

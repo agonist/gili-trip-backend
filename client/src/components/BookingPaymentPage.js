@@ -145,7 +145,11 @@ const BookingPaymentPage = ({ location }) => {
 BookingPaymentPage.propTypes = {
   location: PropTypes.shape({
     state: PropTypes.shape({}),
-  }).isRequired,
+  }),
+};
+
+BookingPaymentPage.defaultProps = {
+  location: {},
 };
 
 export default BookingPaymentPage;

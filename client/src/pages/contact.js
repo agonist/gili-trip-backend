@@ -1,8 +1,8 @@
 import React from "react";
 
-import Container from "./Container";
-import Header from "./Header";
-import P from "./P";
+import Container from "../components/Container";
+import Header from "../components/Header";
+import P from "../components/P";
 
 const ContactPage = () => (
   <div className="Page Page--contact">
