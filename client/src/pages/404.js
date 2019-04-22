@@ -1,33 +1,18 @@
 import React from "react";
+import { Heading } from "evergreen-ui";
 
-class NotFoundPage extends React.Component {
-  state = {
-    isReady: false,
-  };
+const NotFoundPage = () => {
+  const [isReady, setIsReady] = React.useState(false);
 
-  componentDidMount() {
-    this.makeReady();
-  }
+  React.useEffect(() => {
+    setIsReady(true);
+  }, []);
 
-  makeReady = () => {
-    const { isReady } = this.state;
-
-    if (!isReady) {
-      this.setState({
-        isReady: true,
-      });
-    }
-  };
-
-  render() {
-    const { isReady } = this.state;
-
-    return isReady ? (
-      <div>
-        <h1>404 </h1>
-      </div>
-    ) : null;
-  }
-}
+  return isReady ? (
+    <div className="Page Page--notFound">
+      <Heading>Oh no!</Heading>
+    </div>
+  ) : null;
+};
 
 export default NotFoundPage;
