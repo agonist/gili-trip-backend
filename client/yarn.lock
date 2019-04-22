@@ -1060,10 +1060,10 @@
   resolved "https://registry.yarnpkg.com/@braintree/iframer/-/iframer-1.0.3.tgz#21dd1fd4cebd4154aeab1efa4d5b0d5f4384364e"
   integrity sha1-Id0f1M69QVSuqx76TVsNX0OENk4=
 
-"@braintree/sanitize-url@3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@braintree/sanitize-url/-/sanitize-url-3.0.0.tgz#a0ce629d18d4d435f23a0b880098cff7d99e8bb3"
-  integrity sha512-ymeXC1qObTag/hhEG7BoTMdIzuhKekTxNJTIfiVXsoP1fUXHKBpr0EfCsSA06BuP5gxTPs2vDKjtmYbgvEfY+g==
+"@braintree/sanitize-url@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@braintree/sanitize-url/-/sanitize-url-3.1.0.tgz#8ff71d51053cd5ee4981e5a501d80a536244f7fd"
+  integrity sha512-GcIY79elgB+azP74j8vqkiXz8xLFfIzbQJdlwOPisgbKT00tviJQuEghOXSMVxJ00HoYJbGswr4kcllUc4xCcg==
 
 "@braintree/wrap-promise@1.1.1":
   version "1.1.1"
@@ -1564,6 +1564,11 @@
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/@zeit/schemas/-/schemas-2.6.0.tgz#004e8e553b4cd53d538bd38eac7bcbf58a867fe3"
   integrity sha512-uUrgZ8AxS+Lio0fZKAipJjAh415JyrOZowliZAzmnJSsf7piVL5w+G0+gFJ0KSu3QRhvui/7zuvpLz03YjXAhg==
+
+Base64@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/Base64/-/Base64-1.0.2.tgz#82a36d43f4b98659d72488afe008a905d2cbccdb"
+  integrity sha512-WufIun24IbKXKBCGmxau2cYAaGLJ1GJjXcqTUyUzYiQImCreWwvTagnZd9k3nHGPAdPxpvC+4FNN1OhQH2Vz7g==
 
 abab@^2.0.0:
   version "2.0.0"
@@ -2345,6 +2350,22 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+beaver-logger@^3.0.17, beaver-logger@^3.0.6:
+  version "3.0.17"
+  resolved "https://registry.yarnpkg.com/beaver-logger/-/beaver-logger-3.0.17.tgz#59d201ab9c7359e6250d10f3a72bf06dcc4c2866"
+  integrity sha512-tDc3/YGdUjjsyxG3ZpK5kPTDKm7xj9gXsThZuB0SJg2mi+EwPnkL7liiJ6IGkHb9J5haH3HUu+nB03UOdP/JFw==
+  dependencies:
+    zalgo-promise "^1.0.26"
+
+belter@^1.0.77, belter@^1.0.93:
+  version "1.0.93"
+  resolved "https://registry.yarnpkg.com/belter/-/belter-1.0.93.tgz#234a82b4a838b579e414d8079bedeafbfe5f9e06"
+  integrity sha512-aQmo2XAxryQIlGDy0gp1Ef+2GjS9OgLGtmghamI64evViILDul1I6SQIVPCpKtq7vlNVFHTc1PH2qrW8y26yLw==
+  dependencies:
+    cross-domain-safe-weakmap "^1.0.20"
+    cross-domain-utils "^2.0.10"
+    zalgo-promise "^1.0.28"
+
 better-assert@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/better-assert/-/better-assert-1.0.2.tgz#40866b9e1b9e0b55b481894311e68faffaebc522"
@@ -2433,7 +2454,7 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-bowser@^1.7.3:
+bowser@^1.7.1, bowser@^1.7.3:
   version "1.9.4"
   resolved "https://registry.yarnpkg.com/bowser/-/bowser-1.9.4.tgz#890c58a2813a9d3243704334fa81b96a5c150c9a"
   integrity sha512-9IdMmj2KjigRq6oWhmwv1W36pDuA4STQZ8q6YO9um+x07xgYNCD3Oou+WP/3L1HNz7iqythGet3/p4wvc8AAwQ==
@@ -2484,31 +2505,19 @@ braces@^2.3.1, braces@^2.3.2:
     split-string "^3.0.2"
     to-regex "^3.0.1"
 
-braintree-web-drop-in@^1.16.0:
-  version "1.16.0"
-  resolved "https://registry.yarnpkg.com/braintree-web-drop-in/-/braintree-web-drop-in-1.16.0.tgz#cda0dbccb3b9a4c47057f9e4af6c23b053b4e7c9"
-  integrity sha512-IdhAK0CyBCX67r2tOxCJWyoelMKFZkd+8Op3T4ijIKJTOFAJkx2uyqYh+GJHNoxuc3+KcJXfzbCA8xNnGIc2Dw==
-  dependencies:
-    "@braintree/asset-loader" "0.2.1"
-    "@braintree/browser-detection" "1.7.0"
-    "@braintree/class-list" "0.1.0"
-    "@braintree/wrap-promise" "1.1.1"
-    braintree-web "3.42.0"
-    promise-polyfill "8.1.0"
-
-braintree-web@3.42.0:
-  version "3.42.0"
-  resolved "https://registry.yarnpkg.com/braintree-web/-/braintree-web-3.42.0.tgz#07d8cb87bdbd89e9629098c9f4065c92e537e34c"
-  integrity sha512-R6Eyjz1XCftNk5RVVfcDwWtdlXqguLyWtXGXa7BjK6D2r4/PXqUGRzakWcKUtAYOixibjl0JKHLjf9DzxpTH5w==
+braintree-web@^3.44.2:
+  version "3.44.2"
+  resolved "https://registry.yarnpkg.com/braintree-web/-/braintree-web-3.44.2.tgz#87c671ee3739d9af699901e66f438281c143c397"
+  integrity sha512-4+Q8phtjTkdqJ9fI7ofOTB5KkwhFtnkl+PsfaunKFcJCyjCLT2AU9CsnB6tIrba16A3KnxZs0+gdRPFcQVc5og==
   dependencies:
     "@braintree/asset-loader" "0.2.1"
     "@braintree/browser-detection" "1.7.0"
     "@braintree/class-list" "0.1.0"
     "@braintree/iframer" "1.0.3"
-    "@braintree/sanitize-url" "3.0.0"
+    "@braintree/sanitize-url" "3.1.0"
     "@braintree/wrap-promise" "1.1.1"
     card-validator "6.1.0"
-    credit-card-type "8.0.0"
+    credit-card-type "8.2.0"
     framebus "3.0.2"
     inject-stylesheet "1.0.0"
     promise-polyfill "8.1.0"
@@ -3359,15 +3368,24 @@ create-react-context@^0.2.1:
     fbjs "^0.8.0"
     gud "^1.0.0"
 
-credit-card-type@8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/credit-card-type/-/credit-card-type-8.0.0.tgz#e65347bcdb979b4deb3107cd43a1cd9da802cd50"
-  integrity sha512-q3k5fbLJJIkPTBLr03Wo2Ui8cF5vHE8eTT/3K7BUW1ROoyns2vHoglWrzjmU/8JKA0X7JFlYlUVuDRwn7l2ldw==
+credit-card-type@8.2.0, credit-card-type@^8.0.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/credit-card-type/-/credit-card-type-8.2.0.tgz#507a43b257f0f3b8bd4d4b339a419741fc7e6236"
+  integrity sha512-+1kZKW717eDTbZ1/EjkEi4+UrD2SygU2Iujn/VlrMHXloGW/y5GqPlQ/KgT4gaoDmWyufBfm/CAzNkpeccfMtA==
 
-credit-card-type@^8.0.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/credit-card-type/-/credit-card-type-8.1.0.tgz#141ffe6ea6516d6c62357dfd5278e512da06fc43"
-  integrity sha512-Z2dBLgH04EYiGkOM7phfLFqRPJK42LRTdivOYIZRVQLBZiGswWhw3dbtFhszZQrlGF8vXtAEfm+seAWn4bETLQ==
+cross-domain-safe-weakmap@^1.0.1, cross-domain-safe-weakmap@^1.0.20, cross-domain-safe-weakmap@^1.0.22:
+  version "1.0.23"
+  resolved "https://registry.yarnpkg.com/cross-domain-safe-weakmap/-/cross-domain-safe-weakmap-1.0.23.tgz#48e662e7ed2dcb71b1652e75a8c3fac7840189c1"
+  integrity sha512-yGsAJzibnlDcWESitCcO6mAbywWL+jV2woftEPgyfuPcA6sFdT1TGI99DZPZfyYxkFPKpP7tCgQcH2V5CJVUaQ==
+  dependencies:
+    cross-domain-utils "^2.0.0"
+
+cross-domain-utils@^2.0.0, cross-domain-utils@^2.0.1, cross-domain-utils@^2.0.10, cross-domain-utils@^2.0.16:
+  version "2.0.24"
+  resolved "https://registry.yarnpkg.com/cross-domain-utils/-/cross-domain-utils-2.0.24.tgz#bde407670b2c7a67e0f04be23196d49dcf30b631"
+  integrity sha512-pt6i27qG5xuPKBnZtgAYeML4tgWpGLwf2hwKsfZVZtBBHgTC1K44WECU1HeHgHUVLiBjQcojW3OeGa2DRywumQ==
+  dependencies:
+    zalgo-promise "^1.0.11"
 
 cross-spawn@6.0.5, cross-spawn@^6.0.0, cross-spawn@^6.0.5:
   version "6.0.5"
@@ -5939,6 +5957,11 @@ hex-color-regex@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
+
+hi-base32@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/hi-base32/-/hi-base32-0.5.0.tgz#61329f76a31f31008533f1c36f2473e259d64571"
+  integrity sha512-DDRmxSyoYuvjUb9EnXdoiMChBZ7ZcUVJsK5Frd3kqMhuBxvmZdnBeynAVfj7/ECbn++CekcoprvC/rprHPAtow==
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
@@ -8829,6 +8852,21 @@ path-type@^3.0.0:
   dependencies:
     pify "^3.0.0"
 
+paypal-checkout@^4.0.267:
+  version "4.0.267"
+  resolved "https://registry.yarnpkg.com/paypal-checkout/-/paypal-checkout-4.0.267.tgz#fa92ae988587bebc851205a42435622542f1f607"
+  integrity sha512-guDrP79yzb+oBLsiKnx+tQEMMUFaZ+ZRIITZUOwvrMxBMdTZJZ6kEXLmLFpTm/h1Ql5AZbr+e061ZIQPbfja9Q==
+  dependencies:
+    Base64 "^1.0.0"
+    beaver-logger "^3.0.6"
+    belter "^1.0.93"
+    bowser "^1.7.1"
+    cross-domain-utils "^2.0.1"
+    hi-base32 "^0.5.0"
+    post-robot "^8.0.0"
+    zalgo-promise "^1.0.10"
+    zoid "^6.0.67"
+
 pbkdf2@^3.0.3:
   version "3.0.17"
   resolved "https://registry.yarnpkg.com/pbkdf2/-/pbkdf2-3.0.17.tgz#976c206530617b14ebb32114239f7b09336e93a6"
@@ -8946,6 +8984,15 @@ posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
   integrity sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=
+
+post-robot@^8.0.0, post-robot@^8.0.29:
+  version "8.0.30"
+  resolved "https://registry.yarnpkg.com/post-robot/-/post-robot-8.0.30.tgz#5aac91bb996751549a3c273507b6448a293f6c1f"
+  integrity sha512-xo4TudIX85q2vKehlGcVlbYJyrG+2CU+s5zXDpxAba8RzjGPAT2GXpCzNI2TDaiB+UH1Y/rgSNC9tKSyVNwW8g==
+  dependencies:
+    cross-domain-safe-weakmap "^1.0.1"
+    cross-domain-utils "^2.0.0"
+    zalgo-promise "^1.0.3"
 
 postcss-attribute-case-insensitive@^4.0.0:
   version "4.0.1"
@@ -12845,3 +12892,21 @@ yeast@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
   integrity sha1-AI4G2AlDIMNy28L47XagymyKxBk=
+
+zalgo-promise@^1.0.10, zalgo-promise@^1.0.11, zalgo-promise@^1.0.26, zalgo-promise@^1.0.28, zalgo-promise@^1.0.3, zalgo-promise@^1.0.34:
+  version "1.0.38"
+  resolved "https://registry.yarnpkg.com/zalgo-promise/-/zalgo-promise-1.0.38.tgz#6acdb8990954eabab505c0c3bde47523fd927d33"
+  integrity sha512-+dj0kZU9poywiJ3nIFns3o10XXbbptugvO51TxwD8/V0SIEi+Jw/of0MeJZ8CO7gH9jqzD0MQ/Q1PXAx8GlOQw==
+
+zoid@^6.0.67:
+  version "6.0.71"
+  resolved "https://registry.yarnpkg.com/zoid/-/zoid-6.0.71.tgz#2222edbd5c2bfa90b41d2cc40a70d07db6273ccb"
+  integrity sha512-tRs51BkIgX2qBlROyD0lx1edJidkTBPuuL3v+wbiQW8Z97qhtsKn33NtrqaZu1Itku/cDZD8lC2jIJg9l+2Osw==
+  dependencies:
+    beaver-logger "^3.0.17"
+    belter "^1.0.77"
+    cross-domain-safe-weakmap "^1.0.22"
+    cross-domain-utils "^2.0.16"
+    hi-base32 "^0.5.0"
+    post-robot "^8.0.29"
+    zalgo-promise "^1.0.34"

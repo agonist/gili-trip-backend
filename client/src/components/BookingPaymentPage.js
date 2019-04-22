@@ -1,18 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Paypal from "paypal-checkout";
+import BraintreeClient from "braintree-web/client";
+import BraintreePaypalCheckout from "braintree-web/paypal-checkout";
 import { Alert, Button, Heading, Pane, Paragraph, Spinner } from "evergreen-ui";
 
 import Container from "./Container";
 import Header from "./Header";
 import Item from "./Item";
 
-import { CONTACT_EMAIL, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
+import { CONTACT_EMAIL, CURRENCY, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { navigateWithData } from "../helpers";
-import { getDropinInstance, paymentCheckout } from "../api";
+import { fetchPaymentToken, postPaymentCheckout } from "../api";
+
+const CONTAINER_ID = "paypal-container";
 
 const BookingPaymentPage = ({ location }) => {
-  const [dropinInstance, setDropinInstance] = React.useState(null);
-  const [hasPaymentOption, setHasPaymentOption] = React.useState(false);
+  const [paymentToken, setPaymentToken] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(true);
   const [hasErrored, setHasErrored] = React.useState(false);
 
   const { id, final_price } = location.state;
@@ -22,39 +27,69 @@ const BookingPaymentPage = ({ location }) => {
       data: location.state,
     });
 
-  const handleCheckout = async ({ nonce }) => {
-    const { data, status } = await paymentCheckout({ id, nonce });
+  const handleCheckout = nonce => {
+    const onSuccess = ({ data }) =>
+      navigateWithData(`/booking/${id}`, { data });
 
-    if (status !== 200) {
+    const onError = err => {
+      console.error(err);
       setHasErrored(true);
-      return;
-    }
+    };
 
-    console.log("do something with", data);
+    setIsLoading(true);
+
+    return postPaymentCheckout({ id, nonce })
+      .then(onSuccess)
+      .catch(onError);
   };
 
-  const handlePaymentMethodRequestable = () =>
-    dropinInstance.requestPaymentMethod(handleCheckout);
-
-  const handlePaymentOptionSelected = (...args) => {
-    console.log(args);
-    setHasPaymentOption(true);
+  const renderPaypalButton = () => {
+    Paypal.Button.render(
+      {
+        style: {
+          size: "medium",
+          layout: "horizontal",
+          // fundingicons: "true",
+        },
+        locale: "en_US",
+        braintree: {
+          client: BraintreeClient,
+          paypalCheckout: BraintreePaypalCheckout,
+        },
+        client: {
+          production: "CLIENT_TOKEN_FROM_SERVER",
+          sandbox: paymentToken,
+        },
+        env: "sandbox",
+        commit: true,
+        payment: (data, actions) =>
+          actions.braintree.create({
+            flow: "checkout",
+            amount: final_price, // Required
+            currency: CURRENCY, // Required
+          }),
+        onAuthorize: ({ nonce }) => handleCheckout(nonce),
+        onRender: () => setIsLoading(false),
+        onError(err) {
+          console.error(err);
+          setHasErrored(true);
+        },
+      },
+      `#${CONTAINER_ID}`,
+    ).catch(e => {
+      console.log("wesh", e);
+    });
   };
 
   React.useEffect(() => {
-    getDropinInstance(final_price).then(setDropinInstance);
+    fetchPaymentToken().then(({ token }) => setPaymentToken(token));
   }, []);
 
   React.useEffect(() => {
-    if (dropinInstance) {
-      dropinInstance.on(
-        "paymentMethodRequestable",
-        handlePaymentMethodRequestable,
-      );
-
-      dropinInstance.on("paymentOptionSelected", handlePaymentOptionSelected);
+    if (paymentToken) {
+      renderPaypalButton();
     }
-  }, [!!dropinInstance]);
+  }, [paymentToken]);
 
   return (
     <div className="Page Page--booking">
@@ -80,30 +115,28 @@ const BookingPaymentPage = ({ location }) => {
           </Alert>
         )}
 
-        {!dropinInstance && (
-          <Item>
-            <Spinner />
-          </Item>
-        )}
+        <Item textAlign="center">
+          {isLoading && <Spinner />}
+          <div
+            id="paypal-container"
+            style={{
+              display: isLoading ? "hidden" : "block",
+            }}
+          />
+        </Item>
 
-        {!hasErrored && (
-          <Item id="payment-test" display={dropinInstance ? "block" : "none"} />
-        )}
-
-        {!hasPaymentOption && (
-          <Pane display="flex" justifyContent="space-between">
-            <Button
-              appearance="primary"
-              intent="danger"
-              height={ITEM_HEIGHT}
-              iconBefore="arrow-left"
-              onClick={handleCancel}
-              marginRight={ITEM_SPACE}
-            >
-              CANCEL AND GO BACK
-            </Button>
-          </Pane>
-        )}
+        <Pane display="flex" justifyContent="space-between">
+          <Button
+            appearance="primary"
+            intent="danger"
+            height={ITEM_HEIGHT}
+            iconBefore="arrow-left"
+            onClick={handleCancel}
+            marginRight={ITEM_SPACE}
+          >
+            CANCEL AND GO BACK
+          </Button>
+        </Pane>
       </Container>
     </div>
   );

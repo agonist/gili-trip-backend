@@ -2,10 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Form } from "react-final-form";
 import {
+  Alert,
   Button,
   Heading,
   IconButton,
   Pane,
+  Paragraph,
   Spinner,
   toaster,
 } from "evergreen-ui";
@@ -46,7 +48,15 @@ const BookingPage = ({ id }) => {
   const [isEditingBooking, setIsEditingBooking] = React.useState(false);
 
   const bookingFormData = extractFormData(bookingData);
-  const { final_price, quantity, tickets } = bookingData;
+  const {
+    booking_email,
+    final_price,
+    payment_status,
+    quantity,
+    tickets,
+  } = bookingData;
+
+  const hasPayed = payment_status === "success";
 
   const handleUpdateBookingData = data =>
     setBookingData({
@@ -110,16 +120,36 @@ const BookingPage = ({ id }) => {
     handleFetchBooking();
   }, []);
 
+  console.log(bookingData);
+
   return (
     <div className="Page Page--payment">
       <Header />
 
       <Container>
-        {isFetchingBooking ? (
+        {isFetchingBooking && (
           <Item>
             <Spinner />
           </Item>
-        ) : (
+        )}
+
+        {hasPayed && (
+          <Alert
+            intent="success"
+            title="Payment succeeded"
+            marginBottom={ITEM_SPACE}
+          >
+            <Paragraph>
+              Your tickets will be send by email at{" "}
+              <strong>{booking_email}</strong>
+            </Paragraph>
+            <Paragraph>
+              Thank you for purchasing on GiliTrip, we hope to see you soon!
+            </Paragraph>
+          </Alert>
+        )}
+
+        {!isFetchingBooking && !hasPayed && (
           <>
             <TicketsTable
               tickets={tickets}
@@ -196,21 +226,6 @@ const BookingPage = ({ id }) => {
             )}
           </>
         )}
-        {/* {hasPayed && (
-              <Alert
-                intent="success"
-                title="Payment succeeded"
-                marginBottom={ITEM_SPACE}
-              >
-                <Paragraph>
-                  Your tickets will be send by email at
-                  <strong> {booking_email}</strong>
-                </Paragraph>
-                <Paragraph>
-                  Thank you for purchasing on GiliTrip, we hope to see you soon!
-                </Paragraph>
-              </Alert>
-            )} */}
       </Container>
     </div>
   );
