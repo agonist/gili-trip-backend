@@ -1,11 +1,8 @@
 import axios from "axios";
 import qs from "query-string";
-import brainTreeDropin from "braintree-web-drop-in";
 
 import { formatDataForApi } from "../helpers";
 import { BASE_API_URL } from "../constants";
-
-const { BRAINTREE_AUTHORIZATION } = process.env;
 
 const api = axios.create({
   baseURL: BASE_API_URL,
@@ -48,18 +45,9 @@ export const validateCoupon = ({ code, booking_id }) =>
     booking_id,
   });
 
-export const getDropinInstance = amount =>
-  brainTreeDropin.create({
-    authorization: BRAINTREE_AUTHORIZATION,
-    container: "#payment-test",
-    paypal: {
-      amount,
-      flow: "checkout",
-      currency: "USD",
-    },
-  });
+export const fetchPaymentToken = () => api.get("/payments/token").then(getData);
 
-export const paymentCheckout = ({ id, nonce }) =>
+export const postPaymentCheckout = ({ id, nonce }) =>
   api.post("payments/checkout", {
     booking_id: id,
     payment_method_nonce: nonce,

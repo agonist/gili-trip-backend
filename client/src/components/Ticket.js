@@ -41,6 +41,7 @@ const Ticket = ({
       onClick={isSelected ? handleUnselect : handleSelect}
       cursor="pointer"
       opacity={isNotSelected ? 0.4 : 1}
+      transition="opacity .2s ease-out"
     >
       <OperatorLogo {...vehicle} />
 
@@ -52,8 +53,8 @@ const Ticket = ({
       <Heading {...headingProps}>{`${price}${CURRENCY_SYMBOL}`}</Heading>
 
       <Icon
-        icon="chevron-right"
-        color={isSelected ? "selected" : "muted"}
+        icon={isSelected ? "tick-circle" : "chevron-right"}
+        color={isSelected ? "success" : "muted"}
         transition="all .2s ease-out"
       />
     </Pane>
