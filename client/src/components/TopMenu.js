@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "@reach/router";
 import { Pane, Text } from "evergreen-ui";
-import logo from "../assets/gili-trip-logo.png";
+import logo from "../assets/gili-trip-logo-boat.png";
 
 import Container from "./Container";
 import { Mobile } from "./Media";
@@ -10,11 +10,11 @@ import { ITEM_SPACE } from "../constants";
 
 const links = [
   {
-    to: "#booking",
+    to: "/",
     text: "Booking",
   },
   {
-    to: "#fast-boats",
+    to: "/operators",
     text: "Fast boats",
   },
   {
@@ -30,7 +30,7 @@ const TopMenu = () => (
         <Link to="/">
           <img
             src={logo}
-            width={isMobile ? 100 : 150}
+            width={isMobile ? 100 : 200}
             alt="Gili Trip, easy fast boat booking"
           />
         </Link>

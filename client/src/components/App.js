@@ -30,7 +30,6 @@ const App = () => (
           <PreBooking exact path="/booking" />
           <Booking exact path="/booking/:id" />
           <Payment path="/booking/:id/payment" />
-          {/* <Wahana path="/operator/wahana" /> */}
           <Routes default />
         </Router>
         <Footer />
