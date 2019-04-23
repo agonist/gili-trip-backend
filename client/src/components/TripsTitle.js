@@ -4,6 +4,22 @@ import { Heading, Icon, Pane, Text } from "evergreen-ui";
 
 import { ITEM_SPACE } from "../constants";
 
+const IconWithBackground = () => (
+  <Pane
+    width={ITEM_SPACE * 2}
+    height={ITEM_SPACE * 2}
+    marginRight={ITEM_SPACE}
+    borderRadius="50%"
+    backgroundColor="#DDEBF7"
+    display="flex"
+    alignItems="center"
+    alignSelf="center"
+    justifyContent="center"
+  >
+    <Icon icon="full-circle" size={7} color="#1070CA" />
+  </Pane>
+);
+
 const textProps = {
   display: "block",
   fontSize: 10,
@@ -17,6 +33,8 @@ const headingProps = {
 
 const TripsTitle = ({ from, to }) => (
   <Pane className="TripsTitle" display="flex" paddingBottom={ITEM_SPACE}>
+    <IconWithBackground />
+
     <Heading {...headingProps}>
       <Text {...textProps}>From</Text>
       {from}
