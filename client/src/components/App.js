@@ -7,7 +7,6 @@ import Trips from "./TripsPage";
 import PreBooking from "./PreBookingPage";
 import Booking from "./BookingPage";
 import Payment from "./BookingPaymentPage";
-// import Wahana from "./operators/WahanaPage";
 
 import Container from "./Container";
 import TopMenu from "./TopMenu";

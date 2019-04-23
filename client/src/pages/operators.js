@@ -1,18 +1,14 @@
 import React from "react";
-import { Pane, Link } from "evergreen-ui";
+import { Link } from "@reach/router";
 
 import Container from "../components/Container";
 import Header from "../components/Header";
 import H1 from "../components/H1";
-import H2 from "../components/H2";
-import P from "../components/P";
-import { Mobile } from "../components/Media";
+import H3 from "../components/H2";
 import Item from "../components/Item";
 
 import { ITEM_SPACE } from "../constants";
 import wahanaLogo from "../assets/wahana-logo.png";
-
-const logoWidth = 100;
 
 const OperatorsPage = () => (
   <div className="Page Page--operators">
@@ -21,15 +17,17 @@ const OperatorsPage = () => (
     <Container>
       <H1 marginBottom={ITEM_SPACE}>Operators</H1>
 
-          <Link to="/operator/wahana">
-          <Item >
-          <img width={100}
-              src={wahanaLogo} alt="Wahana Gili Ocean" />
-          <H2>Wahana Gili Ocean</H2>
-          </Item>
-          </Link>
-
-
+      <Link to="/operator/wahana">
+        <Item display="block" textAlign="center">
+          <img
+            style={{ display: "inline-block" }}
+            width={100}
+            src={wahanaLogo}
+            alt="Wahana Gili Ocean"
+          />
+          <H3>Wahana Gili Ocean</H3>
+        </Item>
+      </Link>
     </Container>
   </div>
 );

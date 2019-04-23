@@ -26,12 +26,12 @@ export default {
     },
     {
       path: "/operators",
-      template: "src/pages/operators.js"
+      template: "src/pages/operators.js",
     },
     {
       path: "/operator/wahana",
-      template: "src/pages/wahana.js"
-    }
+      template: "src/pages/wahana.js",
+    },
   ],
 
   plugins: ["react-static-plugin-reach-router"],
