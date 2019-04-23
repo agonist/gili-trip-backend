@@ -23,7 +23,7 @@ class Api::V1::PaymentsController < ApiController
     @booking = Booking.find(params[:booking_id])
 
     if @booking.payment_status == "success"
-      render json: {:message => "This trip has already been paid"}
+      render json: {:message => "This trip has already been paid"}, status: :unprocessable_entity
       return
     end
 
