@@ -2,22 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Heading, Icon, Pane, Text } from "evergreen-ui";
 
-import { Mobile } from "./Media";
 import { ITEM_SPACE } from "../constants";
-
-const IconWithBackground = () => (
-  <Pane
-    borderRadius="50%"
-    backgroundColor="#DDEBF7"
-    display="flex"
-    alignItems="center"
-    justifyContent="center"
-    padding={ITEM_SPACE / 2}
-    marginRight={ITEM_SPACE}
-  >
-    <Icon icon="full-circle" size={7} color="#1070CA" />
-  </Pane>
-);
 
 const textProps = {
   display: "block",
@@ -26,46 +11,26 @@ const textProps = {
   color: "#66788A",
 };
 
+const headingProps = {
+  size: 500,
+};
+
 const TripsTitle = ({ from, to }) => (
-  <Mobile>
-    {isMobile => {
-      const headerProps = {
-        size: 500,
-        display: isMobile ? "block" : "flex",
-        alignItems: "center",
-        marginBottom: ITEM_SPACE,
-      };
+  <Pane className="TripsTitle" display="flex" paddingBottom={ITEM_SPACE}>
+    <Heading {...headingProps}>
+      <Text {...textProps}>From</Text>
+      {from}
+    </Heading>
 
-      return (
-        <Pane position="relative">
-          <Pane
-            position="absolute"
-            left={11}
-            top={24}
-            bottom={23}
-            width={1}
-            backgroundColor="#DDEBF7"
-          />
+    <Pane alignSelf="flex-end" marginX={ITEM_SPACE}>
+      <Icon icon="arrow-right" color="#234361" />
+    </Pane>
 
-          <Heading {...headerProps}>
-            <IconWithBackground />
-            <Pane>
-              <Text {...textProps}>From</Text>
-              {from}
-            </Pane>
-          </Heading>
-
-          <Heading {...headerProps}>
-            <IconWithBackground />
-            <Pane>
-              <Text {...textProps}>To</Text>
-              {to}
-            </Pane>
-          </Heading>
-        </Pane>
-      );
-    }}
-  </Mobile>
+    <Heading {...headingProps}>
+      <Text {...textProps}>To</Text>
+      {to}
+    </Heading>
+  </Pane>
 );
 
 TripsTitle.propTypes = {

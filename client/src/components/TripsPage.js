@@ -9,6 +9,7 @@ import Header from "./Header";
 import Item from "./Item";
 import SearchForm from "./SearchForm";
 import Trips from "./Trips";
+import TripsTitle from "./TripsTitle";
 
 import { ITEM_HEIGHT, TRAVEL_TYPES } from "../constants";
 import { fetchTrips } from "../api";
@@ -150,14 +151,15 @@ const TripsPage = ({ location }) => {
             <Spinner />
           </Item>
         ) : (
-          <Trips
-            from={fromName}
-            to={toName}
-            trips={departureTrips}
-            selected={departureTicket && departureTicket.id}
-            handleSelect={setDepartureTicket}
-            handleUnselect={handleUnselectDepartureTicket}
-          />
+          <>
+            <TripsTitle from={fromName} to={toName} />
+            <Trips
+              trips={departureTrips}
+              selected={departureTicket && departureTicket.id}
+              handleSelect={setDepartureTicket}
+              handleUnselect={handleUnselectDepartureTicket}
+            />
+          </>
         )}
 
         {isRoundTrip && (
@@ -167,14 +169,15 @@ const TripsPage = ({ location }) => {
                 <Spinner />
               </Item>
             ) : (
-              <Trips
-                from={toName}
-                to={fromName}
-                trips={returnTrips}
-                selected={returnTicket && returnTicket.id}
-                handleSelect={setReturnTicket}
-                handleUnselect={handleUnselectReturnTicket}
-              />
+              <>
+                <TripsTitle from={toName} to={fromName} />
+                <Trips
+                  trips={returnTrips}
+                  selected={returnTicket && returnTicket.id}
+                  handleSelect={setReturnTicket}
+                  handleUnselect={handleUnselectReturnTicket}
+                />
+              </>
             )}
           </Pane>
         )}
