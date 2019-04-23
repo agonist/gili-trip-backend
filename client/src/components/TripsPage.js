@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import qs from "query-string";
-import { Button, Pane, Spinner, majorScale } from "evergreen-ui";
+import { Button, Pane, majorScale } from "evergreen-ui";
 
 import Container from "./Container";
 import ErrorState from "./ErrorState";
 import Header from "./Header";
-import Item from "./Item";
+import LoadingState from "./LoadingState";
 import SearchForm from "./SearchForm";
 import Trips from "./Trips";
 import TripsTitle from "./TripsTitle";
@@ -147,9 +147,7 @@ const TripsPage = ({ location }) => {
     return (
       <>
         {isFetchingTrips ? (
-          <Item>
-            <Spinner />
-          </Item>
+          <LoadingState />
         ) : (
           <>
             <TripsTitle from={fromName} to={toName} />
@@ -165,9 +163,7 @@ const TripsPage = ({ location }) => {
         {isRoundTrip && (
           <Pane marginTop={majorScale(4)}>
             {isFetchingTrips ? (
-              <Item>
-                <Spinner />
-              </Item>
+              <LoadingState />
             ) : (
               <>
                 <TripsTitle from={toName} to={fromName} />
