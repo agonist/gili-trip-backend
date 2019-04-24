@@ -17,7 +17,7 @@ const items = [
   {
     icon: "help",
     title: "Do you have any questions?",
-    text: "We are here to answer and provide help regarding your trip. Ask us.",
+    text: "We are here to answer and provide help regarding your trip. Ask us anything.",
   },
   {
     icon: "credit-card",
