@@ -108,3 +108,16 @@ export const composeValidators = (...validators) => value =>
 export const formValidations = {
   required: value => (value ? undefined : "Required"),
 };
+
+export const loadImage = path =>
+  new Promise(resolve => {
+    if (!path) {
+      resolve();
+      return;
+    }
+
+    const img = new Image();
+
+    img.onload = resolve;
+    img.src = path;
+  });
