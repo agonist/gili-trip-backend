@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Paypal from "paypal-checkout";
 import BraintreeClient from "braintree-web/client";
 import BraintreePaypalCheckout from "braintree-web/paypal-checkout";
 import { Alert, Button, Heading, Pane, Paragraph, Spinner } from "evergreen-ui";
@@ -12,6 +11,9 @@ import Item from "./Item";
 import { CONTACT_EMAIL, CURRENCY, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { navigateWithData } from "../helpers";
 import { fetchPaymentToken, postPaymentCheckout } from "../api";
+
+const PayPalCheckout =
+  typeof document !== "undefined" ? require("paypal-checkout").default : {};
 
 const CONTAINER_ID = "paypal-container";
 
@@ -44,7 +46,7 @@ const BookingPaymentPage = ({ location }) => {
   };
 
   const renderPaypalButton = () => {
-    Paypal.Button.render(
+    PayPalCheckout.Button.render(
       {
         style: {
           size: "medium",
