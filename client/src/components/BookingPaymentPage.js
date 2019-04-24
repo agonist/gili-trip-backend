@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Paypal from "paypal-checkout";
 import BraintreeClient from "braintree-web/client";
 import BraintreePaypalCheckout from "braintree-web/paypal-checkout";
 import { Alert, Button, Heading, Pane, Paragraph, Spinner } from "evergreen-ui";
@@ -8,6 +7,7 @@ import { Alert, Button, Heading, Pane, Paragraph, Spinner } from "evergreen-ui";
 import Container from "./Container";
 import Header from "./Header";
 import Item from "./Item";
+import Paypal from "./PaypalCheckout";
 
 import { CONTACT_EMAIL, CURRENCY, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { navigateWithData } from "../helpers";
