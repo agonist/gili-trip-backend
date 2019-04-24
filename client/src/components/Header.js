@@ -3,39 +3,50 @@ import PropTypes from "prop-types";
 import { Pane, majorScale } from "evergreen-ui";
 
 import Container from "./Container";
-
-import backgroundImg from "../assets/185489.jpg";
+import { loadImage } from "../helpers";
 import { ITEM_HEIGHT } from "../constants";
 
-const Header = ({ children }) => (
-  <Pane
-    className="Header"
-    display="flex"
-    justifyContent="center"
-    flexDirection="column"
-    paddingTop={ITEM_HEIGHT}
-    paddingBottom={ITEM_HEIGHT / 2}
-    background={`url(${backgroundImg}) bottom center`}
-    backgroundSize="cover"
-  >
-    <Container>
-      {children && (
-        <Pane
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          width="100%"
-          padding={majorScale(3)}
-          minHeight={156}
-          backgroundColor="rgba(255, 255, 255, 0.8)"
-          borderRadius={6}
-        >
-          {children}
-        </Pane>
-      )}
-    </Container>
-  </Pane>
-);
+const BG_IMG_PATH = "/assets/header-bg.jpg";
+
+const Header = ({ children }) => {
+  const [isBgLoaded, setIsBgLoaded] = React.useState(null);
+
+  React.useEffect(() => {
+    if (!isBgLoaded) {
+      loadImage(BG_IMG_PATH).then(setIsBgLoaded);
+    }
+  }, []);
+
+  return (
+    <Pane
+      className="Header"
+      display="flex"
+      justifyContent="center"
+      flexDirection="column"
+      paddingTop={ITEM_HEIGHT}
+      paddingBottom={ITEM_HEIGHT / 2}
+      backgroundSize="cover"
+      background={isBgLoaded ? `url(${BG_IMG_PATH}) center center` : "#056F96"}
+    >
+      <Container>
+        {children && (
+          <Pane
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            width="100%"
+            padding={majorScale(3)}
+            minHeight={156}
+            backgroundColor="rgba(255, 255, 255, 0.8)"
+            borderRadius={6}
+          >
+            {children}
+          </Pane>
+        )}
+      </Container>
+    </Pane>
+  );
+};
 
 Header.propTypes = {
   children: PropTypes.node,
