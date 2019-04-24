@@ -7,11 +7,13 @@ import { Alert, Button, Heading, Pane, Paragraph, Spinner } from "evergreen-ui";
 import Container from "./Container";
 import Header from "./Header";
 import Item from "./Item";
-import Paypal from "./PaypalCheckout";
 
 import { CONTACT_EMAIL, CURRENCY, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { navigateWithData } from "../helpers";
 import { fetchPaymentToken, postPaymentCheckout } from "../api";
+
+const PayPalCheckout =
+  typeof document !== "undefined" ? require("paypal-checkout").default : {};
 
 const CONTAINER_ID = "paypal-container";
 
@@ -44,7 +46,7 @@ const BookingPaymentPage = ({ location }) => {
   };
 
   const renderPaypalButton = () => {
-    Paypal.Button.render(
+    PayPalCheckout.Button.render(
       {
         style: {
           size: "medium",
