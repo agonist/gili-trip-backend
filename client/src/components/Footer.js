@@ -36,12 +36,6 @@ const Footer = () => (
     <Mobile>
       {isMobile => (
         <Container display="flex" flexDirection={isMobile ? "column" : "row"}>
-          <Pane {...paneProps}>
-            <FooterHeading>Book your travel</FooterHeading>
-            <FooterLink to="/">Bali to Gili Trawangan</FooterLink>
-            <FooterLink to="/">Bali to Gili Air</FooterLink>
-            <FooterLink to="/">Bali to Lombok</FooterLink>
-          </Pane>
 
           <Pane {...paneProps}>
             <FooterHeading>Company</FooterHeading>

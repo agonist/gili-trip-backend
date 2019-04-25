@@ -9,6 +9,7 @@ import Header from "./Header";
 import LoadingState from "./LoadingState";
 import SearchForm from "./SearchForm";
 import Trips from "./Trips";
+import H1 from "./H1"
 import TripsTitle from "./TripsTitle";
 
 import { ITEM_HEIGHT, TRAVEL_TYPES } from "../constants";
@@ -150,6 +151,7 @@ const TripsPage = ({ location }) => {
           <LoadingState />
         ) : (
           <>
+            <H1>Select your departure trip</H1><br/>
             <TripsTitle from={fromName} to={toName} />
             <Trips
               trips={departureTrips}
@@ -166,6 +168,7 @@ const TripsPage = ({ location }) => {
               <LoadingState />
             ) : (
               <>
+                <H1>Select your return trip</H1><br/>
                 <TripsTitle from={toName} to={fromName} />
                 <Trips
                   trips={returnTrips}
