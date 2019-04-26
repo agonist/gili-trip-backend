@@ -1,5 +1,5 @@
 import React from "react";
-import { Pane, Icon } from "evergreen-ui";
+import { Pane, Icon, Table } from "evergreen-ui";
 
 import Container from "../components/Container";
 import Header from "../components/Header";
@@ -13,6 +13,23 @@ import companyLogo from "../assets/wahana-logo.png";
 
 const logoWidth = 150;
 
+const rates = [
+  {
+    location: "Jimbaran",
+    time: "06:00am-06:30am",
+    price:"Included",
+  },
+  {
+    location: "Canggu",
+    time: "06:00am-06:30am",
+    price:"Included",
+  },
+  {
+      location: "Ubud, Sanur, Kuta, Airport, Seminyak and Legian	",
+      time: "06:30am-07:00am",
+      price:"Included",
+    },
+];
 const WahanaPage = () => (
   <div className="Page Page--wahana">
     <Header />
@@ -49,17 +66,39 @@ const WahanaPage = () => (
         take more or less 1h30.
       </P>
 
-      <P>
-        Wahana Gili Ocean offer as well free transfer from your hotel in Bali to
-        the harbor in Padangbai (the name of the harbor), you can also be
-        dropped off after the return trip at your hotel. If you are staying
-        outside of the free transfer area, you can still get picked up but you
-        will be charged with additional fees (see details below). If you have a
-        doubt, do not hesitate to contact us for further details.
-      </P>
+
       <H2>Hotel transfer</H2>
-      <P>Wahana offers free hotel transfer to Padang Bai where the boat is departing.
-        You can also get free dropoff at your hotel on your trip back.</P>
+        <P>
+          Wahana Gili Ocean offer as well free transfer from your hotel in Bali to
+          the harbor in Padangbai (the name of the harbor), you can also be
+          dropped off after the return trip at your hotel. If you are staying
+          outside of the free transfer area, you can still get picked up but you
+          will be charged with additional fees (see details below). If you have a
+          doubt, do not hesitate to contact us for further details.
+        </P><br/>
+        <Table
+          backgroundColor="#fff"
+          borderTop="1px solid #E4E7EB"
+          borderLeft="1px solid #E4E7EB"
+          borderRight="1px solid #E4E7EB"
+        >
+          <Table.Head>
+            <Table.TextHeaderCell>Location</Table.TextHeaderCell>
+            <Table.TextHeaderCell>Pickup time</Table.TextHeaderCell>
+            <Table.TextHeaderCell>Price</Table.TextHeaderCell>
+          </Table.Head>
+
+          <Table.Body>
+          {rates.map(({ location, time, price }) => (
+            <Table.Row>
+              <Table.TextCell>{location}</Table.TextCell>
+              <Table.TextCell>{time}</Table.TextCell>
+              <Table.TextCell>{price}</Table.TextCell>
+            </Table.Row>
+          ))}
+
+          </Table.Body>
+        </Table>
       <H2>Cancellation policy</H2>
       <ul>
         <li><P>3 days or more before departure: <b>full refund</b></P></li>
