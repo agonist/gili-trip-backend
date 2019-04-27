@@ -18,8 +18,8 @@ const links = [
     text: "Fast boats",
   },
   {
-    to: "#help",
-    text: "Help",
+    to: "/contact",
+    text: "Contact",
   },
 ];
 

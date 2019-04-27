@@ -13,7 +13,7 @@ import companyLogo from "../assets/wahana-logo.png";
 
 const logoWidth = 150;
 
-const rates = [
+const ratesPickupMorning = [
   {
     location: "Jimbaran",
     time: "06:00am-06:30am",
@@ -25,10 +25,48 @@ const rates = [
     price:"Included",
   },
   {
-      location: "Ubud, Sanur, Kuta, Airport, Seminyak and Legian	",
+      location: "Ubud, Kuta, Sanur, Airport, Seminyak, Legian",
       time: "06:30am-07:00am",
       price:"Included",
-    },
+  },
+  {
+    location: "Uluwatu, Nusa Dua, Bingin",
+    time: "We will tell you what time",
+    price:"50.000 RP",
+  },
+  {
+    location: "Other areas",
+    time: "-",
+    price:"Ask us",
+  }
+];
+
+const ratesPickupAfternoon = [
+  {
+    location: "Jimbaran",
+    time: "9:30am-10:00am",
+    price:"Included",
+  },
+  {
+    location: "Canggu",
+    time: "9:30am-10:00am",
+    price:"Included",
+  },
+  {
+      location: "Ubud, Kuta, Sanur, Airport, Seminyak, Legian",
+      time: "10:00am-10:30am",
+      price:"Included",
+  },
+  {
+    location: "Uluwatu, Nusa Dua, Bingin",
+    time: "We will tell you what time",
+    price:"50.000 RP",
+  },
+  {
+    location: "Other areas",
+    time: "-",
+    price:"Ask us",
+  }
 ];
 const WahanaPage = () => (
   <div className="Page Page--wahana">
@@ -76,6 +114,7 @@ const WahanaPage = () => (
           will be charged with additional fees (see details below). If you have a
           doubt, do not hesitate to contact us for further details.
         </P><br/>
+      <P><b>9:00am boat</b></P>
         <Table
           backgroundColor="#fff"
           borderTop="1px solid #E4E7EB"
@@ -89,7 +128,7 @@ const WahanaPage = () => (
           </Table.Head>
 
           <Table.Body>
-          {rates.map(({ location, time, price }) => (
+          {ratesPickupMorning.map(({ location, time, price }) => (
             <Table.Row>
               <Table.TextCell>{location}</Table.TextCell>
               <Table.TextCell>{time}</Table.TextCell>
@@ -99,6 +138,32 @@ const WahanaPage = () => (
 
           </Table.Body>
         </Table>
+        <br />
+
+          <P><b>1:00pm boat</b></P>
+            <Table
+              backgroundColor="#fff"
+              borderTop="1px solid #E4E7EB"
+              borderLeft="1px solid #E4E7EB"
+              borderRight="1px solid #E4E7EB"
+            >
+              <Table.Head>
+                <Table.TextHeaderCell>Location</Table.TextHeaderCell>
+                <Table.TextHeaderCell>Pickup time</Table.TextHeaderCell>
+                <Table.TextHeaderCell>Price</Table.TextHeaderCell>
+              </Table.Head>
+
+              <Table.Body>
+              {ratesPickupAfternoon.map(({ location, time, price }) => (
+                <Table.Row>
+                  <Table.TextCell>{location}</Table.TextCell>
+                  <Table.TextCell>{time}</Table.TextCell>
+                  <Table.TextCell>{price}</Table.TextCell>
+                </Table.Row>
+              ))}
+
+              </Table.Body>
+            </Table>
       <H2>Cancellation policy</H2>
       <ul>
         <li><P>3 days or more before departure: <b>full refund</b></P></li>
