@@ -1,10 +1,11 @@
 import React from "react";
-import { Pane, Icon, Table } from "evergreen-ui";
+import { Pane, Icon, Table, Ul, Li, Link } from "evergreen-ui";
 
 import Container from "../components/Container";
 import Header from "../components/Header";
 import H1 from "../components/H1";
 import H2 from "../components/H2";
+import H3 from "../components/H3";
 import P from "../components/P";
 import { Mobile } from "../components/Media";
 
@@ -13,61 +14,67 @@ import companyLogo from "../assets/wahana-logo.png";
 
 const logoWidth = 150;
 
+const iconProps = {
+  size: 12,
+  marginRight: 4,
+};
+
 const ratesPickupMorning = [
   {
     location: "Jimbaran",
     time: "06:00am-06:30am",
-    price:"Included",
+    price: "Included",
   },
   {
     location: "Canggu",
     time: "06:00am-06:30am",
-    price:"Included",
+    price: "Included",
   },
   {
-      location: "Ubud, Kuta, Sanur, Airport, Seminyak, Legian",
-      time: "06:30am-07:00am",
-      price:"Included",
+    location: "Ubud, Kuta, Sanur, Airport, Seminyak, Legian",
+    time: "06:30am-07:00am",
+    price: "Included",
   },
   {
     location: "Uluwatu, Nusa Dua, Bingin",
     time: "We will tell you what time",
-    price:"50.000 RP",
+    price: "50.000 RP",
   },
   {
     location: "Other areas",
     time: "-",
-    price:"Ask us",
-  }
+    price: "Ask us",
+  },
 ];
 
 const ratesPickupAfternoon = [
   {
     location: "Jimbaran",
     time: "9:30am-10:00am",
-    price:"Included",
+    price: "Included",
   },
   {
     location: "Canggu",
     time: "9:30am-10:00am",
-    price:"Included",
+    price: "Included",
   },
   {
-      location: "Ubud, Kuta, Sanur, Airport, Seminyak, Legian",
-      time: "10:00am-10:30am",
-      price:"Included",
+    location: "Ubud, Kuta, Sanur, Airport, Seminyak, Legian",
+    time: "10:00am-10:30am",
+    price: "Included",
   },
   {
     location: "Uluwatu, Nusa Dua, Bingin",
     time: "We will tell you what time",
-    price:"50.000 RP",
+    price: "50.000 RP",
   },
   {
     location: "Other areas",
     time: "-",
-    price:"Ask us",
-  }
+    price: "Ask us",
+  },
 ];
+
 const WahanaPage = () => (
   <div className="Page Page--wahana">
     <Header />
@@ -104,89 +111,115 @@ const WahanaPage = () => (
         take more or less 1h30.
       </P>
 
-
       <H2>Hotel transfer</H2>
-        <P>
-          Wahana Gili Ocean offer as well free transfer from your hotel in Bali to
-          the harbor in Padangbai (the name of the harbor), you can also be
-          dropped off after the return trip at your hotel. If you are staying
-          outside of the free transfer area, you can still get picked up but you
-          will be charged with additional fees (see details below). If you have a
-          doubt, do not hesitate to contact us for further details.
-        </P><br/>
-      <P><b>9:00am boat</b></P>
-        <Table
-          backgroundColor="#fff"
-          borderTop="1px solid #E4E7EB"
-          borderLeft="1px solid #E4E7EB"
-          borderRight="1px solid #E4E7EB"
-        >
-          <Table.Head>
-            <Table.TextHeaderCell>Location</Table.TextHeaderCell>
-            <Table.TextHeaderCell>Pickup time</Table.TextHeaderCell>
-            <Table.TextHeaderCell>Price</Table.TextHeaderCell>
-          </Table.Head>
+      <P>
+        Wahana Gili Ocean offer as well free transfer from your hotel in Bali to
+        the harbor in Padangbai (the name of the harbor), you can also be
+        dropped off after the return trip at your hotel. If you are staying
+        outside of the free transfer area, you can still get picked up but you
+        will be charged with additional fees (see details below). If you have a
+        doubt, do not hesitate to contact us for further details.
+      </P>
 
-          <Table.Body>
+      <H3>9:00am boat</H3>
+      <Table
+        backgroundColor="#fff"
+        borderTop="1px solid #E4E7EB"
+        borderLeft="1px solid #E4E7EB"
+        borderRight="1px solid #E4E7EB"
+      >
+        <Table.Head>
+          <Table.TextHeaderCell>Location</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Pickup time</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Price</Table.TextHeaderCell>
+        </Table.Head>
+
+        <Table.Body>
           {ratesPickupMorning.map(({ location, time, price }) => (
-            <Table.Row>
+            <Table.Row key={location}>
               <Table.TextCell>{location}</Table.TextCell>
               <Table.TextCell>{time}</Table.TextCell>
               <Table.TextCell>{price}</Table.TextCell>
             </Table.Row>
           ))}
+        </Table.Body>
+      </Table>
 
-          </Table.Body>
-        </Table>
-        <br />
+      <H3>1:00pm boat</H3>
+      <Table
+        backgroundColor="#fff"
+        borderTop="1px solid #E4E7EB"
+        borderLeft="1px solid #E4E7EB"
+        borderRight="1px solid #E4E7EB"
+      >
+        <Table.Head>
+          <Table.TextHeaderCell>Location</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Pickup time</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Price</Table.TextHeaderCell>
+        </Table.Head>
 
-          <P><b>1:00pm boat</b></P>
-            <Table
-              backgroundColor="#fff"
-              borderTop="1px solid #E4E7EB"
-              borderLeft="1px solid #E4E7EB"
-              borderRight="1px solid #E4E7EB"
-            >
-              <Table.Head>
-                <Table.TextHeaderCell>Location</Table.TextHeaderCell>
-                <Table.TextHeaderCell>Pickup time</Table.TextHeaderCell>
-                <Table.TextHeaderCell>Price</Table.TextHeaderCell>
-              </Table.Head>
+        <Table.Body>
+          {ratesPickupAfternoon.map(({ location, time, price }) => (
+            <Table.Row key={location}>
+              <Table.TextCell>{location}</Table.TextCell>
+              <Table.TextCell>{time}</Table.TextCell>
+              <Table.TextCell>{price}</Table.TextCell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
 
-              <Table.Body>
-              {ratesPickupAfternoon.map(({ location, time, price }) => (
-                <Table.Row>
-                  <Table.TextCell>{location}</Table.TextCell>
-                  <Table.TextCell>{time}</Table.TextCell>
-                  <Table.TextCell>{price}</Table.TextCell>
-                </Table.Row>
-              ))}
-
-              </Table.Body>
-            </Table>
       <H2>Cancellation policy</H2>
-      <ul>
-        <li><P>3 days or more before departure: <b>full refund</b></P></li>
-        <li><P>The day before departure: <b>50% refund</b></P></li>
-        <li><P>Not showing: <b>No refund</b></P></li>
-        <li><P>You can change your travel date for free up to 48h before departure. You can contact Wahana directly for that</P></li>
+      <Ul>
+        <Li>
+          3 days or more before departure: <b>full refund</b>
+        </Li>
+        <Li>
+          The day before departure: <b>50% refund</b>
+        </Li>
+        <Li>
+          Not showing: <b>No refund</b>
+        </Li>
+        <Li>
+          You can change your travel date for free up to 48h before departure.
+          You can contact Wahana directly for that
+        </Li>
+      </Ul>
 
-      </ul>
       <H2>Contact</H2>
-      <P><b>Head office</b><br/>
-      <Icon icon="map-marker"/> Jl. Rama No.4 – Klungkung, Bali<br/>
-      <Icon icon="phone"/> +62 366 – 559 6044 / 532 2603<br/>
-      <Icon icon="envelope"/><a href="mailto:reservation@wahanagiliocean.com"> reservation@wahanagiliocean.com</a> / <a href="info@wahanagiliocean.com">info@wahanagiliocean.com</a><br/>
-      <Icon icon="globe-network"/> <a href="www.wahanagiliocean.com"> www.wahanagiliocean.com</a></P>
+      <H3>Head office</H3>
+      <P>
+        <Icon {...iconProps} icon="map-marker" /> Jl. Rama No.4 – Klungkung,
+        Bali
+      </P>
+      <P>
+        <Icon {...iconProps} icon="phone" /> +62 366 – 559 6044 / 532 2603
+      </P>
+      <P>
+        <Icon {...iconProps} icon="envelope" />{" "}
+        <Link href="mailto:reservation@wahanagiliocean.com">
+          reservation@wahanagiliocean.com
+        </Link>{" "}
+        / <Link href="info@wahanagiliocean.com">info@wahanagiliocean.com</Link>
+      </P>
+      <P>
+        <Icon {...iconProps} icon="globe-network" />{" "}
+        <Link href="www.wahanagiliocean.com">www.wahanagiliocean.com</Link>
+      </P>
 
-      <P><b>Branch Padangbai</b><br/>
-      Kerti Beach Inn<br/>
-        Jl. Silayukti, Padangbai</P>
+      <H3>Branch Padangbai</H3>
+      <P>
+        Kerti Beach Inn
+        <br />
+        Jl. Silayukti, Padangbai
+      </P>
 
-      <P><b>Branch Gili </b><br/>
-      Jl. Sama Sama Rege Bar Gili Trawangan<br/>
-        <Icon icon="phone"/> +62 366 – 559 6044 / 532 2603<br/></P>
-
+      <H3>Branch Gili </H3>
+      <P>
+        Jl. Sama Sama Rege Bar Gili Trawangan
+        <br />
+        <Icon {...iconProps} icon="phone" /> +62 366 – 559 6044 / 532 2603
+      </P>
     </Container>
   </div>
 );

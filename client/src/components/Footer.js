@@ -36,7 +36,6 @@ const Footer = () => (
     <Mobile>
       {isMobile => (
         <Container display="flex" flexDirection={isMobile ? "column" : "row"}>
-
           <Pane {...paneProps}>
             <FooterHeading>Company</FooterHeading>
             <FooterLink to="/terms">Terms of service</FooterLink>
