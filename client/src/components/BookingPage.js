@@ -18,6 +18,7 @@ import CouponForm from "./CouponForm";
 import Header from "./Header";
 import Item from "./Item";
 import LoadingState from "./LoadingState";
+import PageFooter from "./PageFooter";
 import TicketsTable from "./TicketsTable";
 import { Mobile } from "./Media";
 
@@ -215,16 +216,19 @@ const BookingPage = ({ id }) => {
             </Mobile>
 
             {!isEditingBooking && (
-              <Pane display="flex" justifyContent="flex-end">
-                <Button
-                  appearance="primary"
-                  height={ITEM_HEIGHT}
-                  iconAfter="arrow-right"
-                  onClick={handlePayment}
-                >
-                  {`CONFIRM AND PAY ${final_price}${CURRENCY_SYMBOL}`}
-                </Button>
-              </Pane>
+              <PageFooter
+                paddingRight={0}
+                rightButton={
+                  <Button
+                    appearance="primary"
+                    height={ITEM_HEIGHT}
+                    iconAfter="arrow-right"
+                    onClick={handlePayment}
+                  >
+                    {`Confirm and pay ${final_price}${CURRENCY_SYMBOL}`}
+                  </Button>
+                }
+              />
             )}
           </>
         )}

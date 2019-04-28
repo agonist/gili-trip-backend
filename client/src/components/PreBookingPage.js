@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Form } from "react-final-form";
-import { Alert, Button, Heading, Pane } from "evergreen-ui";
+import { Alert, Button, Heading } from "evergreen-ui";
 
 import BookingFormInner from "./BookingFormInner";
 import Container from "./Container";
 import Header from "./Header";
 import Item from "./Item";
+import PageFooter from "./PageFooter";
 import TicketsTable from "./TicketsTable";
 
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
@@ -100,17 +101,20 @@ const PreBookingPage = ({ location, navigate }) => {
                 <BookingFormInner quantity={quantity} tickets={tickets} />
               </Item>
 
-              <Pane textAlign="right">
-                <Button
-                  appearance="primary"
-                  height={ITEM_HEIGHT}
-                  iconAfter="arrow-right"
-                  isLoading={submitting}
-                  type="submit"
-                >
-                  CONTINUE TO PAYMENT
-                </Button>
-              </Pane>
+              <PageFooter
+                paddingRight={0}
+                rightButton={
+                  <Button
+                    appearance="primary"
+                    height={ITEM_HEIGHT}
+                    iconAfter="arrow-right"
+                    isLoading={submitting}
+                    type="submit"
+                  >
+                    Confirm booking
+                  </Button>
+                }
+              />
             </form>
           )}
         </Form>

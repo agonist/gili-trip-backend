@@ -2,11 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import BraintreeClient from "braintree-web/client";
 import BraintreePaypalCheckout from "braintree-web/paypal-checkout";
-import { Alert, Button, Heading, Pane, Paragraph, Spinner } from "evergreen-ui";
+import { Alert, Button, Heading, Paragraph, Spinner } from "evergreen-ui";
 
 import Container from "./Container";
 import Header from "./Header";
 import Item from "./Item";
+import PageFooter from "./PageFooter";
 
 import { CONTACT_EMAIL, CURRENCY, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { navigateWithData } from "../helpers";
@@ -48,11 +49,7 @@ const BookingPaymentPage = ({ location }) => {
   const renderPaypalButton = () => {
     PayPalCheckout.Button.render(
       {
-        style: {
-          size: "medium",
-          layout: "horizontal",
-          // fundingicons: "true",
-        },
+        style: { size: "medium", layout: "horizontal" },
         locale: "en_US",
         braintree: {
           client: BraintreeClient,
@@ -72,14 +69,11 @@ const BookingPaymentPage = ({ location }) => {
           }),
         onAuthorize: ({ nonce }) => handleCheckout(nonce),
         onRender: () => setIsLoading(false),
-        onError(err) {
-          console.error(err);
-          setHasErrored(true);
-        },
+        onError: () => setHasErrored(true),
       },
       `#${CONTAINER_ID}`,
     ).catch(e => {
-      console.log("wesh", e);
+      console.error("Payment error", e);
     });
   };
 
@@ -127,18 +121,21 @@ const BookingPaymentPage = ({ location }) => {
           />
         </Item>
 
-        <Pane display="flex" justifyContent="space-between">
-          <Button
-            appearance="primary"
-            intent="danger"
-            height={ITEM_HEIGHT}
-            iconBefore="arrow-left"
-            onClick={handleCancel}
-            marginRight={ITEM_SPACE}
-          >
-            CANCEL AND GO BACK
-          </Button>
-        </Pane>
+        <PageFooter
+          paddingLeft={0}
+          leftButton={
+            <Button
+              appearance="minimal"
+              intent="danger"
+              height={ITEM_HEIGHT}
+              iconBefore="arrow-left"
+              onClick={handleCancel}
+              marginTop={ITEM_SPACE / 2}
+            >
+              Wait, I forgot something
+            </Button>
+          }
+        />
       </Container>
     </div>
   );

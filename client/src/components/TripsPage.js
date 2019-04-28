@@ -6,6 +6,7 @@ import { Button, Pane } from "evergreen-ui";
 import Container from "./Container";
 import ErrorState from "./ErrorState";
 import Header from "./Header";
+import PageFooter from "./PageFooter";
 import SearchForm from "./SearchForm";
 import TripsContainer from "./TripsContainer";
 
@@ -186,8 +187,9 @@ const TripsPage = ({ location }) => {
       )}
 
       {depTicket && retTicket && (
-        <Container paddingTop={0}>
-          <Pane textAlign="right">
+        <PageFooter
+          paddingTop={0}
+          rightButton={
             <Button
               appearance="primary"
               height={ITEM_HEIGHT}
@@ -197,8 +199,8 @@ const TripsPage = ({ location }) => {
             >
               Confirm and continue
             </Button>
-          </Pane>
-        </Container>
+          }
+        />
       )}
     </div>
   );
