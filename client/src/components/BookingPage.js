@@ -1,15 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Form } from "react-final-form";
-import {
-  Alert,
-  Button,
-  Heading,
-  IconButton,
-  Pane,
-  Paragraph,
-  toaster,
-} from "evergreen-ui";
+import { Alert, Button, Heading, Pane, Paragraph, toaster } from "evergreen-ui";
 
 import BookingFormInner from "./BookingFormInner";
 import BookingResume from "./BookingResume";
@@ -161,16 +153,19 @@ const BookingPage = ({ id }) => {
                   <Item
                     {...itemProps}
                     width={isMobile ? "100%" : "70%"}
-                    marginRight={isEditingBooking ? 0 : ITEM_SPACE}
+                    marginRight={ITEM_SPACE}
                   >
-                    <IconButton
+                    <Button
                       appearance="minimal"
-                      icon="cog"
+                      iconAfter="cog"
                       position="absolute"
                       top={ITEM_SPACE / 2}
                       right={ITEM_SPACE / 2}
                       onClick={toggleSetIsEditingBooking}
-                    />
+                      color="default"
+                    >
+                      Edit
+                    </Button>
 
                     {isEditingBooking ? (
                       <Form
@@ -190,7 +185,7 @@ const BookingPage = ({ id }) => {
                               marginTop={ITEM_SPACE}
                               type="submit"
                             >
-                              EDIT INFORMATIONS
+                              Save
                             </Button>
                           </form>
                         )}
@@ -203,7 +198,7 @@ const BookingPage = ({ id }) => {
                   <Item
                     {...itemProps}
                     width={isMobile ? "100%" : "30%"}
-                    justifyContent="end"
+                    alignSelf="baseline"
                   >
                     <Heading size={500} marginBottom={ITEM_SPACE}>
                       Promo code
