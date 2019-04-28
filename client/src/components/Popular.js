@@ -4,8 +4,8 @@ import { Heading, Pane } from "evergreen-ui";
 
 import Container from "./Container";
 import Item from "./PopularItem";
-import { Mobile } from "./Media";
 
+import useMedia from "../hooks/useMedia";
 import { ITEM_SPACE } from "../constants";
 
 import bgBalipadangbai from "../assets/locations/bali-padangbai-filter.jpg";
@@ -40,38 +40,37 @@ const items = [
   },
 ];
 
-const Popular = ({ onClick }) => (
-  <Container>
-    <Heading size={700} marginBottom={ITEM_SPACE}>
-      Popular destinations
-    </Heading>
+const Popular = ({ onClick }) => {
+  const { isMobile } = useMedia();
+  const renderItems = (from, to) =>
+    items
+      .slice(from, to)
+      .map(item => (
+        <Item
+          key={item.id}
+          onClick={() => onClick(item.location)}
+          isMobile={isMobile}
+          {...item}
+        />
+      ));
 
-    <Mobile>
-      {isMobile => {
-        const renderItems = (from, to) =>
-          items
-            .slice(from, to)
-            .map(item => (
-              <Item
-                key={item.id}
-                onClick={() => onClick(item.location)}
-                isMobile={isMobile}
-                {...item}
-              />
-            ));
+  return (
+    <Container>
+      <Heading size={700} marginBottom={ITEM_SPACE}>
+        Popular destinations
+      </Heading>
 
-        return isMobile ? (
-          renderItems(0, 4)
-        ) : (
-          <React.Fragment>
-            <Pane display="flex">{renderItems(0, 2)}</Pane>
-            <Pane display="flex">{renderItems(2, 4)}</Pane>
-          </React.Fragment>
-        );
-      }}
-    </Mobile>
-  </Container>
-);
+      {isMobile ? (
+        renderItems(0, 4)
+      ) : (
+        <React.Fragment>
+          <Pane display="flex">{renderItems(0, 2)}</Pane>
+          <Pane display="flex">{renderItems(2, 4)}</Pane>
+        </React.Fragment>
+      )}
+    </Container>
+  );
+};
 
 Popular.propTypes = {
   onClick: PropTypes.func.isRequired,

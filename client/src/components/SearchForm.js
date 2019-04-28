@@ -22,9 +22,8 @@ import {
   TRAVEL_TYPES,
 } from "../constants";
 
+import useMedia from "../hooks/useMedia";
 import { formatDate, formValidations, hasReturn } from "../helpers";
-
-import { Mobile, Tablet, Desktop } from "./Media";
 
 const DEFAULT_DEPARTURE_ID = "1";
 const DEFAULT_ARRIVAL_ID = "3";
@@ -234,93 +233,97 @@ const renderSubmit = (submitting, isLoading) => (
   </Pane>
 );
 
-const SearchForm = ({ formData, isLoading, onSubmit }) => (
-  <Form
-    onSubmit={onSubmit}
-    mutators={{ swap: swapMutator }}
-    initialValues={{
-      from: DEFAULT_DEPARTURE_ID,
-      to: DEFAULT_ARRIVAL_ID,
-      quantity: DEFAULT_QUANTITY,
-      travel_type: TRAVEL_TYPES.ROUND,
-      ...formData,
-    }}
-  >
-    {({
-      form,
-      handleSubmit,
-      submitting,
-      values: { arrival_date, departure_date, travel_type },
-    }) => (
-      <form onSubmit={handleSubmit} style={{ width: "100%" }}>
-        {renderTravelType()}
+const SearchForm = ({ formData, isLoading, onSubmit }) => {
+  const { isMobile, isTablet, isDesktop } = useMedia();
 
-        <Desktop>
-          <Pane display="flex" alignItems="flex-end">
-            {renderFrom()}
-            {renderLocationSwapper(form)}
-            {renderTo()}
+  return (
+    <Form
+      onSubmit={onSubmit}
+      mutators={{ swap: swapMutator }}
+      initialValues={{
+        from: DEFAULT_DEPARTURE_ID,
+        to: DEFAULT_ARRIVAL_ID,
+        quantity: DEFAULT_QUANTITY,
+        travel_type: TRAVEL_TYPES.ROUND,
+        ...formData,
+      }}
+    >
+      {({
+        form,
+        handleSubmit,
+        submitting,
+        values: { arrival_date, departure_date, travel_type },
+      }) => (
+        <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+          {renderTravelType()}
 
-            {renderDepartureDate(travel_type, arrival_date)}
-            {hasReturn(travel_type) && renderArrivalDate(departure_date)}
-
-            {renderQuantity()}
-            {renderSubmit(submitting, isLoading)}
-          </Pane>
-        </Desktop>
-
-        <Tablet>
-          <React.Fragment>
-            <Pane
-              display="flex"
-              alignItems="flex-end"
-              marginBottom={ITEM_SPACE}
-            >
+          {isDesktop && (
+            <Pane display="flex" alignItems="flex-end">
               {renderFrom()}
               {renderLocationSwapper(form)}
               {renderTo()}
-            </Pane>
 
-            <Pane display="flex" alignItems="flex-end">
               {renderDepartureDate(travel_type, arrival_date)}
               {hasReturn(travel_type) && renderArrivalDate(departure_date)}
 
               {renderQuantity()}
               {renderSubmit(submitting, isLoading)}
             </Pane>
-          </React.Fragment>
-        </Tablet>
+          )}
 
-        <Mobile>
-          <React.Fragment>
-            <Pane
-              display="flex"
-              alignItems="flex-end"
-              marginBottom={ITEM_SPACE}
-            >
-              {renderFrom()}
-              {renderTo()}
-            </Pane>
+          {isTablet && (
+            <>
+              <Pane
+                display="flex"
+                alignItems="flex-end"
+                marginBottom={ITEM_SPACE}
+              >
+                {renderFrom()}
+                {renderLocationSwapper(form)}
+                {renderTo()}
+              </Pane>
 
-            <Pane
-              display="flex"
-              alignItems="flex-end"
-              marginBottom={ITEM_SPACE}
-            >
-              {renderDepartureDate(travel_type, arrival_date)}
-              {hasReturn(travel_type) && renderArrivalDate(departure_date)}
-            </Pane>
+              <Pane display="flex" alignItems="flex-end">
+                {renderDepartureDate(travel_type, arrival_date)}
+                {hasReturn(travel_type) && renderArrivalDate(departure_date)}
 
-            <Pane display="flex" alignItems="flex-end">
-              <Pane width="50%">{renderQuantity()}</Pane>
-              <Pane width="50%">{renderSubmit(submitting, isLoading)}</Pane>
-            </Pane>
-          </React.Fragment>
-        </Mobile>
-      </form>
-    )}
-  </Form>
-);
+                {renderQuantity()}
+                {renderSubmit(submitting, isLoading)}
+              </Pane>
+            </>
+          )}
+
+          {isMobile && (
+            <>
+              <Pane
+                display="flex"
+                alignItems="flex-end"
+                marginBottom={ITEM_SPACE}
+              >
+                {renderFrom()}
+                {renderTo()}
+              </Pane>
+
+              <Pane
+                display="flex"
+                alignItems="flex-end"
+                marginBottom={ITEM_SPACE}
+              >
+                {renderDepartureDate(travel_type, arrival_date)}
+                {hasReturn(travel_type) && renderArrivalDate(departure_date)}
+              </Pane>
+
+              <Pane display="flex" alignItems="flex-end">
+                <Pane width="50%">{renderQuantity()}</Pane>
+                <Pane width="50%">{renderSubmit(submitting, isLoading)}</Pane>
+              </Pane>
+            </>
+          )}
+        </form>
+      )}
+    </Form>
+  );
+};
 
 SearchForm.propTypes = {
   formData: PropTypes.shape({}),

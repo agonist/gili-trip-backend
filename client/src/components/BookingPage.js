@@ -12,8 +12,8 @@ import Item from "./Item";
 import LoadingState from "./LoadingState";
 import PageFooter from "./PageFooter";
 import TicketsTable from "./TicketsTable";
-import { Mobile } from "./Media";
 
+import useMedia from "../hooks/useMedia";
 import { CURRENCY_SYMBOL, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { flattenTickets, navigateWithData } from "../helpers";
 import { fetchBooking, putBooking, validateCoupon } from "../api";
@@ -37,6 +37,7 @@ const notifyInvalidCoupon = code =>
   });
 
 const BookingPage = ({ id }) => {
+  const { isMobile } = useMedia();
   const [bookingData, setBookingData] = React.useState({});
   const [isFetchingBooking, setIsFetchingBooking] = React.useState(true);
   const [isEditingBooking, setIsEditingBooking] = React.useState(false);
@@ -144,71 +145,67 @@ const BookingPage = ({ id }) => {
               marginBottom={ITEM_SPACE}
             />
 
-            <Mobile>
-              {isMobile => (
-                <Pane
-                  display={isMobile ? "block" : "flex"}
-                  justifyContent="space-between"
+            <Pane
+              display={isMobile ? "block" : "flex"}
+              justifyContent="space-between"
+            >
+              <Item
+                {...itemProps}
+                width={isMobile ? "100%" : "70%"}
+                marginRight={ITEM_SPACE}
+              >
+                <Button
+                  appearance="minimal"
+                  iconAfter="cog"
+                  position="absolute"
+                  top={ITEM_SPACE / 2}
+                  right={ITEM_SPACE / 2}
+                  onClick={toggleSetIsEditingBooking}
+                  color="default"
                 >
-                  <Item
-                    {...itemProps}
-                    width={isMobile ? "100%" : "70%"}
-                    marginRight={ITEM_SPACE}
+                  Edit
+                </Button>
+
+                {isEditingBooking ? (
+                  <Form
+                    initialValues={{ ...bookingFormData, quantity }}
+                    onSubmit={handleUpdateBooking}
                   >
-                    <Button
-                      appearance="minimal"
-                      iconAfter="cog"
-                      position="absolute"
-                      top={ITEM_SPACE / 2}
-                      right={ITEM_SPACE / 2}
-                      onClick={toggleSetIsEditingBooking}
-                      color="default"
-                    >
-                      Edit
-                    </Button>
+                    {({ form, handleSubmit, submitting }) => (
+                      <form onSubmit={handleSubmit}>
+                        <BookingFormInner
+                          quantity={quantity}
+                          tickets={tickets}
+                        />
 
-                    {isEditingBooking ? (
-                      <Form
-                        initialValues={{ ...bookingFormData, quantity }}
-                        onSubmit={handleUpdateBooking}
-                      >
-                        {({ form, handleSubmit, submitting }) => (
-                          <form onSubmit={handleSubmit}>
-                            <BookingFormInner
-                              quantity={quantity}
-                              tickets={tickets}
-                            />
-
-                            <Button
-                              appearance="primary"
-                              isLoading={submitting}
-                              marginTop={ITEM_SPACE}
-                              type="submit"
-                            >
-                              Save
-                            </Button>
-                          </form>
-                        )}
-                      </Form>
-                    ) : (
-                      <BookingResume {...bookingData} />
+                        <Button
+                          appearance="primary"
+                          isLoading={submitting}
+                          marginTop={ITEM_SPACE}
+                          type="submit"
+                        >
+                          Save
+                        </Button>
+                      </form>
                     )}
-                  </Item>
+                  </Form>
+                ) : (
+                  <BookingResume {...bookingData} />
+                )}
+              </Item>
 
-                  <Item
-                    {...itemProps}
-                    width={isMobile ? "100%" : "30%"}
-                    alignSelf="baseline"
-                  >
-                    <Heading size={500} marginBottom={ITEM_SPACE}>
-                      Promo code
-                    </Heading>
+              <Item
+                {...itemProps}
+                width={isMobile ? "100%" : "30%"}
+                alignSelf="baseline"
+              >
+                <Heading size={500} marginBottom={ITEM_SPACE}>
+                  Promo code
+                </Heading>
 
-                    <CouponForm onSubmit={handleValidateCoupon} />
-                  </Item>
-                </Pane>
-              )}
-            </Mobile>
+                <CouponForm onSubmit={handleValidateCoupon} />
+              </Item>
+            </Pane>
 
             {!isEditingBooking && (
               <PageFooter

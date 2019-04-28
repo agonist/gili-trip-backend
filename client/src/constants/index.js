@@ -40,3 +40,5 @@ export const OPERATORS = [
     logo: operator1,
   },
 ];
+
+export const MOBILE_BREAKPOINT = 599;
