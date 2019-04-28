@@ -43,7 +43,7 @@ const Ticket = ({
       alignItems="center"
       paddingRight={0}
     >
-      <Pane display="flex" paddingRight={ITEM_SPACE}>
+      <Pane display="flex">
         <OperatorLogo {...vehicle} />
         <Heading {...headingProps} paddingLeft={ITEM_SPACE}>
           <Small>Operator</Small>
@@ -68,7 +68,15 @@ const Ticket = ({
       </Pane>
     </Pane>
 
-    <Pane {...containerProps} textAlign="center" borderLeft="1px solid #E4E7EB">
+    <Pane
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      borderLeft="1px solid #E4E7EB"
+      width={190}
+      {...containerProps}
+    >
       <Heading {...headingProps} fontWeight={600} marginBottom={ITEM_SPACE / 2}>
         {`${price}${CURRENCY_SYMBOL}`}
       </Heading>

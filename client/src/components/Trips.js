@@ -16,9 +16,13 @@ const Trips = ({ handleSelect, selected, trips }) => (
       <Item flexDirection="column" padding={0}>
         {trips.map((trip, i) => {
           const isSelected = trip.id === selected;
-          // const isNotSelected = selected && !isSelected;
+          const isNotSelected = selected && !isSelected;
           const isLast = i + 1 === trips.length;
           const _handleSelect = () => handleSelect(trip);
+
+          if (isNotSelected) {
+            return null;
+          }
 
           return (
             <Ticket

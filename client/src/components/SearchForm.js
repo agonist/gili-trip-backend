@@ -229,7 +229,7 @@ const renderSubmit = (submitting, isLoading) => (
       type="submit"
       justifyContent="center"
     >
-      SEARCH
+      Search
     </Button>
   </Pane>
 );
