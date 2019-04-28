@@ -36,8 +36,8 @@ const renderPassengersField = count => {
 const BookingFormInner = ({ quantity, tickets }) => {
   const [departureTicket, returnTicket] = tickets;
 
-  const defaultHasPickup = hasPickup(tickets[0]);
-  const defaultHasDropoff = hasPickup(tickets[1]);
+  const defaultHasPickup = hasPickup(departureTicket);
+  const defaultHasDropoff = hasPickup(returnTicket);
 
   const [withPickup, setWithPickup] = React.useState(defaultHasPickup);
   const [withDropoff, setWithDropoff] = React.useState(defaultHasDropoff);
@@ -68,16 +68,18 @@ const BookingFormInner = ({ quantity, tickets }) => {
 
       <Heading size={600}>Optional</Heading>
 
-      <BookingFormOptionalField path="tickets[0]" isShown={withPickup}>
-        <Checkbox
-          label={`I need a pickup from ${departureTicket.from.name}`}
-          checked={withPickup}
-          onChange={handleWithPickupChange}
-          marginBottom={0}
-        />
-      </BookingFormOptionalField>
+      {departureTicket.has_pickup && (
+        <BookingFormOptionalField path="tickets[0]" isShown={withPickup}>
+          <Checkbox
+            label={`I need a pickup from ${departureTicket.from.name}`}
+            checked={withPickup}
+            onChange={handleWithPickupChange}
+            marginBottom={0}
+          />
+        </BookingFormOptionalField>
+      )}
 
-      {returnTicket && (
+      {returnTicket && returnTicket.has_dropoff && (
         <BookingFormOptionalField path="tickets[1]" isShown={withDropoff}>
           <Checkbox
             label={`I need a dropoff in ${returnTicket.from.name}`}
