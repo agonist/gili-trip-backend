@@ -5,7 +5,7 @@ import { Icon, Pane, Paragraph, minorScale } from "evergreen-ui";
 import Item from "./Item";
 import Ticket from "./Ticket";
 
-const Trips = ({ handleSelect, handleUnselect, selected, trips }) => (
+const Trips = ({ handleSelect, selected, trips }) => (
   <Pane className="Trips">
     {trips.length === 0 ? (
       <Item flexDirection="column">
@@ -25,7 +25,6 @@ const Trips = ({ handleSelect, handleUnselect, selected, trips }) => (
               {...trip}
               key={trip.id}
               handleSelect={_handleSelect}
-              handleUnselect={handleUnselect}
               hasBorder={!isLast}
               isSelected={isSelected}
               isNotSelected={isNotSelected}
@@ -39,7 +38,6 @@ const Trips = ({ handleSelect, handleUnselect, selected, trips }) => (
 
 Trips.propTypes = {
   handleSelect: PropTypes.func.isRequired,
-  handleUnselect: PropTypes.func.isRequired,
   selected: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   trips: PropTypes.arrayOf(
     PropTypes.shape({

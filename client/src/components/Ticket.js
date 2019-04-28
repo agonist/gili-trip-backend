@@ -19,7 +19,6 @@ const Ticket = ({
   departure_time,
   duration,
   handleSelect,
-  handleUnselect,
   hasBorder,
   isSelected,
   isNotSelected,
@@ -38,7 +37,7 @@ const Ticket = ({
       paddingX={ITEM_HEIGHT}
       paddingY={ITEM_SPACE * 1.5}
       borderBottom={hasBorder ? "1px solid #E4E7EB" : "none"}
-      onClick={isSelected ? handleUnselect : handleSelect}
+      onClick={handleSelect}
       cursor="pointer"
       opacity={isNotSelected ? 0.4 : 1}
       transition="opacity .2s ease-out"
@@ -66,7 +65,6 @@ Ticket.propTypes = {
   departure_time: PropTypes.string.isRequired,
   duration: PropTypes.number.isRequired,
   handleSelect: PropTypes.func,
-  handleUnselect: PropTypes.func,
   hasBorder: PropTypes.bool,
   isSelected: PropTypes.bool,
   isNotSelected: PropTypes.bool,
@@ -76,7 +74,6 @@ Ticket.propTypes = {
 
 Ticket.defaultProps = {
   handleSelect: null,
-  handleUnselect: null,
   hasBorder: false,
   isSelected: false,
   isNotSelected: false,

@@ -69,9 +69,6 @@ const TripsPage = ({ location }) => {
       withParams: true,
     });
 
-  const handleUnselectDepartureTicket = () => setDepartureTicket(null);
-  const handleUnselectReturnTicket = () => setReturnTicket(null);
-
   const handleBookTickets = () => {
     const data = {
       quantity: +quantity,
@@ -158,7 +155,6 @@ const TripsPage = ({ location }) => {
               trips={departureTrips}
               selected={departureTicket && departureTicket.id}
               handleSelect={setDepartureTicket}
-              handleUnselect={handleUnselectDepartureTicket}
             />
           </>
         )}
@@ -176,7 +172,6 @@ const TripsPage = ({ location }) => {
                   trips={returnTrips}
                   selected={returnTicket && returnTicket.id}
                   handleSelect={setReturnTicket}
-                  handleUnselect={handleUnselectReturnTicket}
                 />
               </>
             )}
