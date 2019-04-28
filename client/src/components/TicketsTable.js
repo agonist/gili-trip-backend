@@ -46,18 +46,14 @@ const TicketsTable = ({ final_price, quantity, tickets, ...props }) => (
     </Table.Head>
 
     <Table.Body>
-      {tickets.map(({ id, trip_id, from, to, date, price, vehicle }) => (
+      {tickets.map(({ id, trip_id, from, to, date, price, operator }) => (
         <Table.Row key={id || trip_id} {...rowProps}>
           <Table.TextCell flexGrow={1}>
             {`${from.name} -> ${to.name}`}
             <br />
             <strong>{dateFns.format(date, dateFormat)}</strong>
           </Table.TextCell>
-          <Table.TextCell {...mediumColProps}>
-            {vehicle.kind}
-            <br />
-            <strong>{vehicle.subtype}</strong>
-          </Table.TextCell>
+          <Table.TextCell {...mediumColProps}>{operator.name}</Table.TextCell>
           <Table.TextCell {...smallColProps}>x{quantity}</Table.TextCell>
           <Table.TextCell {...smallColProps}>
             {`${price}${CURRENCY_SYMBOL}`}
