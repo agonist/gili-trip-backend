@@ -103,22 +103,22 @@ if Rails.env.staging? || Rails.env.production?
   Operator.create(name: 'Wahana Gili Ocean', logo: '', website: 'https://wahanagiliocean.com/', contact_email: '', contact_phone: '', whatsapp_for_notif: 'whatsapp:+14155238886')
 
   Trip.create(name: 'Bali (Padangbai) to Gili Trawangan', from_id: 1, to_id: 3, operator_id: 1, price: '32', currency: "$", departure_time:  "09:00", arrival_time:  "10:30", duration: '90', vehicle_id: 1, high_season_percentage_multiplier: 5, has_pickup: true)
-  Trip.create(name: 'Bali (Padangbai) to Gili Trawangan', from_id: 1, to_id: 3, operator_id: 1, price: '32', currency: "$", departure_time:  "14:00", arrival_time:  "15:30", duration: '90', vehicle_id: 1, high_season_percentage_multiplier: 5, has_pickup: true)
+  Trip.create(name: 'Bali (Padangbai) to Gili Trawangan', from_id: 1, to_id: 3, operator_id: 1, price: '32', currency: "$", departure_time:  "13:00", arrival_time:  "14:30", duration: '90', vehicle_id: 1, high_season_percentage_multiplier: 5, has_pickup: true)
 
-  Trip.create(name: 'Bali (Padangbai) to Gili Air', from_id: 1, to_id: 4, operator_id: 1, price: '32', currency: "$", departure_time:  "09:00", arrival_time:  "11:00", duration: '90', vehicle_id: 1, high_season_percentage_multiplier: 5, has_pickup: true)
-  Trip.create(name: 'Bali (Padangbai) to Gili Air', from_id: 1, to_id: 4, operator_id: 1, price: '32', currency: "$", departure_time:  "14:00", arrival_time:  "16:00", duration: '90', vehicle_id: 1, high_season_percentage_multiplier: 5, has_pickup: true)
+  Trip.create(name: 'Bali (Padangbai) to Gili Air', from_id: 1, to_id: 4, operator_id: 1, price: '32', currency: "$", departure_time:  "09:00", arrival_time:  "11:00", duration: '120', vehicle_id: 1, high_season_percentage_multiplier: 5, has_pickup: true)
+  Trip.create(name: 'Bali (Padangbai) to Gili Air', from_id: 1, to_id: 4, operator_id: 1, price: '32', currency: "$", departure_time:  "13:00", arrival_time:  "15:00", duration: '120', vehicle_id: 1, high_season_percentage_multiplier: 5, has_pickup: true)
 
-  Trip.create(name: 'Bali (Padangbai) to Lombok', from_id: 1, to_id: 2, operator_id: 1, price: '32', currency: "$", departure_time:  "09:00", arrival_time:  "11:00", duration: '90', vehicle_id: 1, high_season_percentage_multiplier: 5, has_pickup: true)
-  Trip.create(name: 'Bali (Padangbai) to Lombok', from_id: 1, to_id: 2, operator_id: 1, price: '32', currency: "$", departure_time:  "14:00", arrival_time:  "16:00", duration: '90', vehicle_id: 1, high_season_percentage_multiplier: 5, has_pickup: true)
+  Trip.create(name: 'Bali (Padangbai) to Lombok', from_id: 1, to_id: 2, operator_id: 1, price: '32', currency: "$", departure_time:  "09:00", arrival_time:  "11:30", duration: '150', vehicle_id: 1, high_season_percentage_multiplier: 5, has_pickup: true)
+  Trip.create(name: 'Bali (Padangbai) to Lombok', from_id: 1, to_id: 2, operator_id: 1, price: '32', currency: "$", departure_time:  "13:00", arrival_time:  "15:30", duration: '150', vehicle_id: 1, high_season_percentage_multiplier: 5, has_pickup: true)
 
-  Trip.create(name: 'Gili Trawangan to Bali (Padangbai)', from_id: 3, to_id: 1, operator_id: 1, price: '32', currency: "$", departure_time:  "10:30", arrival_time:  "11:00", duration: '90', vehicle_id: 1, high_season_percentage_multiplier: 5, has_dropoff: true)
-  Trip.create(name: 'Gili Trawangan to Bali (Padangbai)', from_id: 3, to_id: 1, operator_id: 1, price: '32', currency: "$", departure_time:  "14:45", arrival_time:  "16:00", duration: '90', vehicle_id: 1, high_season: true, high_season_percentage_multiplier: 5, has_dropoff: true)
+  Trip.create(name: 'Gili Trawangan to Bali (Padangbai)', from_id: 3, to_id: 1, operator_id: 1, price: '32', currency: "$", departure_time:  "11:00", arrival_time:  "13:00", duration: '120', vehicle_id: 1, high_season_percentage_multiplier: 5, has_dropoff: true)
+  Trip.create(name: 'Gili Trawangan to Bali (Padangbai)', from_id: 3, to_id: 1, operator_id: 1, price: '32', currency: "$", departure_time:  "15:00", arrival_time:  "17:00", duration: '120', vehicle_id: 1, high_season: true, high_season_percentage_multiplier: 5, has_dropoff: true)
 
-  Trip.create(name: 'Gili Air to Bali (Padangbai)', from_id: 4, to_id: 1, operator_id: 1, price: '32', currency: "$", departure_time:  "11:00", arrival_time:  "11:00", duration: '90', vehicle_id: 1, high_season_percentage_multiplier: 5, has_dropoff: true)
-  Trip.create(name: 'Gili Air to Bali (Padangbai)', from_id: 4, to_id: 1, operator_id: 1, price: '32', currency: "$", departure_time:  "16:15", arrival_time:  "18:00", duration: '90', vehicle_id: 1, high_season: true, high_season_percentage_multiplier: 5, has_dropoff: true)
+  Trip.create(name: 'Gili Air to Bali (Padangbai)', from_id: 4, to_id: 1, operator_id: 1, price: '32', currency: "$", departure_time:  "11:00", arrival_time:  "11:00", duration: '120', vehicle_id: 1, high_season_percentage_multiplier: 5, has_dropoff: true)
+  Trip.create(name: 'Gili Air to Bali (Padangbai)', from_id: 4, to_id: 1, operator_id: 1, price: '32', currency: "$", departure_time:  "16:15", arrival_time:  "18:00", duration: '120', vehicle_id: 1, high_season: true, high_season_percentage_multiplier: 5, has_dropoff: true)
 
-  Trip.create(name: 'Lombok to Bali (Padangbai)', from_id: 2, to_id: 1, operator_id: 1, price: '32', currency: "$", departure_time:  "11:30", arrival_time:  "13:00", duration: '90', vehicle_id: 1, high_season_percentage_multiplier: 5, has_dropoff: true)
-  Trip.create(name: 'Lombok to Bali (Padangbai)', from_id: 2, to_id: 1, operator_id: 1, price: '32', currency: "$", departure_time:  "16:30", arrival_time:  "18:00", duration: '90', vehicle_id: 1, high_season: true, high_season_percentage_multiplier: 5, has_dropoff: true)
+  Trip.create(name: 'Lombok to Bali (Padangbai)', from_id: 2, to_id: 1, operator_id: 1, price: '32', currency: "$", departure_time:  "11:30", arrival_time:  "13:00", duration: '150', vehicle_id: 1, high_season_percentage_multiplier: 5, has_dropoff: true)
+  Trip.create(name: 'Lombok to Bali (Padangbai)', from_id: 2, to_id: 1, operator_id: 1, price: '32', currency: "$", departure_time:  "16:30", arrival_time:  "18:00", duration: '150', vehicle_id: 1, high_season: true, high_season_percentage_multiplier: 5, has_dropoff: true)
 
 
 end
