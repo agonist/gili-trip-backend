@@ -30,8 +30,8 @@ const TripsContainer = ({
 TripsContainer.propTypes = {
   from: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
-  isFetching: PropTypes.func.isRequired,
-  trips: PropTypes.arrayOf(),
+  isFetching: PropTypes.bool.isRequired,
+  trips: PropTypes.arrayOf(PropTypes.shape()),
   ticket: PropTypes.shape(),
   handleSelect: PropTypes.func.isRequired,
 };
