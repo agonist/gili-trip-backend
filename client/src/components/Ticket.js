@@ -1,64 +1,94 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Heading, Icon, Pane, Paragraph } from "evergreen-ui";
+import { Button, Heading, Icon, Pane } from "evergreen-ui";
 
 import OperatorLogo from "./OperatorLogo";
+import Small from "./Small";
 
-import { convertMinsToHrsMins } from "../helpers";
 import { CURRENCY_SYMBOL, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 
 const headingProps = {
-  flexGrow: 1,
   size: 600,
   fontWeight: 400,
-  textAlign: "center",
+  is: "p",
+};
+
+const containerProps = {
+  paddingX: ITEM_HEIGHT,
+  paddingY: ITEM_SPACE * 1.5,
 };
 
 const Ticket = ({
   arrival_time,
   departure_time,
-  duration,
+  from,
+  to,
   handleSelect,
   hasBorder,
   isSelected,
-  isNotSelected,
   price,
   vehicle,
-}) => {
-  const formattedDuration = convertMinsToHrsMins(duration, "h");
-
-  return (
+  operator,
+}) => (
+  <Pane
+    className="Ticket"
+    display="flex"
+    width="100%"
+    borderBottom={hasBorder ? "1px solid #E4E7EB" : "none"}
+  >
     <Pane
-      className="Ticket"
+      {...containerProps}
+      flexGrow={1}
       display="flex"
-      justifyContent="space-between"
       alignItems="center"
-      width="100%"
-      paddingX={ITEM_HEIGHT}
-      paddingY={ITEM_SPACE * 1.5}
-      borderBottom={hasBorder ? "1px solid #E4E7EB" : "none"}
-      onClick={handleSelect}
-      cursor="pointer"
-      opacity={isNotSelected ? 0.4 : 1}
-      transition="opacity .2s ease-out"
+      paddingRight={0}
     >
-      <OperatorLogo {...vehicle} />
+      <Pane display="flex" paddingRight={ITEM_SPACE}>
+        <OperatorLogo {...vehicle} />
+        <Heading {...headingProps} paddingLeft={ITEM_SPACE}>
+          <Small>Operator</Small>
+          {operator.name}
+        </Heading>
+      </Pane>
 
-      <Heading {...headingProps}>
-        {departure_time} - {arrival_time}
-        <Paragraph color="#66788A">{formattedDuration}</Paragraph>
+      <Pane flexGrow={1} display="flex" justifyContent="center">
+        <Heading {...headingProps} textAlign="right">
+          <Small>{from.name}</Small>
+          {departure_time}
+        </Heading>
+
+        <Pane paddingX={ITEM_SPACE} alignSelf="flex-end">
+          <Icon icon="arrow-right" />
+        </Pane>
+
+        <Heading {...headingProps}>
+          <Small>{to.name}</Small>
+          {arrival_time}
+        </Heading>
+      </Pane>
+    </Pane>
+
+    <Pane {...containerProps} textAlign="center" borderLeft="1px solid #E4E7EB">
+      <Heading {...headingProps} fontWeight={600} marginBottom={ITEM_SPACE / 2}>
+        {`${price}${CURRENCY_SYMBOL}`}
       </Heading>
 
-      <Heading {...headingProps}>{`${price}${CURRENCY_SYMBOL}`}</Heading>
-
-      <Icon
-        icon={isSelected ? "tick-circle" : "chevron-right"}
-        color={isSelected ? "success" : "muted"}
-        transition="all .2s ease-out"
-      />
+      {isSelected ? (
+        <Button iconAfter="tick" disabled>
+          Selected
+        </Button>
+      ) : (
+        <Button
+          onClick={handleSelect}
+          iconAfter="arrow-right"
+          appearance="primary"
+        >
+          Select
+        </Button>
+      )}
     </Pane>
-  );
-};
+  </Pane>
+);
 
 Ticket.propTypes = {
   arrival_time: PropTypes.string.isRequired,
@@ -70,6 +100,15 @@ Ticket.propTypes = {
   isNotSelected: PropTypes.bool,
   price: PropTypes.string.isRequired,
   vehicle: PropTypes.shape({}).isRequired,
+  from: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+  to: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+  operator: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 Ticket.defaultProps = {

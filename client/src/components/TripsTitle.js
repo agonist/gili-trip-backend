@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Heading, Icon, Pane, Text } from "evergreen-ui";
+import { Heading, Icon, Pane } from "evergreen-ui";
 
+import Small from "./Small";
 import { ITEM_SPACE } from "../constants";
 
 const IconWithBackground = () => (
@@ -20,13 +21,6 @@ const IconWithBackground = () => (
   </Pane>
 );
 
-const textProps = {
-  display: "block",
-  fontSize: 10,
-  textTransform: "uppercase",
-  color: "#66788A",
-};
-
 const headingProps = {
   size: 500,
 };
@@ -36,7 +30,7 @@ const TripsTitle = ({ from, to }) => (
     <IconWithBackground />
 
     <Heading {...headingProps}>
-      <Text {...textProps}>From</Text>
+      <Small>From</Small>
       {from}
     </Heading>
 
@@ -45,7 +39,7 @@ const TripsTitle = ({ from, to }) => (
     </Pane>
 
     <Heading {...headingProps}>
-      <Text {...textProps}>To</Text>
+      <Small>To</Small>
       {to}
     </Heading>
   </Pane>
