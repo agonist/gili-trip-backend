@@ -27,7 +27,6 @@ const logoStyles = {
 };
 
 const paneProps = {
-  flexGrow: 1,
   marginBottom: ITEM_SPACE,
 };
 
@@ -35,13 +34,22 @@ const Footer = () => (
   <Pane borderTop="1px solid #E4E7EB" paddingBottom={ITEM_SPACE * 2}>
     <Mobile>
       {isMobile => (
-        <Container display="flex" flexDirection={isMobile ? "column" : "row"}>
+        <Container
+          display="flex"
+          flexDirection={isMobile ? "column" : "row"}
+          justifyContent="space-between"
+        >
           <Pane {...paneProps}>
             <FooterHeading>Company</FooterHeading>
             <FooterLink to="/terms">Terms of service</FooterLink>
             <FooterLink to="/privacy">Privacy policy</FooterLink>
             <FooterLink to="/your-data">Cookies</FooterLink>
             <FooterLink to="/contact">Contact</FooterLink>
+          </Pane>
+
+          <Pane {...paneProps}>
+            <FooterHeading>Operators</FooterHeading>
+            <FooterLink to="/operator/wahana">Wahana</FooterLink>
           </Pane>
 
           <Pane {...paneProps}>
