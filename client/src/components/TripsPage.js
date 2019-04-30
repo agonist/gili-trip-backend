@@ -8,7 +8,9 @@ import ErrorState from "./ErrorState";
 import Header from "./Header";
 import PageFooter from "./PageFooter";
 import SearchForm from "./SearchForm";
+import Small from "./Small";
 import TripsContainer from "./TripsContainer";
+import TripsTitle from "./TripsTitle";
 
 import { ITEM_HEIGHT, ITEM_SPACE, TRAVEL_TYPES } from "../constants";
 import { fetchTrips } from "../api";
@@ -155,16 +157,17 @@ const TripsPage = ({ location }) => {
       {hasFailed && (
         <Container>
           <ErrorState>
-            <Button onClick={fetchTrips}>Try again</Button>
+            <Button onClick={window.location.reload}>Try again</Button>
           </ErrorState>
         </Container>
       )}
 
       {!hasFailed && (
         <Container>
+          <Small>Departure trip</Small>
+          <TripsTitle from={fromName} to={toName} />
+
           <TripsContainer
-            from={fromName}
-            to={toName}
             isFetching={isFetchingDepTrips}
             trips={depTrips}
             ticket={depTicket}
@@ -173,9 +176,10 @@ const TripsPage = ({ location }) => {
 
           {displayRetTrips && (
             <Pane paddingTop={ITEM_SPACE}>
+              <Small>Arrival trip</Small>
+              <TripsTitle from={toName} to={fromName} />
+
               <TripsContainer
-                from={toName}
-                to={fromName}
                 isFetching={isFetchingRetTrips}
                 trips={retTrips}
                 ticket={retTicket}
