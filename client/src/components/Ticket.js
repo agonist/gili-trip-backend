@@ -5,18 +5,10 @@ import { Button, Heading, Icon, IconButton, Pane } from "evergreen-ui";
 import OperatorLogo from "./OperatorLogo";
 import Small from "./Small";
 
+import useMedia from "../hooks/useMedia";
 import { CURRENCY_SYMBOL, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 
-const headingProps = {
-  size: 600,
-  fontWeight: 400,
-  is: "p",
-};
-
-const containerProps = {
-  paddingX: ITEM_HEIGHT,
-  paddingY: ITEM_SPACE * 1.5,
-};
+const BORDER = "1px solid #E4E7EB";
 
 const Ticket = ({
   arrival_time,
@@ -30,61 +22,64 @@ const Ticket = ({
   price,
   vehicle,
   operator,
-}) => (
-  <Pane
-    className="Ticket"
-    display="flex"
-    width="100%"
-    borderBottom={hasBorder ? "1px solid #E4E7EB" : "none"}
-  >
-    <Pane
-      {...containerProps}
-      flexGrow={1}
-      display="flex"
-      alignItems="center"
-      paddingRight={0}
-    >
-      <Pane display="flex">
-        <OperatorLogo {...vehicle} />
-        <Heading {...headingProps} paddingLeft={ITEM_SPACE}>
-          <Small>Operator</Small>
-          {operator.name}
-        </Heading>
+}) => {
+  const { isMobile, isDesktop } = useMedia();
+
+  const spacingX = isMobile ? ITEM_SPACE : ITEM_HEIGHT;
+  const spacingY = isMobile ? ITEM_SPACE : ITEM_SPACE * 1.5;
+
+  const headingProps = {
+    size: isMobile ? 400 : 600,
+    fontWeight: 400,
+    is: "p",
+  };
+
+  const renderOperator = () => (
+    <Heading {...headingProps}>
+      <Small>Operator</Small>
+      {operator.name}
+    </Heading>
+  );
+
+  const renderOperatorLogo = () => (
+    <OperatorLogo {...vehicle} style={{ margin: "0 auto" }} />
+  );
+
+  const renderLocations = () => (
+    <Pane flexGrow={1} display="flex" justifyContent="center">
+      <Heading {...headingProps} textAlign="right">
+        <Small>{from.name}</Small>
+        {departure_time}
+      </Heading>
+
+      <Pane
+        paddingX={isMobile ? 4 : ITEM_SPACE}
+        alignSelf="flex-end"
+        opacity={0.7}
+      >
+        {!isMobile && <Icon icon="arrow-right" />}
       </Pane>
 
-      <Pane flexGrow={1} display="flex" justifyContent="center">
-        <Heading {...headingProps} textAlign="right">
-          <Small>{from.name}</Small>
-          {departure_time}
-        </Heading>
-
-        <Pane paddingX={ITEM_SPACE} alignSelf="flex-end">
-          <Icon icon="arrow-right" />
-        </Pane>
-
-        <Heading {...headingProps}>
-          <Small>{to.name}</Small>
-          {arrival_time}
-        </Heading>
-      </Pane>
+      <Heading {...headingProps} textAlign="left">
+        <Small>{to.name}</Small>
+        {arrival_time}
+      </Heading>
     </Pane>
+  );
 
+  const renderPrice = () => (
     <Pane
-      {...containerProps}
       display="flex"
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      borderLeft="1px solid #E4E7EB"
-      paddingX={0}
-      width={190}
     >
       <Heading {...headingProps} fontWeight={600} marginBottom={ITEM_SPACE / 2}>
         {`${price}${CURRENCY_SYMBOL}`}
       </Heading>
 
       {isSelected ? (
-        <Pane display="flex">
+        <Pane display="flex" flexDirection={isMobile ? "column" : "row"}>
           <Button iconAfter="tick" disabled>
             Selected
           </Button>
@@ -94,7 +89,9 @@ const Ticket = ({
             icon="cross"
             appearance="minimal"
             intent="danger"
-            marginLeft={4}
+            marginX="auto"
+            marginTop={isMobile ? 4 : 0}
+            marginLeft={!isMobile ? 4 : 0}
           />
         </Pane>
       ) : (
@@ -107,18 +104,62 @@ const Ticket = ({
         </Button>
       )}
     </Pane>
-  </Pane>
-);
+  );
+
+  return (
+    <Pane
+      className="Ticket"
+      display="flex"
+      width="100%"
+      borderBottom={hasBorder ? "1px solid #E4E7EB" : "none"}
+    >
+      <Pane
+        flexGrow={1}
+        display={!isMobile ? "flex" : "block"}
+        paddingX={spacingX}
+        paddingY={spacingY}
+        textAlign={!isMobile ? "left" : "center"}
+        alignItems="center"
+      >
+        {isDesktop && (
+          <Pane paddingRight={ITEM_SPACE}>{renderOperatorLogo()}</Pane>
+        )}
+
+        {isMobile ? (
+          <>
+            {renderLocations()}
+            <Pane height={ITEM_SPACE / 2} />
+            {renderOperator()}
+          </>
+        ) : (
+          <>
+            {renderOperator()}
+            {renderLocations()}
+          </>
+        )}
+      </Pane>
+
+      <Pane
+        width={isMobile ? 150 : 200}
+        borderLeft={BORDER}
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        paddingY={isMobile ? 0 : spacingY}
+      >
+        {renderPrice()}
+      </Pane>
+    </Pane>
+  );
+};
 
 Ticket.propTypes = {
   arrival_time: PropTypes.string.isRequired,
   departure_time: PropTypes.string.isRequired,
-  duration: PropTypes.number.isRequired,
   handleSelect: PropTypes.func,
   handleUnselect: PropTypes.func,
   hasBorder: PropTypes.bool,
   isSelected: PropTypes.bool,
-  isNotSelected: PropTypes.bool,
   price: PropTypes.string.isRequired,
   vehicle: PropTypes.shape({}).isRequired,
   from: PropTypes.shape({
@@ -137,7 +178,6 @@ Ticket.defaultProps = {
   handleUnselect: null,
   hasBorder: false,
   isSelected: false,
-  isNotSelected: false,
 };
 
 export default Ticket;

@@ -128,7 +128,7 @@ const TripsPage = ({ location }) => {
   ]);
 
   React.useEffect(() => {
-    if (!retTicket) {
+    if (retTrips.length === 0) {
       setIsFetchingRetTrips(true);
       fetchRetTrips();
     }
