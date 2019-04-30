@@ -19,6 +19,7 @@ const Trips = ({ handleSelect, selected, trips }) => (
           const isNotSelected = selected && !isSelected;
           const isLast = i + 1 === trips.length;
           const _handleSelect = () => handleSelect(trip);
+          const _handleUnselect = () => handleSelect(null);
 
           if (isNotSelected) {
             return null;
@@ -29,6 +30,7 @@ const Trips = ({ handleSelect, selected, trips }) => (
               {...trip}
               key={trip.id}
               handleSelect={_handleSelect}
+              handleUnselect={_handleUnselect}
               hasBorder={!isLast}
               isSelected={isSelected}
             />

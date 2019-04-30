@@ -128,8 +128,10 @@ const TripsPage = ({ location }) => {
   ]);
 
   React.useEffect(() => {
-    setIsFetchingRetTrips(true);
-    fetchRetTrips();
+    if (!retTicket) {
+      setIsFetchingRetTrips(true);
+      fetchRetTrips();
+    }
   }, [depTicket && depTicket.id]);
 
   const hasSelectedAllTickets = isRoundTrip
@@ -139,7 +141,7 @@ const TripsPage = ({ location }) => {
   const isSearchFormLoading =
     !hasFailed && (isFetchingDepTrips || isFetchingRetTrips);
 
-  const displayRetTrips = isRoundTrip && depTicket;
+  const displayRetTrips = (isRoundTrip && depTicket) || retTicket;
 
   const fromName = getLocationName(from);
   const toName = getLocationName(to);

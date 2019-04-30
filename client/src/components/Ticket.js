@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Heading, Icon, Pane } from "evergreen-ui";
+import { Button, Heading, Icon, IconButton, Pane } from "evergreen-ui";
 
 import OperatorLogo from "./OperatorLogo";
 import Small from "./Small";
@@ -24,6 +24,7 @@ const Ticket = ({
   from,
   to,
   handleSelect,
+  handleUnselect,
   hasBorder,
   isSelected,
   price,
@@ -69,22 +70,33 @@ const Ticket = ({
     </Pane>
 
     <Pane
+      {...containerProps}
       display="flex"
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
       borderLeft="1px solid #E4E7EB"
+      paddingX={0}
       width={190}
-      {...containerProps}
     >
       <Heading {...headingProps} fontWeight={600} marginBottom={ITEM_SPACE / 2}>
         {`${price}${CURRENCY_SYMBOL}`}
       </Heading>
 
       {isSelected ? (
-        <Button iconAfter="tick" disabled>
-          Selected
-        </Button>
+        <Pane display="flex">
+          <Button iconAfter="tick" disabled>
+            Selected
+          </Button>
+
+          <IconButton
+            onClick={handleUnselect}
+            icon="cross"
+            appearance="minimal"
+            intent="danger"
+            marginLeft={4}
+          />
+        </Pane>
       ) : (
         <Button
           onClick={handleSelect}
@@ -103,6 +115,7 @@ Ticket.propTypes = {
   departure_time: PropTypes.string.isRequired,
   duration: PropTypes.number.isRequired,
   handleSelect: PropTypes.func,
+  handleUnselect: PropTypes.func,
   hasBorder: PropTypes.bool,
   isSelected: PropTypes.bool,
   isNotSelected: PropTypes.bool,
@@ -121,6 +134,7 @@ Ticket.propTypes = {
 
 Ticket.defaultProps = {
   handleSelect: null,
+  handleUnselect: null,
   hasBorder: false,
   isSelected: false,
   isNotSelected: false,
