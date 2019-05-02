@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import dateFns from "date-fns";
-import { Table } from "evergreen-ui";
+import { Table, Text } from "evergreen-ui";
 
 import { CURRENCY_SYMBOL, ITEM_SPACE } from "../constants";
 
@@ -25,10 +25,13 @@ const mediumColProps = {
   flexBasis: 200,
 };
 
-const calculateFinalPrice = tickets =>
-  tickets.reduce((total, ticket) => total + Number(ticket.price), 0);
-
-const TicketsTable = ({ final_price, quantity, tickets, ...props }) => (
+const TicketsTable = ({
+  final_price,
+  full_price,
+  quantity,
+  tickets,
+  ...props
+}) => (
   <Table
     width="100%"
     backgroundColor="#fff"
@@ -65,9 +68,26 @@ const TicketsTable = ({ final_price, quantity, tickets, ...props }) => (
       ))}
 
       <Table.Row {...rowProps}>
-        <Table.TextCell flexGrow={1} />
-        <Table.TextCell {...smallColProps}>
-          Total: <strong>{final_price || calculateFinalPrice(tickets)}$</strong>
+        <Table.TextCell textAlign="right">
+          Total:
+          {final_price !== full_price && (
+            <span
+              style={{
+                display: "inline-block",
+                textDecoration: "line-through",
+                margin: "0 4px",
+              }}
+            >
+              {full_price}
+              {CURRENCY_SYMBOL}
+            </span>
+          )}
+          <Text>
+            <strong>
+              {final_price}
+              {CURRENCY_SYMBOL}
+            </strong>
+          </Text>
         </Table.TextCell>
       </Table.Row>
     </Table.Body>
@@ -75,13 +95,10 @@ const TicketsTable = ({ final_price, quantity, tickets, ...props }) => (
 );
 
 TicketsTable.propTypes = {
-  final_price: PropTypes.string,
+  final_price: PropTypes.string.isRequired,
+  full_price: PropTypes.string.isRequired,
   tickets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   quantity: PropTypes.number.isRequired,
-};
-
-TicketsTable.defaultProps = {
-  final_price: undefined,
 };
 
 export default TicketsTable;

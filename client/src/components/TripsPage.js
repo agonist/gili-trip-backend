@@ -159,7 +159,7 @@ const TripsPage = ({ location }) => {
       {hasFailed && (
         <Container>
           <ErrorState>
-            <Button onClick={window.location.reload}>Try again</Button>
+            <Button onClick={() => window.location.reload()}>Try again</Button>
           </ErrorState>
         </Container>
       )}

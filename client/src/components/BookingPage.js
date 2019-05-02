@@ -138,12 +138,7 @@ const BookingPage = ({ id }) => {
 
         {!isFetchingBooking && !hasPayed && (
           <>
-            <TicketsTable
-              tickets={tickets}
-              quantity={quantity}
-              final_price={final_price}
-              marginBottom={ITEM_SPACE}
-            />
+            <TicketsTable {...bookingData} marginBottom={ITEM_SPACE} />
 
             <Pane
               display={isMobile ? "block" : "flex"}

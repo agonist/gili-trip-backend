@@ -32,7 +32,7 @@ const mergeTickets = (tickets, ticketsExtras = []) =>
 
 const PreBookingPage = ({ location, navigate }) => {
   const { state } = location;
-  const { final_price, quantity, tickets, extra = {} } = state;
+  const { quantity, tickets, extra = {} } = state;
   const { bookingFormData } = extra;
 
   if (!state || (state && !state.tickets)) {
@@ -77,11 +77,7 @@ const PreBookingPage = ({ location, navigate }) => {
           marginBottom={ITEM_HEIGHT}
         />
 
-        <TicketsTable
-          tickets={tickets}
-          quantity={quantity}
-          final_price={final_price}
-        />
+        <TicketsTable {...state} />
 
         <Form
           initialValues={{ quantity, ...bookingFormData }}
