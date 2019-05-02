@@ -69,7 +69,7 @@ const TicketsTable = ({
 
       <Table.Row {...rowProps}>
         <Table.TextCell textAlign="right">
-          Total:
+          Total:{" "}
           {final_price !== full_price && (
             <span
               style={{

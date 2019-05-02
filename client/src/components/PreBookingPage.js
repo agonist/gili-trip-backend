@@ -30,6 +30,9 @@ const mergeTickets = (tickets, ticketsExtras = []) =>
     ...ticketsExtras[i],
   }));
 
+const calculateFinalPrice = tickets =>
+  String(tickets.reduce((total, ticket) => total + Number(ticket.price), 0));
+
 const PreBookingPage = ({ location, navigate }) => {
   const { state } = location;
   const { quantity, tickets, extra = {} } = state;
@@ -66,6 +69,8 @@ const PreBookingPage = ({ location, navigate }) => {
       .catch(onError);
   };
 
+  const price = calculateFinalPrice(tickets);
+
   return (
     <div className="Page Page--preBooking">
       <Header />
@@ -77,7 +82,7 @@ const PreBookingPage = ({ location, navigate }) => {
           marginBottom={ITEM_HEIGHT}
         />
 
-        <TicketsTable {...state} />
+        <TicketsTable {...state} final_price={price} full_price={price} />
 
         <Form
           initialValues={{ quantity, ...bookingFormData }}

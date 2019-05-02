@@ -7,6 +7,7 @@ import BookingFormInner from "./BookingFormInner";
 import BookingResume from "./BookingResume";
 import Container from "./Container";
 import CouponForm from "./CouponForm";
+import ErrorState from "./ErrorState";
 import Header from "./Header";
 import Item from "./Item";
 import LoadingState from "./LoadingState";
@@ -36,11 +37,13 @@ const notifyInvalidCoupon = code =>
     duration: 5,
   });
 
-const BookingPage = ({ id }) => {
+const BookingPage = ({ id, navigate }) => {
   const { isMobile } = useMedia();
   const [bookingData, setBookingData] = React.useState({});
+  const [hasErrored, setHasErrored] = React.useState(false);
   const [isFetchingBooking, setIsFetchingBooking] = React.useState(true);
   const [isEditingBooking, setIsEditingBooking] = React.useState(false);
+  const [promoCode, setPromoCode] = React.useState("");
 
   const bookingFormData = extractFormData(bookingData);
   const {
@@ -67,7 +70,7 @@ const BookingPage = ({ id }) => {
 
     fetchBooking(id)
       .then(onSuccess)
-      .catch(console.error);
+      .catch(setHasErrored);
   };
 
   const handleUpdateBooking = formData => {
@@ -89,6 +92,8 @@ const BookingPage = ({ id }) => {
       return null;
     }
 
+    setPromoCode(code);
+
     const onError = err => console.error(err);
 
     return validateCoupon({
@@ -96,9 +101,13 @@ const BookingPage = ({ id }) => {
       booking_id: id,
     })
       .then(({ data }) => {
-        if (!data.valid) {
+        if (data.valid === false) {
           notifyInvalidCoupon(code);
+          return;
         }
+
+        setPromoCode("");
+        handleUpdateBookingData(data);
       })
       .catch(onError);
   };
@@ -118,7 +127,7 @@ const BookingPage = ({ id }) => {
       <Header />
 
       <Container>
-        {isFetchingBooking && <LoadingState />}
+        {isFetchingBooking && !hasErrored && <LoadingState />}
 
         {hasPayed && (
           <Alert
@@ -134,6 +143,12 @@ const BookingPage = ({ id }) => {
               Thank you for purchasing on GiliTrip, we hope to see you soon!
             </Paragraph>
           </Alert>
+        )}
+
+        {hasErrored && (
+          <ErrorState>
+            <Button onClick={() => navigate("/")}>Go back to trips page</Button>
+          </ErrorState>
         )}
 
         {!isFetchingBooking && !hasPayed && (
@@ -198,7 +213,10 @@ const BookingPage = ({ id }) => {
                   Promo code
                 </Heading>
 
-                <CouponForm onSubmit={handleValidateCoupon} />
+                <CouponForm
+                  initialValues={{ code: promoCode }}
+                  onSubmit={handleValidateCoupon}
+                />
               </Item>
             </Pane>
 
@@ -226,10 +244,12 @@ const BookingPage = ({ id }) => {
 
 BookingPage.propTypes = {
   id: PropTypes.string,
+  navigate: PropTypes.func,
 };
 
 BookingPage.defaultProps = {
   id: undefined,
+  navigate: () => {},
 };
 
 export default BookingPage;
