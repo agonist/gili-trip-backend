@@ -1,38 +1,84 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Form, Field } from "react-final-form";
-import { Button, TextInput } from "evergreen-ui";
+import { Button, Pane, Paragraph, TextInput, toaster } from "evergreen-ui";
 
+import { validateCoupon } from "../api";
 import { ITEM_SPACE } from "../constants";
 
-const CouponForm = ({ initialValues, onSubmit }) => (
-  <Form initialValues={initialValues} onSubmit={onSubmit}>
-    {({ form, handleSubmit, submitting }) => (
-      <form onSubmit={handleSubmit}>
-        <Field name="code">
-          {({ input }) => <TextInput {...input} width="100%" />}
-        </Field>
+const notifyInvalidCoupon = code =>
+  toaster.danger(`The coupon "${code}" is not valid`, {
+    id: "invalid-coupon",
+    duration: 5,
+  });
 
-        <Button
-          appearance="primary"
-          isLoading={submitting}
-          type="submit"
-          marginTop={ITEM_SPACE}
-        >
-          APPLY
-        </Button>
-      </form>
-    )}
-  </Form>
-);
+const notifyValidCoupon = code =>
+  toaster.success(`The coupon "${code}" has been applied`, {
+    id: "valid-coupon",
+    duration: 5,
+  });
 
-CouponForm.propTypes = {
-  initialValues: PropTypes.shape({}),
-  onSubmit: PropTypes.func.isRequired,
+const CouponForm = ({ bookingId: booking_id, onSuccess }) => {
+  const [value, setValue] = React.useState("");
+
+  const initialValues = {
+    code: value,
+  };
+
+  const handleCouponSubmit = ({ code }) => {
+    if (!code) {
+      return null;
+    }
+
+    setValue(code);
+
+    return validateCoupon({ code, booking_id })
+      .then(({ data }) => {
+        setValue("");
+
+        if (data.valid === false) {
+          notifyInvalidCoupon(code);
+          return;
+        }
+
+        notifyValidCoupon(code);
+        onSuccess(data);
+      })
+      .catch(console.err);
+  };
+
+  return (
+    <Form initialValues={initialValues} onSubmit={handleCouponSubmit}>
+      {({ form, handleSubmit, submitting }) => (
+        <form onSubmit={handleSubmit}>
+          <Field name="code">
+            {({ input }) => <TextInput {...input} width="100%" />}
+          </Field>
+
+          <Pane display="flex" flexWrap="wrap" alignItems="center">
+            <Button
+              appearance="primary"
+              isLoading={submitting}
+              type="submit"
+              marginTop={ITEM_SPACE}
+              marginRight={ITEM_SPACE}
+            >
+              APPLY
+            </Button>
+
+            <Paragraph marginTop={ITEM_SPACE} fontSize={12} lineHeight={1.3}>
+              Promo codes are not - find adjectiv -
+            </Paragraph>
+          </Pane>
+        </form>
+      )}
+    </Form>
+  );
 };
 
-CouponForm.defaultProps = {
-  initialValues: {},
+CouponForm.propTypes = {
+  bookingId: PropTypes.string.isRequired,
+  onSuccess: PropTypes.func.isRequired,
 };
 
 export default CouponForm;

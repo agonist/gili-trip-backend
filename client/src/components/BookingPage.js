@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Form } from "react-final-form";
-import { Alert, Button, Heading, Pane, Paragraph, toaster } from "evergreen-ui";
+import { Alert, Button, Heading, Pane, Paragraph } from "evergreen-ui";
 
 import BookingFormInner from "./BookingFormInner";
 import BookingResume from "./BookingResume";
@@ -17,7 +17,7 @@ import TicketsTable from "./TicketsTable";
 import useMedia from "../hooks/useMedia";
 import { CURRENCY_SYMBOL, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { flattenTickets, navigateWithData } from "../helpers";
-import { fetchBooking, putBooking, validateCoupon } from "../api";
+import { fetchBooking, putBooking } from "../api";
 
 const itemProps = {
   flexDirection: "column",
@@ -31,19 +31,12 @@ const extractFormData = ({ booking_email, passengers, tickets }) => ({
   tickets,
 });
 
-const notifyInvalidCoupon = code =>
-  toaster.danger(`The coupon "${code}" is not valid`, {
-    id: "invalid-coupon",
-    duration: 5,
-  });
-
 const BookingPage = ({ id, navigate }) => {
   const { isMobile } = useMedia();
   const [bookingData, setBookingData] = React.useState({});
   const [hasErrored, setHasErrored] = React.useState(false);
   const [isFetchingBooking, setIsFetchingBooking] = React.useState(true);
   const [isEditingBooking, setIsEditingBooking] = React.useState(false);
-  const [promoCode, setPromoCode] = React.useState("");
 
   const bookingFormData = extractFormData(bookingData);
   const {
@@ -86,31 +79,6 @@ const BookingPage = ({ id, navigate }) => {
 
   const toggleSetIsEditingBooking = () =>
     setIsEditingBooking(!isEditingBooking);
-
-  const handleValidateCoupon = ({ code }) => {
-    if (!code) {
-      return null;
-    }
-
-    setPromoCode(code);
-
-    const onError = err => console.error(err);
-
-    return validateCoupon({
-      code,
-      booking_id: id,
-    })
-      .then(({ data }) => {
-        if (data.valid === false) {
-          notifyInvalidCoupon(code);
-          return;
-        }
-
-        setPromoCode("");
-        handleUpdateBookingData(data);
-      })
-      .catch(onError);
-  };
 
   const handlePayment = async () => {
     navigateWithData(`/booking/${id}/payment`, {
@@ -214,8 +182,8 @@ const BookingPage = ({ id, navigate }) => {
                 </Heading>
 
                 <CouponForm
-                  initialValues={{ code: promoCode }}
-                  onSubmit={handleValidateCoupon}
+                  bookingId={id}
+                  onSuccess={handleUpdateBookingData}
                 />
               </Item>
             </Pane>
