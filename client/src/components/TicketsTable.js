@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import dateFns from "date-fns";
-import { Table, Text } from "evergreen-ui";
+import { Badge, Pane, Table, Text } from "evergreen-ui";
 
 import { CURRENCY_SYMBOL, ITEM_SPACE } from "../constants";
 
@@ -30,6 +30,7 @@ const TicketsTable = ({
   full_price,
   quantity,
   tickets,
+  coupon,
   ...props
 }) => (
   <Table
@@ -69,25 +70,33 @@ const TicketsTable = ({
 
       <Table.Row {...rowProps}>
         <Table.TextCell textAlign="right">
-          Total:{" "}
-          {final_price !== full_price && (
-            <span
-              style={{
-                display: "inline-block",
-                textDecoration: "line-through",
-                margin: "0 4px",
-              }}
-            >
-              {full_price}
-              {CURRENCY_SYMBOL}
-            </span>
+          <Pane>
+            Total:{" "}
+            {final_price !== full_price && (
+              <span
+                style={{
+                  display: "inline-block",
+                  textDecoration: "line-through",
+                  margin: "0 4px",
+                }}
+              >
+                {full_price}
+                {CURRENCY_SYMBOL}
+              </span>
+            )}
+            <Text>
+              <strong>
+                {final_price}
+                {CURRENCY_SYMBOL}
+              </strong>
+            </Text>
+          </Pane>
+
+          {coupon && (
+            <Badge color="green" isSolid marginTop={4}>
+              {coupon.code}
+            </Badge>
           )}
-          <Text>
-            <strong>
-              {final_price}
-              {CURRENCY_SYMBOL}
-            </strong>
-          </Text>
         </Table.TextCell>
       </Table.Row>
     </Table.Body>
@@ -99,6 +108,13 @@ TicketsTable.propTypes = {
   full_price: PropTypes.string.isRequired,
   tickets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   quantity: PropTypes.number.isRequired,
+  coupon: PropTypes.shape({
+    code: PropTypes.string.isRequired,
+  }),
+};
+
+TicketsTable.defaultProps = {
+  coupon: null,
 };
 
 export default TicketsTable;

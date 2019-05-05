@@ -45,6 +45,7 @@ const BookingPage = ({ id, navigate }) => {
     payment_status,
     quantity,
     tickets,
+    coupon,
   } = bookingData;
 
   const hasPayed = payment_status === "success";
@@ -121,7 +122,11 @@ const BookingPage = ({ id, navigate }) => {
 
         {!isFetchingBooking && !hasPayed && (
           <>
-            <TicketsTable {...bookingData} marginBottom={ITEM_SPACE} />
+            <TicketsTable
+              {...bookingData}
+              marginBottom={ITEM_SPACE}
+              coupon={coupon}
+            />
 
             <Pane
               display={isMobile ? "block" : "flex"}
