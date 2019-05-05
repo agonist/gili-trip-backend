@@ -4,7 +4,6 @@ import DayPicker from "react-day-picker";
 import { Form, Field } from "react-final-form";
 import dateFns from "date-fns";
 import {
-  Button,
   IconButton,
   Pane,
   Popover,
@@ -13,6 +12,8 @@ import {
   TextInputField,
   majorScale,
 } from "evergreen-ui";
+
+import ButtonPrimary from "./ButtonPrimary";
 
 import {
   ITEM_HEIGHT,
@@ -220,16 +221,15 @@ const renderQuantity = () => (
 
 const renderSubmit = (submitting, isLoading) => (
   <Pane {...paneProps} flexShrink={0}>
-    <Button
+    <ButtonPrimary
       width="100%"
       height={ITEM_HEIGHT}
-      appearance="primary"
       isLoading={submitting || isLoading}
       type="submit"
       justifyContent="center"
     >
       Search
-    </Button>
+    </ButtonPrimary>
   </Pane>
 );
 

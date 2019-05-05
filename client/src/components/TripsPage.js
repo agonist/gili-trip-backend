@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import qs from "query-string";
 import { Button, Pane } from "evergreen-ui";
 
+import ButtonPrimary from "./ButtonPrimary";
 import Container from "./Container";
 import ErrorState from "./ErrorState";
 import Header from "./Header";
@@ -196,15 +197,14 @@ const TripsPage = ({ location }) => {
         <PageFooter
           paddingTop={0}
           rightButton={
-            <Button
-              appearance="primary"
+            <ButtonPrimary
               height={ITEM_HEIGHT}
               iconAfter="arrow-right"
               onClick={handleBookTickets}
               disabled={!hasSelectedAllTickets}
             >
               Confirm and continue
-            </Button>
+            </ButtonPrimary>
           }
         />
       )}

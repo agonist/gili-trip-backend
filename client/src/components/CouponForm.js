@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Form, Field } from "react-final-form";
-import { Button, Pane, Paragraph, TextInput, toaster } from "evergreen-ui";
+import { Pane, Paragraph, TextInput, toaster } from "evergreen-ui";
+
+import ButtonPrimary from "./ButtonPrimary";
 
 import { validateCoupon } from "../api";
 import { ITEM_SPACE } from "../constants";
@@ -56,15 +58,14 @@ const CouponForm = ({ bookingId: booking_id, onSuccess }) => {
           </Field>
 
           <Pane display="flex" flexWrap="wrap" alignItems="center">
-            <Button
-              appearance="primary"
+            <ButtonPrimary
               isLoading={submitting}
               type="submit"
               marginTop={ITEM_SPACE}
               marginRight={ITEM_SPACE}
             >
               APPLY
-            </Button>
+            </ButtonPrimary>
 
             <Paragraph marginTop={ITEM_SPACE} fontSize={12} lineHeight={1.3}>
               Promo codes are not - find adjectiv -

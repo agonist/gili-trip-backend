@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button, Heading, Icon, IconButton, Pane } from "evergreen-ui";
 
+import ButtonPrimary from "./ButtonPrimary";
 import OperatorLogo from "./OperatorLogo";
 import Small from "./Small";
 
@@ -95,13 +96,9 @@ const Ticket = ({
           />
         </Pane>
       ) : (
-        <Button
-          onClick={handleSelect}
-          iconAfter="arrow-right"
-          appearance="primary"
-        >
+        <ButtonPrimary onClick={handleSelect} iconAfter="arrow-right">
           Select
-        </Button>
+        </ButtonPrimary>
       )}
     </Pane>
   );

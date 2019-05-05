@@ -5,6 +5,7 @@ import { Alert, Button, Heading, Pane, Paragraph } from "evergreen-ui";
 
 import BookingFormInner from "./BookingFormInner";
 import BookingResume from "./BookingResume";
+import ButtonPrimary from "./ButtonPrimary";
 import Container from "./Container";
 import CouponForm from "./CouponForm";
 import ErrorState from "./ErrorState";
@@ -161,14 +162,13 @@ const BookingPage = ({ id, navigate }) => {
                           tickets={tickets}
                         />
 
-                        <Button
-                          appearance="primary"
+                        <ButtonPrimary
                           isLoading={submitting}
                           marginTop={ITEM_SPACE}
                           type="submit"
                         >
                           Save
-                        </Button>
+                        </ButtonPrimary>
                       </form>
                     )}
                   </Form>
@@ -197,14 +197,13 @@ const BookingPage = ({ id, navigate }) => {
               <PageFooter
                 paddingRight={0}
                 rightButton={
-                  <Button
-                    appearance="primary"
+                  <ButtonPrimary
                     height={ITEM_HEIGHT}
                     iconAfter="arrow-right"
                     onClick={handlePayment}
                   >
                     {`Confirm and pay ${final_price}${CURRENCY_SYMBOL}`}
-                  </Button>
+                  </ButtonPrimary>
                 }
               />
             )}

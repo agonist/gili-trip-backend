@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Form } from "react-final-form";
-import { Alert, Button, Heading } from "evergreen-ui";
+import { Alert, Heading } from "evergreen-ui";
 
 import BookingFormInner from "./BookingFormInner";
+import ButtonPrimary from "./ButtonPrimary";
 import Container from "./Container";
 import Header from "./Header";
 import Item from "./Item";
@@ -105,15 +106,14 @@ const PreBookingPage = ({ location, navigate }) => {
               <PageFooter
                 paddingRight={0}
                 rightButton={
-                  <Button
-                    appearance="primary"
+                  <ButtonPrimary
                     height={ITEM_HEIGHT}
                     iconAfter="arrow-right"
                     isLoading={submitting}
                     type="submit"
                   >
                     Confirm booking
-                  </Button>
+                  </ButtonPrimary>
                 }
               />
             </form>
