@@ -40,14 +40,7 @@ const BookingPage = ({ id, navigate }) => {
   const [isEditingBooking, setIsEditingBooking] = React.useState(false);
 
   const bookingFormData = extractFormData(bookingData);
-  const {
-    booking_email,
-    final_price,
-    payment_status,
-    quantity,
-    tickets,
-    coupon,
-  } = bookingData;
+  const { booking_email, final_price, payment_status, coupon } = bookingData;
 
   const hasPayed = payment_status === "success";
 
@@ -152,16 +145,12 @@ const BookingPage = ({ id, navigate }) => {
 
                 {isEditingBooking ? (
                   <Form
-                    initialValues={{ ...bookingFormData, quantity }}
+                    initialValues={bookingFormData}
                     onSubmit={handleUpdateBooking}
                   >
                     {({ form, handleSubmit, submitting }) => (
                       <form onSubmit={handleSubmit}>
-                        <BookingFormInner
-                          quantity={quantity}
-                          tickets={tickets}
-                        />
-
+                        <BookingFormInner {...bookingData} />
                         <ButtonPrimary
                           isLoading={submitting}
                           marginTop={ITEM_SPACE}
