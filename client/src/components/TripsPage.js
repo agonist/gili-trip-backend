@@ -147,6 +147,12 @@ const TripsPage = ({ location }) => {
   const fromName = getLocationName(from);
   const toName = getLocationName(to);
 
+  const submitButtonProps = {
+    height: ITEM_HEIGHT,
+    onClick: handleBookTickets,
+    disabled: !hasSelectedAllTickets,
+  };
+
   return (
     <div className="Page Page--trips">
       <Header>
@@ -193,21 +199,30 @@ const TripsPage = ({ location }) => {
         </Container>
       )}
 
-      {depTicket && retTicket && (
-        <PageFooter
-          paddingTop={0}
-          rightButton={
-            <ButtonPrimary
-              height={ITEM_HEIGHT}
-              iconAfter="arrow-right"
-              onClick={handleBookTickets}
-              disabled={!hasSelectedAllTickets}
-            >
-              Confirm and continue
-            </ButtonPrimary>
-          }
-        />
-      )}
+      <PageFooter
+        paddingTop={0}
+        rightButton={
+          <>
+            {!depTicket && (
+              <ButtonPrimary {...submitButtonProps}>
+                Select a departure ticket
+              </ButtonPrimary>
+            )}
+
+            {depTicket && (isRoundTrip && !retTicket) && (
+              <ButtonPrimary {...submitButtonProps}>
+                Select a return ticket
+              </ButtonPrimary>
+            )}
+
+            {depTicket && isRoundTrip && retTicket && (
+              <ButtonPrimary {...submitButtonProps} iconAfter="arrow-right">
+                Confirm and continue
+              </ButtonPrimary>
+            )}
+          </>
+        }
+      />
     </div>
   );
 };
