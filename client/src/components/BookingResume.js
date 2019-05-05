@@ -12,7 +12,7 @@ const headingProps = {
 };
 
 const formFieldProps = {
-  marginBottom: ITEM_SPACE / 2,
+  marginBottom: ITEM_SPACE,
 };
 
 const BookingResume = ({ booking_email, passengers, tickets }) => {
@@ -44,9 +44,7 @@ const BookingResume = ({ booking_email, passengers, tickets }) => {
           ticket={departureTicket}
           formFieldProps={formFieldProps}
         >
-        <FormField
-          label={`Pickup from ${departureTicket.from.name}`}
-        />
+          <FormField label={`Pickup from ${departureTicket.from.name}`} />
         </BookingResumePickupField>
       )}
 
@@ -62,8 +60,6 @@ const BookingResume = ({ booking_email, passengers, tickets }) => {
           />
         </BookingResumePickupField>
       )}
-
-
     </div>
   );
 };

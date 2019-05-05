@@ -4,6 +4,7 @@ import { Form } from "react-final-form";
 import { Alert, Button, Heading, Pane, Paragraph } from "evergreen-ui";
 
 import BookingFormInner from "./BookingFormInner";
+import BookingPayment from "./BookingPayment";
 import BookingResume from "./BookingResume";
 import ButtonPrimary from "./ButtonPrimary";
 import Container from "./Container";
@@ -12,12 +13,11 @@ import ErrorState from "./ErrorState";
 import Header from "./Header";
 import Item from "./Item";
 import LoadingState from "./LoadingState";
-import PageFooter from "./PageFooter";
 import TicketsTable from "./TicketsTable";
 
 import useMedia from "../hooks/useMedia";
-import { CURRENCY_SYMBOL, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
-import { flattenTickets, navigateWithData } from "../helpers";
+import { ITEM_SPACE } from "../constants";
+import { flattenTickets } from "../helpers";
 import { fetchBooking, putBooking } from "../api";
 
 const itemProps = {
@@ -75,12 +75,6 @@ const BookingPage = ({ id, navigate }) => {
   const toggleSetIsEditingBooking = () =>
     setIsEditingBooking(!isEditingBooking);
 
-  const handlePayment = async () => {
-    navigateWithData(`/booking/${id}/payment`, {
-      data: bookingData,
-    });
-  };
-
   React.useEffect(() => {
     handleFetchBooking();
   }, []);
@@ -102,6 +96,7 @@ const BookingPage = ({ id, navigate }) => {
               Your tickets will be send by email at{" "}
               <strong>{booking_email}</strong>
             </Paragraph>
+
             <Paragraph>
               Thank you for purchasing on GiliTrip, we hope to see you soon!
             </Paragraph>
@@ -182,20 +177,11 @@ const BookingPage = ({ id, navigate }) => {
               </Item>
             </Pane>
 
-            {!isEditingBooking && (
-              <PageFooter
-                paddingRight={0}
-                rightButton={
-                  <ButtonPrimary
-                    height={ITEM_HEIGHT}
-                    iconAfter="arrow-right"
-                    onClick={handlePayment}
-                  >
-                    {`Confirm and pay ${final_price}${CURRENCY_SYMBOL}`}
-                  </ButtonPrimary>
-                }
-              />
-            )}
+            <BookingPayment
+              bookingId={id}
+              final_price={final_price}
+              onSuccess={handleUpdateBookingData}
+            />
           </>
         )}
       </Container>

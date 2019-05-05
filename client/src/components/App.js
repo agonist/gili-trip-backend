@@ -6,7 +6,6 @@ import { Spinner } from "evergreen-ui";
 import Trips from "./TripsPage";
 import PreBooking from "./PreBookingPage";
 import Booking from "./BookingPage";
-import Payment from "./BookingPaymentPage";
 
 import Container from "./Container";
 import TopMenu from "./TopMenu";
@@ -28,7 +27,6 @@ const App = () => (
           <Trips path="/trips" />
           <PreBooking exact path="/booking" />
           <Booking exact path="/booking/:id" />
-          <Payment path="/booking/:id/payment" />
           <Routes default />
         </Router>
         <Footer />

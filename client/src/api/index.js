@@ -48,7 +48,9 @@ export const validateCoupon = ({ code, booking_id }) =>
 export const fetchPaymentToken = () => api.get("/payments/token").then(getData);
 
 export const postPaymentCheckout = ({ id, nonce }) =>
-  api.post("payments/checkout", {
-    booking_id: id,
-    payment_method_nonce: nonce,
-  });
+  api
+    .post("payments/checkout", {
+      booking_id: id,
+      payment_method_nonce: nonce,
+    })
+    .then(getData);
