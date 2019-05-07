@@ -215,7 +215,7 @@ const TripsPage = ({ location }) => {
               </ButtonPrimary>
             )}
 
-            {depTicket && isRoundTrip && retTicket && (
+            {depTicket && (!isRoundTrip || (isRoundTrip && retTicket)) && (
               <ButtonPrimary {...submitButtonProps} iconAfter="arrow-right">
                 Confirm and continue
               </ButtonPrimary>
