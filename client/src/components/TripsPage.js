@@ -78,12 +78,15 @@ const TripsPage = ({ location }) => {
           ...formatTicket(depTicket),
           date: formatDate(departure_date, depTicket.departure_time),
         },
-        isRoundTrip && {
-          ...formatTicket(retTicket),
-          date: formatDate(arrival_date, retTicket.departure_time),
-        },
       ],
     };
+
+    if (isRoundTrip) {
+      data.tickets.push({
+        ...formatTicket(retTicket),
+        date: formatDate(arrival_date, retTicket.departure_time),
+      });
+    }
 
     return navigateWithData("/booking", { data });
   };
