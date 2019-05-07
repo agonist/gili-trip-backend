@@ -6,12 +6,13 @@ import { Alert, Paragraph, Spinner } from "evergreen-ui";
 
 import Item from "./Item";
 
-import { CONTACT_EMAIL, CURRENCY, ITEM_SPACE } from "../constants";
+import { CONTACT_EMAIL, CURRENCY, ITEM_SPACE, IS_DEV } from "../constants";
 import { fetchPaymentToken, postPaymentCheckout } from "../api";
 
 const PayPalCheckout =
   typeof document !== "undefined" ? require("paypal-checkout").default : {};
 
+const ENV = IS_DEV ? "sandbox" : "production";
 const CONTAINER_ID = "paypal-container";
 
 const BookingPayment = ({ bookingId, final_price, onSuccess }) => {
@@ -48,9 +49,9 @@ const BookingPayment = ({ bookingId, final_price, onSuccess }) => {
         },
         client: {
           production: "CLIENT_TOKEN_FROM_SERVER",
-          sandbox: paymentToken,
+          [ENV]: paymentToken,
         },
-        env: "sandbox",
+        env: ENV,
         commit: true,
         payment: (data, actions) =>
           actions.braintree.create({
