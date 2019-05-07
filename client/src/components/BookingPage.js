@@ -94,8 +94,8 @@ const BookingPage = ({ id, navigate }) => {
           >
             <Paragraph>
               Your tickets will be send by the boat company at{" "}
-              <strong>{booking_email}</strong>,
-                no actions is needed from your side.
+              <strong>{booking_email}</strong>, no action is needed from your
+              side.
             </Paragraph>
 
             <Paragraph>
