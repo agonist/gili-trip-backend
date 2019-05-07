@@ -1,9 +1,8 @@
 import { majorScale } from "evergreen-ui";
 import operator1 from "../assets/wahana-logo.png";
 
-const { BASE_URL } = process.env;
-
-export const BASE_API_URL = BASE_URL;
+export const IS_DEV = process.env.NODE_ENV === "development";
+export const BASE_API_URL = process.env.BASE_URL;
 
 export const CONTACT_EMAIL = "gili-sos@gmail.com";
 
