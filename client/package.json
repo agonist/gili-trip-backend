@@ -9,7 +9,8 @@
     "build": "react-static build",
     "bundle": "react-static bundle",
     "export": "react-static export",
-    "serve": "serve dist -p 3001"
+    "serve": "serve dist -p 3001",
+    "lint": "eslint --config=.eslintrc.js 'src/**/*.js'"
   },
   "dependencies": {
     "@reach/router": "^1.2.1",
@@ -21,7 +22,6 @@
     "dotenv": "^8.0.0",
     "evergreen-ui": "^4.15.0",
     "final-form": "^4.12.0",
-    "install": "^0.12.2",
     "paypal-checkout": "^4.0.267",
     "prop-types": "^15.7.2",
     "query-string": "^6.5.0",
@@ -44,6 +44,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.13.0",
+    "eslint-plugin-react-hooks": "^1.6.0",
     "prettier": "^1.17.0",
     "serve": "11.0.0"
   }

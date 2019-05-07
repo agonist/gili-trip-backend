@@ -20,5 +20,6 @@ module.exports = {
     "react/jsx-closing-tag-location": 0,
     "react/jsx-one-expression-per-line": 0,
     "react/jsx-wrap-multilines": 0,
+    "react-hooks/exhaustive-deps": 0,
   }
 };
