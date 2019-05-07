@@ -93,8 +93,9 @@ const BookingPage = ({ id, navigate }) => {
             marginBottom={ITEM_SPACE}
           >
             <Paragraph>
-              Your tickets will be send by email at{" "}
-              <strong>{booking_email}</strong>
+              Your tickets will be send by the boat company at{" "}
+              <strong>{booking_email}</strong>,
+                no actions is needed from your side.
             </Paragraph>
 
             <Paragraph>
