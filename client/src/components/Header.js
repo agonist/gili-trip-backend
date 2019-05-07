@@ -15,7 +15,7 @@ const Header = ({ children }) => {
     if (!isBgLoaded) {
       loadImage(BG_IMG_PATH).then(setIsBgLoaded);
     }
-  }, []);
+  }, [isBgLoaded]);
 
   return (
     <Pane
