@@ -27,6 +27,7 @@ const useMedia = () => {
   };
 
   useEffect(() => {
+    onResize();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
