@@ -8,23 +8,18 @@ import Container from "./Container";
 import useMedia from "../hooks/useMedia";
 import { ITEM_SPACE } from "../constants";
 
-const links = [
-  {
-    to: "/",
-    text: "Booking",
-  },
-  {
-    to: "/operators",
-    text: "Fast boats",
-  },
-  {
-    to: "/contact",
-    text: "Contact",
-  },
-];
-
 const TopMenu = () => {
   const { isMobile } = useMedia();
+
+  const textProps = {
+    fontWeight: 500,
+    fontSize: isMobile ? 12 : 16,
+    paddingX: isMobile ? ITEM_SPACE / 2 : ITEM_SPACE,
+    paddingY: isMobile ? 6 : ITEM_SPACE,
+  };
+
+  const handleOpenZendeskChat = () =>
+    window.zE && window.zE("webWidget", "open");
 
   return (
     <Container display="flex">
@@ -42,24 +37,27 @@ const TopMenu = () => {
         justifyContent="flex-end"
         flexGrow={1}
       >
-        {links.map(({ to, text }) => (
-          <Link
-            to={to}
-            key={to}
-            style={{
-              display: "inline-block",
-            }}
-          >
-            <Text
-              fontWeight={500}
-              fontSize={isMobile ? 12 : 16}
-              paddingX={isMobile ? ITEM_SPACE / 2 : ITEM_SPACE * 2}
-              paddingY={isMobile ? 6 : ITEM_SPACE}
-            >
-              {text}
-            </Text>
-          </Link>
-        ))}
+        <Link to="/">
+          <Text {...textProps}>Booking</Text>
+        </Link>
+
+        <Link to="/operators">
+          <Text {...textProps}>Fast boats</Text>
+        </Link>
+
+        <button
+          onClick={handleOpenZendeskChat}
+          type="button"
+          style={{
+            padding: `${textProps.paddingY}px ${textProps.paddingX}px`,
+            background: "transparent",
+            border: 0,
+          }}
+        >
+          <Text {...textProps} padding={0}>
+            Contact
+          </Text>
+        </button>
       </Pane>
     </Container>
   );
