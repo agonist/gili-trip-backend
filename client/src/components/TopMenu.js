@@ -22,7 +22,7 @@ const TopMenu = () => {
     window.zE && window.zE("webWidget", "open");
 
   return (
-    <Container display="flex">
+    <Container display="flex" alignItems="center">
       <Link to="/">
         <img
           src={logo}
