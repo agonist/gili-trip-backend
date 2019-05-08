@@ -23,9 +23,7 @@ const App = () => (
     <Root>
       <div className="App">
         <Helmet>
-
           <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=a025b92c-60b3-464f-9188-11939840dd43"> </script>
-
         </Helmet>
         <TopMenu />
 
