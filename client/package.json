@@ -29,6 +29,7 @@
     "react-day-picker": "^7.3.0",
     "react-dom": "^16.8.6",
     "react-final-form": "^4.1.0",
+    "react-helmet": "^5.2.1",
     "react-hot-loader": "^4.8.4",
     "react-static": "^7.0.10",
     "react-static-plugin-reach-router": "^7.0.10"

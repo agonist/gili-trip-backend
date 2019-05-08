@@ -10,6 +10,7 @@ import Booking from "./BookingPage";
 import Container from "./Container";
 import TopMenu from "./TopMenu";
 import Footer from "./Footer";
+import Helmet from "react-helmet";
 
 const LoadingState = () => (
   <Container>
@@ -21,6 +22,11 @@ const App = () => (
   <React.Suspense fallback={<LoadingState />}>
     <Root>
       <div className="App">
+        <Helmet>
+
+          <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=a025b92c-60b3-464f-9188-11939840dd43"> </script>
+
+        </Helmet>
         <TopMenu />
 
         <Router>
