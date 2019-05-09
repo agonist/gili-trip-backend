@@ -45,7 +45,6 @@ const Footer = () => {
           <FooterLink to="/terms">Terms of service</FooterLink>
           <FooterLink to="/privacy">Privacy policy</FooterLink>
           <FooterLink to="/your-data">Cookies</FooterLink>
-          <FooterLink to="/contact">Contact</FooterLink>
         </Pane>
 
         <Pane {...paneProps}>
