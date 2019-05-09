@@ -60,6 +60,8 @@ gem 'slack-ruby-client'
 gem 'sucker_punch'
 gem 'rack-cors', require: 'rack/cors'
 gem 'twilio-ruby', '~> 5.21.1'
+gem 'scout_apm'
+gem "sentry-raven"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

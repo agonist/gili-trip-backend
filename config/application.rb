@@ -47,5 +47,9 @@ module Gilitrip
     config.middleware.use ActionDispatch::Flash
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
+
+    Raven.configure do |config|
+        config.dsn = 'https://833a01801b3946b4910ac6c431d3e192:a8ae761d4373408c9e1c624861c910e1@sentry.io/1455976'
+    end
   end
 end
