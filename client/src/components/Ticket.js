@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Heading, Icon, IconButton, Pane } from "evergreen-ui";
+import { Heading, Icon, Pane } from "evergreen-ui";
 
-import ButtonPrimary from "./ButtonPrimary";
+import Checkbox from "./Checkbox";
 import OperatorLogo from "./OperatorLogo";
 import Small from "./Small";
 
@@ -17,7 +17,6 @@ const Ticket = ({
   from,
   to,
   handleSelect,
-  handleUnselect,
   hasBorder,
   isSelected,
   price,
@@ -79,27 +78,7 @@ const Ticket = ({
         {`${price}${CURRENCY_SYMBOL}`}
       </Heading>
 
-      {isSelected ? (
-        <Pane display="flex" flexDirection={isMobile ? "column" : "row"}>
-          <Button iconAfter="tick" disabled>
-            Selected
-          </Button>
-
-          <IconButton
-            onClick={handleUnselect}
-            icon="cross"
-            appearance="minimal"
-            intent="danger"
-            marginX="auto"
-            marginTop={isMobile ? 4 : 0}
-            marginLeft={!isMobile ? 4 : 0}
-          />
-        </Pane>
-      ) : (
-        <ButtonPrimary onClick={handleSelect} iconAfter="arrow-right">
-          Select
-        </ButtonPrimary>
-      )}
+      <Checkbox isChecked={isSelected} />
     </Pane>
   );
 
@@ -137,12 +116,14 @@ const Ticket = ({
       </Pane>
 
       <Pane
-        width={isMobile ? 150 : 200}
+        width={isMobile ? 120 : 150}
         borderLeft={BORDER}
         display="flex"
         alignItems="center"
         justifyContent="center"
         paddingY={isMobile ? 0 : spacingY}
+        cursor="pointer"
+        onClick={handleSelect}
       >
         {renderPrice()}
       </Pane>
@@ -154,7 +135,6 @@ Ticket.propTypes = {
   arrival_time: PropTypes.string.isRequired,
   departure_time: PropTypes.string.isRequired,
   handleSelect: PropTypes.func,
-  handleUnselect: PropTypes.func,
   hasBorder: PropTypes.bool,
   isSelected: PropTypes.bool,
   price: PropTypes.string.isRequired,
@@ -172,7 +152,6 @@ Ticket.propTypes = {
 
 Ticket.defaultProps = {
   handleSelect: null,
-  handleUnselect: null,
   hasBorder: false,
   isSelected: false,
 };
