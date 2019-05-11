@@ -1,22 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Heading, Icon, Pane } from "evergreen-ui";
+import { Icon, Pane, minorScale } from "evergreen-ui";
 
-import { ITEM_SPACE } from "../constants";
+import Small from "./Small";
 
 const headingProps = {
-  size: 500,
+  marginBottom: 0,
 };
 
 const TripsTitle = ({ from, to }) => (
-  <Pane className="TripsTitle" display="flex" paddingBottom={ITEM_SPACE}>
-    <Heading {...headingProps}>{from}</Heading>
+  <Pane className="TripsTitle" display="flex" alignItems="center">
+    <Small {...headingProps}>{from}</Small>
 
-    <Pane alignSelf="flex-end" marginX={ITEM_SPACE}>
-      <Icon icon="arrow-right" color="#234361" />
-    </Pane>
+    <Icon marginX={minorScale(1)} icon="arrow-right" color="#66788A" size={8} />
 
-    <Heading {...headingProps}>{to}</Heading>
+    <Small {...headingProps}>{to}</Small>
   </Pane>
 );
 

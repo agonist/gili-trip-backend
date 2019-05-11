@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import qs from "query-string";
-import { Button, Pane } from "evergreen-ui";
+import { Button, Heading, Pane } from "evergreen-ui";
 
 import ButtonPrimary from "./ButtonPrimary";
 import Container from "./Container";
@@ -175,8 +175,10 @@ const TripsPage = ({ location }) => {
       {!hasFailed && (
         <Container display="flex" justifyContent="space-between">
           <Pane width="50%">
-            <Small>Departure trip</Small>
             <TripsTitle from={fromName} to={toName} />
+            <Heading size={500} paddingBottom={ITEM_SPACE} paddingTop={4}>
+              Select your departure ticket
+            </Heading>
 
             <TripsContainer
               isFetching={isFetchingDepTrips}
