@@ -8,35 +8,30 @@ import Item from "./PopularItem";
 import useMedia from "../hooks/useMedia";
 import { ITEM_SPACE } from "../constants";
 
-import bgBalipadangbai from "../assets/locations/bali-padangbai-filter.jpg";
-import bgLombok from "../assets/locations/lombok-filter.jpg";
-import bgGiliair from "../assets/locations/gili-air-filter.jpg";
-import bgGiliTrawangan from "../assets/locations/gili-trawangan-filter.jpg";
-
 const items = [
   {
     id: "pop-1",
     location: "4", // gili air
     durationFromBali: "1h30",
-    bg: bgGiliair,
+    bg: "/assets/gili-air-filter.jpg",
   },
   {
     id: "pop-2",
     location: "2", // lombok
     durationFromBali: "1h30",
-    bg: bgLombok,
+    bg: "/assets/lombok-filter.jpg",
   },
   {
     id: "pop-3",
     location: "3", // gili trawangan
     durationFromBali: "1h30",
-    bg: bgGiliTrawangan,
+    bg: "/assets/gili-trawangan-filter.jpg",
   },
   {
     id: "pop-4",
     location: "5", // gili meno
     durationFromBali: "1h30",
-    bg: bgBalipadangbai,
+    bg: "/assets/bali-padangbai-filter.jpg",
   },
 ];
 
@@ -46,12 +41,7 @@ const Popular = ({ onClick }) => {
     items
       .slice(from, to)
       .map(item => (
-        <Item
-          key={item.id}
-          onClick={() => onClick(item.location)}
-          isMobile={isMobile}
-          {...item}
-        />
+        <Item key={item.id} onClick={() => onClick(item.location)} {...item} />
       ));
 
   return (
@@ -63,10 +53,10 @@ const Popular = ({ onClick }) => {
       {isMobile ? (
         renderItems(0, 4)
       ) : (
-        <React.Fragment>
+        <>
           <Pane display="flex">{renderItems(0, 2)}</Pane>
           <Pane display="flex">{renderItems(2, 4)}</Pane>
-        </React.Fragment>
+        </>
       )}
     </Container>
   );
