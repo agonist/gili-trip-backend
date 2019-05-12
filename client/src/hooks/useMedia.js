@@ -19,14 +19,11 @@ const getState = () => {
 };
 
 const useMedia = () => {
-  const initialState = getState();
-  const [state, setState] = useState(initialState);
-
-  const onResize = () => {
-    setState(getState());
-  };
+  const [state, setState] = useState({});
+  const onResize = () => setState(getState());
 
   useEffect(() => {
+    onResize();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
