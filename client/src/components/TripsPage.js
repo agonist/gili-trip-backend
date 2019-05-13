@@ -145,6 +145,8 @@ const TripsPage = ({ location }) => {
   const isSearchFormLoading =
     !hasFailed && (isFetchingDepTrips || isFetchingRetTrips);
 
+  const displayRetTrips = (isRoundTrip && depTicket) || retTicket;
+
   const fromName = getLocationName(from);
   const toName = getLocationName(to);
 
@@ -173,26 +175,19 @@ const TripsPage = ({ location }) => {
       )}
 
       {!hasFailed && (
-        <Container display="flex" justifyContent="space-between">
-          <Pane width="50%">
-            <Small>Departure trip</Small>
-            <TripsTitle from={fromName} to={toName} />
+        <Container>
+          <Small>Departure trip</Small>
+          <TripsTitle from={fromName} to={toName} />
 
-            <TripsContainer
-              isFetching={isFetchingDepTrips}
-              trips={depTrips}
-              ticket={depTicket}
-              handleSelect={setDepTicket}
-            />
-          </Pane>
+          <TripsContainer
+            isFetching={isFetchingDepTrips}
+            trips={depTrips}
+            ticket={depTicket}
+            handleSelect={setDepTicket}
+          />
 
-          {isRoundTrip && (
-            <Pane
-              width="50%"
-              marginLeft={ITEM_SPACE}
-              opacity={depTicket ? 1 : 0.3}
-              transition="all .2s ease-out"
-            >
+          {displayRetTrips && (
+            <Pane paddingTop={ITEM_SPACE}>
               <Small>Arrival trip</Small>
               <TripsTitle from={toName} to={fromName} />
 

@@ -97,17 +97,11 @@ const Ticket = ({
         textAlign={!isMobile ? "left" : "center"}
         alignItems="center"
       >
-        <Pane textAlign="center">
-          {renderLocations()}
-          <Pane height={ITEM_SPACE} />
-          {/* {renderOperatorLogo()} */}
-          {renderOperator()}
-        </Pane>
-        {/* {isDesktop && (
+        {isDesktop && (
           <Pane paddingRight={ITEM_SPACE}>{renderOperatorLogo()}</Pane>
-        )} */}
+        )}
 
-        {/* {isMobile ? (
+        {isMobile ? (
           <>
             {renderLocations()}
             <Pane height={ITEM_SPACE / 2} />
@@ -118,7 +112,7 @@ const Ticket = ({
             {renderOperator()}
             {renderLocations()}
           </>
-        )} */}
+        )}
       </Pane>
 
       <Pane
