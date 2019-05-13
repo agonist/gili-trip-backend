@@ -9,13 +9,20 @@ const headingProps = {
 };
 
 const TripsTitle = ({ from, to }) => (
-  <Pane className="TripsTitle" display="flex" paddingBottom={ITEM_SPACE}>
+  <Pane
+    className="TripsTitle"
+    display="flex"
+    alignItems="center"
+    paddingBottom={ITEM_SPACE}
+  >
     <Heading {...headingProps}>{from}</Heading>
-
-    <Pane alignSelf="flex-end" marginX={ITEM_SPACE}>
-      <Icon icon="arrow-right" color="#234361" />
-    </Pane>
-
+    <Icon
+      icon="arrow-right"
+      color="#425A70"
+      marginX={ITEM_SPACE / 2}
+      size={12}
+      marginTop={2}
+    />
     <Heading {...headingProps}>{to}</Heading>
   </Pane>
 );

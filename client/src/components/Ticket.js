@@ -23,7 +23,7 @@ const Ticket = ({
   vehicle,
   operator,
 }) => {
-  const { isMobile, isDesktop } = useMedia();
+  const { isMobile } = useMedia();
 
   const spacingX = isMobile ? ITEM_SPACE : ITEM_HEIGHT;
   const spacingY = isMobile ? ITEM_SPACE : ITEM_SPACE * 1.5;
@@ -74,7 +74,7 @@ const Ticket = ({
       alignItems="center"
       justifyContent="center"
     >
-      <Heading {...headingProps} fontWeight={600} marginBottom={ITEM_SPACE / 2}>
+      <Heading {...headingProps} fontWeight={600} marginBottom={ITEM_SPACE}>
         {`${price}${CURRENCY_SYMBOL}`}
       </Heading>
 
@@ -92,12 +92,13 @@ const Ticket = ({
       <Pane
         flexGrow={1}
         display={!isMobile ? "flex" : "block"}
-        paddingX={spacingX}
+        paddingLeft={spacingX}
+        paddingRight={spacingX / 2}
         paddingY={spacingY}
         textAlign={!isMobile ? "left" : "center"}
         alignItems="center"
       >
-        {isDesktop && (
+        {!isMobile && (
           <Pane paddingRight={ITEM_SPACE}>{renderOperatorLogo()}</Pane>
         )}
 
