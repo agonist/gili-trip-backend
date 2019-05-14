@@ -22,28 +22,19 @@ const iconProps = {
 const ratesPickupMorning = [
   {
     location: "Jimbaran",
-    time: "06:00am-06:30am",
-    price: "Included",
+    time: "05:30am-06:30am",
   },
   {
     location: "Canggu",
     time: "06:00am-06:30am",
-    price: "Included",
   },
   {
     location: "Ubud, Kuta, Sanur, Airport, Seminyak, Legian",
     time: "06:30am-07:00am",
-    price: "Included",
-  },
-  {
-    location: "Uluwatu, Nusa Dua, Bingin",
-    time: "We will tell you what time",
-    price: "50.000 RP",
   },
   {
     location: "Other areas",
     time: "-",
-    price: "Ask us",
   },
 ];
 
@@ -51,27 +42,18 @@ const ratesPickupAfternoon = [
   {
     location: "Jimbaran",
     time: "9:30am-10:00am",
-    price: "Included",
   },
   {
     location: "Canggu",
     time: "9:30am-10:00am",
-    price: "Included",
   },
   {
     location: "Ubud, Kuta, Sanur, Airport, Seminyak, Legian",
     time: "10:00am-10:30am",
-    price: "Included",
-  },
-  {
-    location: "Uluwatu, Nusa Dua, Bingin",
-    time: "We will tell you what time",
-    price: "50.000 RP",
   },
   {
     location: "Other areas",
     time: "-",
-    price: "Ask us",
   },
 ];
 
@@ -130,15 +112,13 @@ const WahanaPage = () => {
           <Table.Head>
             <Table.TextHeaderCell>Location</Table.TextHeaderCell>
             <Table.TextHeaderCell>Pickup time</Table.TextHeaderCell>
-            <Table.TextHeaderCell>Price</Table.TextHeaderCell>
           </Table.Head>
 
           <Table.Body>
-            {ratesPickupMorning.map(({ location, time, price }) => (
+            {ratesPickupMorning.map(({ location, time }) => (
               <Table.Row key={location}>
                 <Table.TextCell>{location}</Table.TextCell>
                 <Table.TextCell>{time}</Table.TextCell>
-                <Table.TextCell>{price}</Table.TextCell>
               </Table.Row>
             ))}
           </Table.Body>
@@ -154,15 +134,13 @@ const WahanaPage = () => {
           <Table.Head>
             <Table.TextHeaderCell>Location</Table.TextHeaderCell>
             <Table.TextHeaderCell>Pickup time</Table.TextHeaderCell>
-            <Table.TextHeaderCell>Price</Table.TextHeaderCell>
           </Table.Head>
 
           <Table.Body>
-            {ratesPickupAfternoon.map(({ location, time, price }) => (
+            {ratesPickupAfternoon.map(({ location, time }) => (
               <Table.Row key={location}>
                 <Table.TextCell>{location}</Table.TextCell>
                 <Table.TextCell>{time}</Table.TextCell>
-                <Table.TextCell>{price}</Table.TextCell>
               </Table.Row>
             ))}
           </Table.Body>
