@@ -7,7 +7,6 @@ export const BASE_API_URL = process.env.BASE_URL;
 export const CONTACT_EMAIL = "gili-sos@gmail.com";
 
 export const CURRENCY = "USD";
-export const CURRENCY_SYMBOL = "$";
 
 export const DATE_FORMAT = "YYYY-MM-DD";
 

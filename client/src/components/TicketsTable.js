@@ -4,7 +4,8 @@ import dateFns from "date-fns";
 import { Badge, Pane, Table, Text } from "evergreen-ui";
 
 import Item from "./Item";
-import { CURRENCY_SYMBOL, ITEM_SPACE } from "../constants";
+import Price from "./Price";
+import { ITEM_SPACE } from "../constants";
 
 const dateFormat = "dddd DD MMMM YYYY [at] hh[:]mma";
 
@@ -57,10 +58,10 @@ const TicketsTable = ({
             <Table.TextCell {...mediumColProps}>{operator.name}</Table.TextCell>
             <Table.TextCell {...smallColProps}>x{quantity}</Table.TextCell>
             <Table.TextCell {...smallColProps}>
-              {`${price}${CURRENCY_SYMBOL}`}
+              <Price value={price} />
             </Table.TextCell>
             <Table.TextCell {...smallColProps}>
-              {`${price * quantity}${CURRENCY_SYMBOL}`}
+              <Price value={price * quantity} />
             </Table.TextCell>
           </Table.Row>
         ))}
@@ -77,14 +78,12 @@ const TicketsTable = ({
                     margin: "0 4px",
                   }}
                 >
-                  {full_price}
-                  {CURRENCY_SYMBOL}
+                  <Price value={full_price} />
                 </span>
               )}
               <Text>
                 <strong>
-                  {final_price}
-                  {CURRENCY_SYMBOL}
+                  <Price value={final_price} />
                 </strong>
               </Text>
             </Pane>

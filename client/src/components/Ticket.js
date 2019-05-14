@@ -4,10 +4,11 @@ import { Heading, Icon, Pane } from "evergreen-ui";
 
 import Checkbox from "./Checkbox";
 import OperatorLogo from "./OperatorLogo";
+import Price from "./Price";
 import Small from "./Small";
 
 import useMedia from "../hooks/useMedia";
-import { CURRENCY_SYMBOL, ITEM_HEIGHT, ITEM_SPACE } from "../constants";
+import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 
 const BORDER = "1px solid #E4E7EB";
 
@@ -75,7 +76,7 @@ const Ticket = ({
       justifyContent="center"
     >
       <Heading {...headingProps} fontWeight={600} marginBottom={ITEM_SPACE}>
-        {`${price}${CURRENCY_SYMBOL}`}
+        <Price value={price} />
       </Heading>
 
       <Checkbox isChecked={isSelected} />
