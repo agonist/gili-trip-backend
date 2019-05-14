@@ -13,7 +13,6 @@ import TicketsTable from "./TicketsTable";
 
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { postBooking } from "../api";
-import { navigateWithData } from "../helpers";
 
 const formatTicket = ({ date, ...data }) => ({
   ...data,
@@ -31,13 +30,15 @@ const mergeTickets = (tickets, ticketsExtras = []) =>
     ...ticketsExtras[i],
   }));
 
-const calculateFinalPrice = tickets =>
-  String(tickets.reduce((total, ticket) => total + Number(ticket.price), 0));
+const calculateFinalPrice = (tickets, quantity) =>
+  String(
+    tickets.reduce((total, ticket) => total + Number(ticket.price), 0) *
+      quantity,
+  );
 
 const PreBookingPage = ({ location, navigate }) => {
   const { state } = location;
-  const { quantity, tickets, extra = {} } = state;
-  const { bookingFormData } = extra;
+  const { quantity, tickets } = state;
 
   if (!state || (state && !state.tickets)) {
     navigate("/trips");
@@ -49,17 +50,7 @@ const PreBookingPage = ({ location, navigate }) => {
       mergeTickets(tickets, ticketsPickupInfos),
     );
 
-    const extraData = {
-      bookingFormData: formData,
-    };
-
-    const onSuccess = data =>
-      navigateWithData(`/booking/${data.id}`, {
-        data: {
-          ...data,
-          extra: extraData,
-        },
-      });
+    const onSuccess = ({ id }) => navigate(`/booking/${id}`);
 
     const onError = data => {
       console.log("onError", data);
@@ -70,7 +61,7 @@ const PreBookingPage = ({ location, navigate }) => {
       .catch(onError);
   };
 
-  const price = calculateFinalPrice(tickets);
+  const price = calculateFinalPrice(tickets, quantity);
 
   return (
     <div className="Page Page--preBooking">
@@ -85,10 +76,7 @@ const PreBookingPage = ({ location, navigate }) => {
 
         <TicketsTable {...state} final_price={price} full_price={price} />
 
-        <Form
-          initialValues={{ quantity, ...bookingFormData }}
-          onSubmit={handleFormSubmit}
-        >
+        <Form initialValues={{ quantity }} onSubmit={handleFormSubmit}>
           {({ form, handleSubmit, submitting }) => (
             <form onSubmit={handleSubmit}>
               <Heading
