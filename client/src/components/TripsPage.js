@@ -99,6 +99,10 @@ const TripsPage = ({ location }) => {
       setIsFetchingDepTrips(false);
     };
 
+    if (!isFetchingDepTrips) {
+      setIsFetchingDepTrips(true);
+    }
+
     return fetchTrips(queryParams)
       .then(onSuccess)
       .catch(handleFetchError);
