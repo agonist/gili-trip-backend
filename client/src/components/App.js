@@ -10,6 +10,7 @@ import Booking from "./BookingPage";
 import Container from "./Container";
 import TopMenu from "./TopMenu";
 import Footer from "./Footer";
+import ScrollUp from "./ScrollUp";
 
 const LoadingState = () => (
   <Container>
@@ -23,10 +24,12 @@ const App = () => (
       <div className="App">
         <TopMenu />
         <Router>
-          <Trips path="/trips" />
-          <PreBooking exact path="/booking" />
-          <Booking exact path="/booking/:id" />
-          <Routes default />
+          <ScrollUp path="/">
+            <Trips path="/trips" />
+            <PreBooking exact path="/booking" />
+            <Booking exact path="/booking/:id" />
+            <Routes default />
+          </ScrollUp>
         </Router>
         <Footer />
       </div>
