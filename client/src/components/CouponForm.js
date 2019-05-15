@@ -68,7 +68,7 @@ const CouponForm = ({ bookingId: booking_id, onSuccess }) => {
             </ButtonPrimary>
 
             <Paragraph marginTop={ITEM_SPACE} fontSize={12} lineHeight={1.3}>
-              Promo codes are not - find adjectiv -
+              Promo codes are not combinable
             </Paragraph>
           </Pane>
         </form>

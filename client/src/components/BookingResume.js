@@ -22,7 +22,7 @@ const BookingResume = ({ booking_email, passengers, tickets }) => {
 
   return (
     <div className="BookingResume">
-      <Heading {...headingProps}>Your informations</Heading>
+      <Heading {...headingProps}>Your information</Heading>
 
       <FormField
         {...formFieldProps}

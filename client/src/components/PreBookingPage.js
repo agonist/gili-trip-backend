@@ -84,7 +84,7 @@ const PreBookingPage = ({ location, navigate }) => {
                 marginTop={ITEM_HEIGHT}
                 marginBottom={ITEM_SPACE}
               >
-                Fill your informations
+                Complete personal information
               </Heading>
 
               <Item flexDirection="column" alignItems="baseline">
