@@ -3,20 +3,11 @@ import PropTypes from "prop-types";
 import { Pane, majorScale } from "evergreen-ui";
 
 import Container from "./Container";
-import { loadImage } from "../helpers";
 import { ITEM_HEIGHT } from "../constants";
 
 const BG_IMG_PATH = "/assets/header-bg.jpg";
 
 const Header = ({ children }) => {
-  const [isBgLoaded, setIsBgLoaded] = React.useState(null);
-
-  React.useEffect(() => {
-    if (!isBgLoaded) {
-      loadImage(BG_IMG_PATH).then(setIsBgLoaded);
-    }
-  }, [isBgLoaded]);
-
   return (
     <Pane
       className="Header"
@@ -26,7 +17,7 @@ const Header = ({ children }) => {
       paddingTop={ITEM_HEIGHT}
       paddingBottom={ITEM_HEIGHT / 2}
       backgroundSize="cover"
-      background={isBgLoaded ? `url(${BG_IMG_PATH}) center center` : "#056F96"}
+      background={`url(${BG_IMG_PATH}) center center #056F96`}
     >
       <Container>
         {children && (
