@@ -11,6 +11,7 @@ import PageFooter from "./PageFooter";
 import SearchForm from "./SearchForm";
 import Small from "./Small";
 import TripsContainer from "./TripsContainer";
+import TripsEmptyState from "./TripsEmptyState";
 import TripsTitle from "./TripsTitle";
 
 import { ITEM_HEIGHT, ITEM_SPACE, TRAVEL_TYPES } from "../constants";
@@ -70,6 +71,14 @@ const TripsPage = ({ location }) => {
 
   const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
 
+  const canFetch =
+    !!departure_date &&
+    (!isRoundTrip ? true : !!arrival_date) &&
+    !!from &&
+    !!to &&
+    !!quantity &&
+    !!travel_type;
+
   const handleBookTickets = () => {
     const data = {
       quantity: +quantity,
@@ -124,8 +133,10 @@ const TripsPage = ({ location }) => {
   };
 
   React.useEffect(() => {
-    setHasFailed(false);
-    fetchDepTrips();
+    if (canFetch) {
+      setHasFailed(false);
+      fetchDepTrips();
+    }
   }, [
     arrival_date && arrival_date.toDateString(),
     departure_date && departure_date.toDateString(),
@@ -136,7 +147,7 @@ const TripsPage = ({ location }) => {
   ]);
 
   React.useEffect(() => {
-    if (retTrips.length === 0) {
+    if (canFetch && retTrips.length === 0) {
       setIsFetchingRetTrips(true);
       fetchRetTrips();
     }
@@ -147,12 +158,12 @@ const TripsPage = ({ location }) => {
     : depTicket;
 
   const isSearchFormLoading =
-    !hasFailed && (isFetchingDepTrips || isFetchingRetTrips);
+    canFetch && !hasFailed && (isFetchingDepTrips || isFetchingRetTrips);
 
   const displayRetTrips = (isRoundTrip && depTicket) || retTicket;
 
-  const fromName = getLocationName(from);
-  const toName = getLocationName(to);
+  const fromName = from && getLocationName(from);
+  const toName = to && getLocationName(to);
 
   const submitButtonProps = {
     height: ITEM_HEIGHT,
@@ -170,6 +181,12 @@ const TripsPage = ({ location }) => {
         />
       </Header>
 
+      {!canFetch && (
+        <Container>
+          <TripsEmptyState />
+        </Container>
+      )}
+
       {hasFailed && (
         <Container>
           <ErrorState>
@@ -178,7 +195,7 @@ const TripsPage = ({ location }) => {
         </Container>
       )}
 
-      {!hasFailed && (
+      {!hasFailed && canFetch && (
         <Container>
           <Small>Departure trip</Small>
           <TripsTitle from={fromName} to={toName} />
@@ -206,30 +223,32 @@ const TripsPage = ({ location }) => {
         </Container>
       )}
 
-      <PageFooter
-        paddingTop={0}
-        rightButton={
-          <>
-            {!depTicket && (
-              <ButtonPrimary {...submitButtonProps}>
-                Select a departure ticket
-              </ButtonPrimary>
-            )}
+      {canFetch && (
+        <PageFooter
+          paddingTop={0}
+          rightButton={
+            <>
+              {!depTicket && (
+                <ButtonPrimary {...submitButtonProps}>
+                  Select a departure ticket
+                </ButtonPrimary>
+              )}
 
-            {depTicket && (isRoundTrip && !retTicket) && (
-              <ButtonPrimary {...submitButtonProps}>
-                Select a return ticket
-              </ButtonPrimary>
-            )}
+              {depTicket && (isRoundTrip && !retTicket) && (
+                <ButtonPrimary {...submitButtonProps}>
+                  Select a return ticket
+                </ButtonPrimary>
+              )}
 
-            {depTicket && (!isRoundTrip || (isRoundTrip && retTicket)) && (
-              <ButtonPrimary {...submitButtonProps} iconAfter="arrow-right">
-                Confirm and continue
-              </ButtonPrimary>
-            )}
-          </>
-        }
-      />
+              {depTicket && (!isRoundTrip || (isRoundTrip && retTicket)) && (
+                <ButtonPrimary {...submitButtonProps} iconAfter="arrow-right">
+                  Confirm and continue
+                </ButtonPrimary>
+              )}
+            </>
+          }
+        />
+      )}
     </div>
   );
 };

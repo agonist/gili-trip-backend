@@ -1,17 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Icon, Pane, Paragraph, minorScale } from "evergreen-ui";
+import { Pane } from "evergreen-ui";
 
 import Item from "./Item";
 import Ticket from "./Ticket";
+import TripsEmptyState from "./TripsEmptyState";
 
 const Trips = ({ handleSelect, selected, trips }) => (
   <Pane className="Trips">
     {trips.length === 0 ? (
-      <Item flexDirection="column">
-        <Icon icon="info-sign" color="info" marginBottom={minorScale(1)} />
-        <Paragraph>There is no trip matching your research</Paragraph>
-      </Item>
+      <TripsEmptyState />
     ) : (
       <Item flexDirection="column" padding={0}>
         {trips.map((trip, i) => {
