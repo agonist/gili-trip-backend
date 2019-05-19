@@ -2,9 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import BraintreeClient from "braintree-web/client";
 import BraintreePaypalCheckout from "braintree-web/paypal-checkout";
-import { Alert, Paragraph, Spinner } from "evergreen-ui";
+import { Alert, Heading, Paragraph, Spinner } from "evergreen-ui";
 
 import Item from "./Item";
+import Price from "./Price";
 
 import { CONTACT_EMAIL, CURRENCY, ITEM_SPACE, IS_DEV } from "../constants";
 import { fetchPaymentToken, postPaymentCheckout } from "../api";
@@ -42,7 +43,11 @@ const BookingPayment = ({ bookingId, final_price, onSuccess }) => {
   const renderPaypalButton = () => {
     PayPalCheckout.Button.render(
       {
-        style: { size: "medium", layout: "horizontal" },
+        style: {
+          label: "pay",
+          size: "medium",
+          layout: "horizontal",
+        },
         locale: "en_US",
         braintree: {
           client: BraintreeClient,
@@ -76,10 +81,18 @@ const BookingPayment = ({ bookingId, final_price, onSuccess }) => {
     if (paymentToken) {
       renderPaypalButton();
     }
-  }, [paymentToken]);
+  }, [final_price, paymentToken]);
 
   return (
-    <Item>
+    <Item flexDirection="column">
+      <Heading marginBottom={ITEM_SPACE}>
+        Payment of
+        <strong>
+          {" "}
+          <Price value={final_price} />
+        </strong>
+      </Heading>
+
       {hasErrored && (
         <Alert
           intent="danger"
@@ -98,6 +111,7 @@ const BookingPayment = ({ bookingId, final_price, onSuccess }) => {
       {isLoading && <Spinner />}
 
       <div
+        key={final_price}
         id="paypal-container"
         style={{
           display: isLoading ? "hidden" : "block",
