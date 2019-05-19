@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/browser";
 import { navigate } from "@reach/router";
 import dateFns from "date-fns";
 import qs from "query-string";
@@ -108,3 +109,5 @@ export const composeValidators = (...validators) => value =>
 export const formValidations = {
   required: value => (value ? undefined : "Required"),
 };
+
+export const captureException = err => Sentry.captureException(err);

@@ -7,6 +7,7 @@ import ButtonPrimary from "./ButtonPrimary";
 
 import { validateCoupon } from "../api";
 import { ITEM_SPACE } from "../constants";
+import { captureException } from "../helpers";
 
 const notifyInvalidCoupon = code =>
   toaster.danger(`The coupon "${code}" is not valid`, {
@@ -46,7 +47,7 @@ const CouponForm = ({ bookingId: booking_id, onSuccess }) => {
         notifyValidCoupon(code);
         onSuccess(data);
       })
-      .catch(console.err);
+      .catch(captureException);
   };
 
   return (

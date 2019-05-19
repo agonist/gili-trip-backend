@@ -13,6 +13,7 @@ import TicketsTable from "./TicketsTable";
 
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { postBooking } from "../api";
+import { captureException } from "../helpers";
 
 const formatTicket = ({ date, ...data }) => ({
   ...data,
@@ -52,13 +53,9 @@ const PreBookingPage = ({ location, navigate }) => {
 
     const onSuccess = ({ id }) => navigate(`/booking/${id}`);
 
-    const onError = data => {
-      console.log("onError", data);
-    };
-
     return postBooking(payload)
       .then(onSuccess)
-      .catch(onError);
+      .catch(captureException);
   };
 
   const price = calculateFinalPrice(tickets, quantity);

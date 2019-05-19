@@ -17,7 +17,7 @@ import TicketsTable from "./TicketsTable";
 
 import useMedia from "../hooks/useMedia";
 import { ITEM_SPACE } from "../constants";
-import { flattenTickets } from "../helpers";
+import { captureException, flattenTickets } from "../helpers";
 import { fetchBooking, putBooking } from "../api";
 
 const itemProps = {
@@ -69,7 +69,7 @@ const BookingPage = ({ id, navigate }) => {
 
     return putBooking(id, formData)
       .then(onSuccess)
-      .catch(console.error);
+      .catch(captureException);
   };
 
   const toggleSetIsEditingBooking = () =>

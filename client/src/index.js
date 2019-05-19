@@ -1,10 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import * as Sentry from "@sentry/browser";
 
 import "react-day-picker/lib/style.css";
 import "./index.css";
 
 import App from "./components/App";
+
+const { SENTRY_DSN } = process.env;
+
+if (SENTRY_DSN) {
+  Sentry.init({
+    dsn: SENTRY_DSN,
+  });
+
+  Sentry.configureScope(scope => {
+    scope.setTag("front", true);
+  });
+}
 
 export default App;
 

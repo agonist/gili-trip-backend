@@ -8,6 +8,7 @@ import Item from "./Item";
 
 import { CONTACT_EMAIL, CURRENCY, ITEM_SPACE, IS_DEV } from "../constants";
 import { fetchPaymentToken, postPaymentCheckout } from "../api";
+import { captureException } from "../helpers";
 
 const PayPalCheckout =
   typeof document !== "undefined" ? require("paypal-checkout").default : {};
@@ -27,7 +28,7 @@ const BookingPayment = ({ bookingId, final_price, onSuccess }) => {
     };
 
     const onError = err => {
-      console.error(err);
+      captureException(err);
       setHasErrored(true);
     };
 
@@ -64,9 +65,7 @@ const BookingPayment = ({ bookingId, final_price, onSuccess }) => {
         onError: () => setHasErrored(true),
       },
       `#${CONTAINER_ID}`,
-    ).catch(e => {
-      console.error("Payment error", e);
-    });
+    ).catch(captureException);
   };
 
   React.useEffect(() => {
