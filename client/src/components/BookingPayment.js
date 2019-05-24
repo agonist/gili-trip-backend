@@ -47,6 +47,10 @@ const BookingPayment = ({ bookingId, final_price, onSuccess }) => {
           label: "pay",
           size: "medium",
           layout: "horizontal",
+          fundingicons: 'true'
+        },
+        funding: {
+            allowed: [ PayPalCheckout.FUNDING.CARD ]
         },
         locale: "en_US",
         braintree: {

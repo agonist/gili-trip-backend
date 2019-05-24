@@ -4,7 +4,7 @@ class MailingJob
   def perform(infos)
     datas = {}
     template_id = "d-54cb46cd5f564a369c678cae75b9fd56"
-
+    passengers = infos.passengers.join(", ")
     if infos.tickets_size == 1
       datas = {
         departure_trip_name: infos.departure_trip_name,
@@ -15,7 +15,8 @@ class MailingJob
         total_price: infos.final_price,
         departure: infos.departure,
         destination: infos.destination,
-        departure_operator: infos.departure_operator
+        departure_operator: infos.departure_operator,
+        passengers: passengers
       }
     else
       datas = {
@@ -32,7 +33,8 @@ class MailingJob
         return_date: infos.return_date,
         return_time_departure: infos.return_time_departure,
         return_time_arrival: infos.return_time_arrival,
-        return_operator: infos.return_operator
+        return_operator: infos.return_operator,
+        passengers: passengers
       }
       template_id = "d-72b4b0798a97433797fbbfa7f100f345"
     end
