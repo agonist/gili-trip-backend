@@ -11,5 +11,10 @@ ActiveAdmin.register Booking do
 #   permitted << :other if params[:action] == 'create' && current_user.admin?
 #   permitted
 # end
+action_item :confirm,  only: [ :show ] do
+
+  link_to 'Sned comfirmation', intern_bookings_validate_path(:id => resource.id), :method=> :post
+
+end
 
 end

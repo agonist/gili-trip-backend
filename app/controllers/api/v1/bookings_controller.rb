@@ -59,5 +59,4 @@ class Api::V1::BookingsController < ApiController
      booking[:tickets_attributes] = booking.delete(:tickets) if booking.key?(:tickets)
      booking.permit(:booking_email, :quantity, passengers:[], tickets_attributes: [[:trip_id, :date, :pickup_name, :pickup_phone, :pickup_address]])
    end
-
 end

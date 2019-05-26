@@ -37,11 +37,11 @@ class Api::V1::PaymentsController < ApiController
         :submit_for_settlement => true
       }
     )
-    
+
 
     if result.success? || result.transaction
       @booking.payment_status = "success"
-      @booking.booking_status = "success"
+      @booking.booking_status = "pending"
 
       @coupon = @booking.coupon
       if @coupon.present?

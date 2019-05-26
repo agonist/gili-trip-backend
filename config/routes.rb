@@ -14,7 +14,11 @@ Rails.application.routes.draw do
 
       post '/coupons/validate', to: 'coupons#validate'
      end
-    end
+  end
+
+  namespace :intern do
+    post '/bookings/validate', to: 'bookings#booking_validated'
+  end
 
     devise_for :admin_users, ActiveAdmin::Devise.config
     ActiveAdmin.routes(self)
