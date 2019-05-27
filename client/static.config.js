@@ -47,6 +47,7 @@ export default {
       template: "src/pages/wahana.js",
     },
   ],
+  siteRoot: 'https://gilitrip.com',
   plugins: ["react-static-plugin-reach-router"],
   Document: ({ Html, Head, Body, children }) => (
     <Html lang="en-US">
