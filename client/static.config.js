@@ -15,6 +15,8 @@ const zendeskScript = (
 );
 
 export default {
+  extractCssChunks: true,
+  inlineCss: true,
   getRoutes: () => [
     {
       path: "/",
