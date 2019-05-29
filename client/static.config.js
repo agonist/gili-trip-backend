@@ -5,14 +5,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const zendeskScript = (
-  <script
-    async
-    defer
-    id="ze-snippet"
-    src="https://static.zdassets.com/ekr/snippet.js?key=a025b92c-60b3-464f-9188-11939840dd43"
-  />
-);
+
 
 export default {
   extractCssChunks: true,
@@ -55,7 +48,7 @@ export default {
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Gilitrip</title>
-        {zendeskScript}
+
       </Head>
       <Body>{children}</Body>
     </Html>
