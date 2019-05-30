@@ -10,7 +10,7 @@ class Api::V1::BookingsController < ApiController
     @booking.tickets.each do |ticketparams|
       date = ticketparams.date
       trip = Trip.find(ticketparams.trip_id)
-      price = Ticket.get_price(date, trip)
+      price = Ticket.get_price(date, trip, @booking.type)
       ticketparams.trip.price = price
       @trips_price = price * @booking.quantity
       full_price += @trips_price
@@ -33,7 +33,7 @@ class Api::V1::BookingsController < ApiController
       @booking.tickets.each do |ticketparams|
         date = ticketparams.date
         trip = Trip.find(ticketparams.trip_id)
-        price = Ticket.get_price(date, trip)
+        price = Ticket.get_price(date, trip, @booking.type)
         ticketparams.trip.price = price
       end
 
@@ -51,12 +51,12 @@ class Api::V1::BookingsController < ApiController
   def booking_update_params
      booking = params.require(:booking)
      booking[:tickets_attributes] = booking.delete(:tickets) if booking.key?(:tickets)
-     booking.permit(:booking_email, :quantity, passengers:[], tickets_attributes: [[:id, :trip_id, :date, :pickup_name, :pickup_phone, :pickup_address]])
+     booking.permit(:booking_email, :quantity, passengers:[], type: ,tickets_attributes: [[:id, :trip_id, :date, :pickup_name, :pickup_phone, :pickup_address]])
    end
 
   def booking_params
      booking = params.require(:booking)
      booking[:tickets_attributes] = booking.delete(:tickets) if booking.key?(:tickets)
-     booking.permit(:booking_email, :quantity, passengers:[], tickets_attributes: [[:trip_id, :date, :pickup_name, :pickup_phone, :pickup_address]])
+     booking.permit(:booking_email, :quantity, passengers:[], type:, tickets_attributes: [[:trip_id, :date, :pickup_name, :pickup_phone, :pickup_address]])
    end
 end

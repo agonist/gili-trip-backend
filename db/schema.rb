@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_14_124856) do
+ActiveRecord::Schema.define(version: 2019_05_30_031207) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2019_02_14_124856) do
     t.datetime "updated_at", null: false
     t.decimal "full_price"
     t.uuid "coupon_id"
+    t.string "type"
     t.index ["coupon_id"], name: "index_bookings_on_coupon_id"
   end
 
@@ -122,6 +123,7 @@ ActiveRecord::Schema.define(version: 2019_02_14_124856) do
     t.boolean "has_dropoff", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "return_price"
     t.index ["from_id"], name: "index_trips_on_from_id"
     t.index ["operator_id"], name: "index_trips_on_operator_id"
     t.index ["to_id"], name: "index_trips_on_to_id"

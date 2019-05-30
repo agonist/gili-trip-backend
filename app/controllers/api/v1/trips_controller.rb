@@ -2,9 +2,10 @@ class Api::V1::TripsController < ApiController
 
   def get_trips
     @trips = Trip.where(:from_id => params[:from], :to_id => params[:to])
+    type = params[:travel_type]
 
     date = Date.parse(params[:date])
-    res = @trips.select {|trip| is_high_season?(trip, date)}
+    res = @trips.select {|trip| is_high_season?(trip, date, type)}
                 .select{|trip| is_available?(trip, date)}
                 .sort_by{ |trip| trip.departure_time }
 
@@ -13,12 +14,12 @@ class Api::V1::TripsController < ApiController
 
 
 private
-  def is_high_season?(trip, date)
+  def is_high_season?(trip, date, type)
     if !trip.high_season?
-      trip.price = Ticket.get_price(date, trip)
+      trip.price = Ticket.get_price(date, trip, type)
       return true
     else
-      trip.price = Ticket.get_price(date, trip)
+      trip.price = Ticket.get_price(date, trip, type)
       ranges = DateRange.where(:operator_id => trip.operator.id)
       ranges.each do |range|
          if date.between?(range.from, range.to)

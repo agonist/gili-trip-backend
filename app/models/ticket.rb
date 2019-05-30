@@ -6,15 +6,23 @@ class Ticket < ApplicationRecord
   # belongs_to :passenger, class_name: "Passenger", foreign_key: "passenger_id"
   # accepts_nested_attributes_for :passenger
 
-  def self.get_price(date, trip)
+  def self.get_price(date, trip, type)
     ranges = DateRange.where(:operator_id => trip.operator.id)
     ranges.each do |range|
        if date.between?(range.from, range.to)
-         increase = trip.price * (trip.high_season_percentage_multiplier.to_f/100.0)
-         trip.price= trip.price + increase
-         return trip.price
+         price = trip.price
+         if type == "round"
+           price = trip.return_price
+         end
+         increase = price * (trip.high_season_percentage_multiplier.to_f/100.0)
+         price = price + increase
+         return price
        end
     end
-    return trip.price
+    price = trip.price
+    if type == "round"
+      price = trip.return_price
+    end
+    return price
   end
 end
