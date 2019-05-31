@@ -7,10 +7,11 @@ export default () => ({
     const formattedCss = `@charset "utf-8";${css}`;
 
     return [
-      <meta charSet="UTF-8" />,
+      <meta key="meta-charset" charSet="UTF-8" />,
       ...elements,
       hydrationScript,
       <style
+        key="evergreen-css"
         id="evergreen-css"
         dangerouslySetInnerHTML={{ __html: formattedCss }}
       />,
