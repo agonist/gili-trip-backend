@@ -6,13 +6,12 @@ export default () => ({
     const { css, hydrationScript } = extractStyles();
     const formattedCss = `@charset "utf-8";${css}`;
 
-    Object.assign(hydrationScript, {
-      key: "evergreen-hydratation-script",
-    });
-
     return [
       <meta key="meta-charset" charSet="UTF-8" />,
-      hydrationScript,
+      {
+        ...hydrationScript,
+        key: "evergreen-hydratation-script",
+      },
       <style
         key="evergreen-css"
         id="evergreen-css"
