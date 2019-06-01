@@ -43,6 +43,6 @@ staging:
 
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+  url: <%= ENV['HEROKU_POSTGRESQL_MAUVE_URL'] %>
   username: gilitrip
   password: <%= ENV['GILITRIP_DATABASE_PASSWORD'] %>
