@@ -6,6 +6,9 @@ export default () => ({
     const { css, hydrationScript } = extractStyles();
     const formattedCss = `@charset "utf-8";${css}`;
 
+    console.log("---- elements ----");
+    console.log(elements);
+
     return [
       <meta key="meta-charset" charSet="UTF-8" />,
       ...elements,

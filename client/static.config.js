@@ -47,8 +47,9 @@ export default {
   ],
   plugins: ["react-static-plugin-reach-router"],
   Document: ({ Html, Head, Body, children }) => (
-    <Html lang="en-US" charSet="utf-8">
+    <Html lang="en-US">
       <Head>
+        <meta key="meta-charset" charSet="UTF-8" />,
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Gilitrip</title>
         {zendeskScript}
