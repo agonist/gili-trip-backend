@@ -81,6 +81,7 @@ const TripsPage = ({ location }) => {
 
   const handleBookTickets = () => {
     const data = {
+      booking_type,
       quantity: +quantity,
       tickets: [
         {

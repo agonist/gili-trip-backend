@@ -39,7 +39,7 @@ const calculateFinalPrice = (tickets, quantity) =>
 
 const PreBookingPage = ({ location, navigate }) => {
   const { state } = location;
-  const { quantity, tickets } = state;
+  const { booking_type, quantity, tickets } = state;
 
   if (!state || (state && !state.tickets)) {
     navigate("/trips");
@@ -58,7 +58,7 @@ const PreBookingPage = ({ location, navigate }) => {
       .catch(captureException);
   };
 
-  const price = calculateFinalPrice(tickets, quantity);
+  const finalPrice = calculateFinalPrice(tickets, quantity);
 
   return (
     <div className="Page Page--preBooking">
@@ -71,9 +71,16 @@ const PreBookingPage = ({ location, navigate }) => {
           marginBottom={ITEM_HEIGHT}
         />
 
-        <TicketsTable {...state} final_price={price} full_price={price} />
+        <TicketsTable
+          {...state}
+          final_price={finalPrice}
+          full_price={finalPrice}
+        />
 
-        <Form initialValues={{ quantity }} onSubmit={handleFormSubmit}>
+        <Form
+          initialValues={{ booking_type, quantity }}
+          onSubmit={handleFormSubmit}
+        >
           {({ form, handleSubmit, submitting }) => (
             <form onSubmit={handleSubmit}>
               <Heading
