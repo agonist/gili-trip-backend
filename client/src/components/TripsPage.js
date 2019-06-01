@@ -125,9 +125,9 @@ const TripsPage = ({ location }) => {
 
     return fetchTrips({
       ...queryParams,
+      travel_type,
       from: to,
       to: from,
-      travel_type: travel_type,
     })
       .then(onSuccess)
       .catch(handleFetchError);

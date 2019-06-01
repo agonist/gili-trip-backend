@@ -78,23 +78,28 @@ const WahanaPage = () => {
 
           <P>
             Wahana Gili Ocean is the fast boat company that started its
-            operation in 2010 and is based in the Klungkung area of Bali.
-            Wahana Gili Ocean speed boats are driven by a strong commitment to provide a safe, fast,
-            and reliable service to ensure complete customer satisfaction.
+            operation in 2010 and is based in the Klungkung area of Bali. Wahana
+            Gili Ocean speed boats are driven by a strong commitment to provide
+            a safe, fast, and reliable service to ensure complete customer
+            satisfaction.
           </P>
         </Pane>
 
         <P>
-          Currently, Wahana Gili Ocean offers daily trips from Bali to Gili Trawangan,
-           Gili Air and Lombok. They operate with 116 and 180 seat vessels depending on the customer demand.
-            Traveling from Bali to the Gili islands takes around 1h30.
+          Currently, Wahana Gili Ocean offers daily trips from Bali to Gili
+          Trawangan, Gili Air and Lombok. They operate with 116 and 180 seat
+          vessels depending on the customer demand. Traveling from Bali to the
+          Gili islands takes around 1h30.
         </P>
 
         <H2>Hotel transfer</H2>
         <P>
-          Wahana Gili Ocean offers a free transfer from your hotel in Bali to the harbour in Padangbai and from the Padangbai harbour to your hotel on your return trip.
-          If you are staying outside of the free transfer area, you can still book a transfer but you will be charged with additional fees (see details below).
-          If you have any queries, do not hesitate to contact us for further details.
+          Wahana Gili Ocean offers a free transfer from your hotel in Bali to
+          the harbour in Padangbai and from the Padangbai harbour to your hotel
+          on your return trip. If you are staying outside of the free transfer
+          area, you can still book a transfer but you will be charged with
+          additional fees (see details below). If you have any queries, do not
+          hesitate to contact us for further details.
         </P>
 
         <H3>9:00am boat</H3>
