@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 2019_05_30_031207) do
     t.datetime "updated_at", null: false
     t.decimal "full_price"
     t.uuid "coupon_id"
-    t.string "type"
+    t.string "booking_type"
     t.index ["coupon_id"], name: "index_bookings_on_coupon_id"
   end
 
