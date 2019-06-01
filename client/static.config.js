@@ -49,7 +49,7 @@ export default {
   ],
   plugins: ["react-static-plugin-reach-router"],
   Document: ({ Html, Head, Body, children }) => (
-    <Html lang="en-US">
+    <Html lang="en-US" charset="utf-8">
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Gilitrip</title>
