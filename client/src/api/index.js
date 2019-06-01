@@ -11,13 +11,13 @@ const api = axios.create({
 const getData = ({ data }) => data;
 
 export const fetchTrips = params => {
-  const { from, to, departure_date, travel_type } = formatDataForApi(params);
+  const { from, to, departure_date, booking_type } = formatDataForApi(params);
 
   const queryParams = qs.stringify({
     from,
     to,
+    booking_type,
     date: departure_date,
-    travel_type,
   });
 
   return api.get(`/trips/?${queryParams}`).then(getData);

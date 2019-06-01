@@ -20,7 +20,7 @@ import {
   ITEM_SPACE,
   LOCATIONS,
   TODAY_DATE,
-  TRAVEL_TYPES,
+  BOOKING_TYPES,
 } from "../constants";
 
 import useMedia from "../hooks/useMedia";
@@ -68,10 +68,10 @@ const swapMutator = (_, { fields, formState }) => {
 
 const renderTravelType = () => (
   <Pane display="flex" alignItems="flex-end">
-    <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ONE_WAY}>
+    <Field name="booking_type" type="radio" value={BOOKING_TYPES.ONE_WAY}>
       {({ input }) => <Radio label="One way" {...input} {...radioProps} />}
     </Field>
-    <Field name="travel_type" type="radio" value={TRAVEL_TYPES.ROUND}>
+    <Field name="booking_type" type="radio" value={BOOKING_TYPES.ROUND}>
       {({ input }) => <Radio label="Return" {...input} {...radioProps} />}
     </Field>
   </Pane>
@@ -125,14 +125,14 @@ const renderTo = () => (
   </Field>
 );
 
-const renderDepartureDate = (travel_type, arrival_date) => (
+const renderDepartureDate = (booking_type, arrival_date) => (
   <Field name="departure_date" validate={required}>
     {({ input: { value, ...input }, meta }) => (
       <Popover
         content={({ close }) => (
           <DayPicker
             {...input}
-            selectedDays={[value, hasReturn(travel_type) && arrival_date]}
+            selectedDays={[value, hasReturn(booking_type) && arrival_date]}
             disabledDays={{ before: baseDate }}
             onDayClick={day => {
               if (dateFns.isBefore(day, baseDate)) return;
@@ -244,7 +244,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => {
         from: DEFAULT_DEPARTURE_ID,
         to: DEFAULT_ARRIVAL_ID,
         quantity: DEFAULT_QUANTITY,
-        travel_type: TRAVEL_TYPES.ROUND,
+        booking_type: BOOKING_TYPES.ROUND,
         ...formData,
       }}
     >
@@ -252,7 +252,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => {
         form,
         handleSubmit,
         submitting,
-        values: { arrival_date, departure_date, travel_type },
+        values: { arrival_date, departure_date, booking_type },
       }) => (
         <form onSubmit={handleSubmit} style={{ width: "100%" }}>
           {renderTravelType()}
@@ -263,8 +263,8 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => {
               {renderLocationSwapper(form)}
               {renderTo()}
 
-              {renderDepartureDate(travel_type, arrival_date)}
-              {hasReturn(travel_type) && renderArrivalDate(departure_date)}
+              {renderDepartureDate(booking_type, arrival_date)}
+              {hasReturn(booking_type) && renderArrivalDate(departure_date)}
 
               {renderQuantity()}
               {renderSubmit(submitting, isLoading)}
@@ -284,8 +284,8 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => {
               </Pane>
 
               <Pane display="flex" alignItems="flex-end">
-                {renderDepartureDate(travel_type, arrival_date)}
-                {hasReturn(travel_type) && renderArrivalDate(departure_date)}
+                {renderDepartureDate(booking_type, arrival_date)}
+                {hasReturn(booking_type) && renderArrivalDate(departure_date)}
 
                 {renderQuantity()}
                 {renderSubmit(submitting, isLoading)}
@@ -309,8 +309,8 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => {
                 alignItems="flex-end"
                 marginBottom={ITEM_SPACE}
               >
-                {renderDepartureDate(travel_type, arrival_date)}
-                {hasReturn(travel_type) && renderArrivalDate(departure_date)}
+                {renderDepartureDate(booking_type, arrival_date)}
+                {hasReturn(booking_type) && renderArrivalDate(departure_date)}
               </Pane>
 
               <Pane display="flex" alignItems="flex-end">

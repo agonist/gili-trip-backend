@@ -14,7 +14,7 @@ import TripsContainer from "./TripsContainer";
 import TripsEmptyState from "./TripsEmptyState";
 import TripsTitle from "./TripsTitle";
 
-import { ITEM_HEIGHT, ITEM_SPACE, TRAVEL_TYPES } from "../constants";
+import { ITEM_HEIGHT, ITEM_SPACE, BOOKING_TYPES } from "../constants";
 import { fetchTrips } from "../api";
 
 import {
@@ -56,7 +56,7 @@ const TripsPage = ({ location }) => {
     from,
     to,
     quantity,
-    travel_type,
+    booking_type,
   } = queryParams;
 
   const [hasFailed, setHasFailed] = React.useState(false);
@@ -69,7 +69,7 @@ const TripsPage = ({ location }) => {
   const [retTrips, setRetTrips] = React.useState([]);
   const [isFetchingRetTrips, setIsFetchingRetTrips] = React.useState(false);
 
-  const isRoundTrip = travel_type === TRAVEL_TYPES.ROUND;
+  const isRoundTrip = booking_type === BOOKING_TYPES.ROUND;
 
   const canFetch =
     !!departure_date &&
@@ -77,7 +77,7 @@ const TripsPage = ({ location }) => {
     !!from &&
     !!to &&
     !!quantity &&
-    !!travel_type;
+    !!booking_type;
 
   const handleBookTickets = () => {
     const data = {
@@ -125,7 +125,7 @@ const TripsPage = ({ location }) => {
 
     return fetchTrips({
       ...queryParams,
-      travel_type,
+      booking_type,
       from: to,
       to: from,
     })
@@ -144,7 +144,7 @@ const TripsPage = ({ location }) => {
     from,
     to,
     quantity,
-    travel_type,
+    booking_type,
   ]);
 
   React.useEffect(() => {

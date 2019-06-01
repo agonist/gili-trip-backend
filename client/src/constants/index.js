@@ -23,7 +23,7 @@ export const LOCATIONS = [
 
 export const TODAY_DATE = new Date();
 
-export const TRAVEL_TYPES = {
+export const BOOKING_TYPES = {
   ROUND: "round",
   ONE_WAY: "one-way",
 };

@@ -3,7 +3,7 @@ import { navigate } from "@reach/router";
 import dateFns from "date-fns";
 import qs from "query-string";
 
-import { DATE_FORMAT, LOCATIONS, TRAVEL_TYPES, OPERATORS } from "../constants";
+import { DATE_FORMAT, LOCATIONS, BOOKING_TYPES, OPERATORS } from "../constants";
 
 export const formatDate = (date, format = DATE_FORMAT) =>
   dateFns.format(date, format);
@@ -26,7 +26,7 @@ export const flattenTicket = ({ trip, ...ticket }) => ({
 
 export const flattenTickets = tickets => tickets.map(flattenTicket);
 
-export const hasReturn = travel_type => travel_type === TRAVEL_TYPES.ROUND;
+export const hasReturn = type => type === BOOKING_TYPES.ROUND;
 
 export const hasPickup = ({ pickup_name, pickup_address, pickup_phone } = {}) =>
   !!pickup_name || !!pickup_address || !!pickup_phone;
@@ -34,7 +34,7 @@ export const hasPickup = ({ pickup_name, pickup_address, pickup_phone } = {}) =>
 export const formatDataForApi = ({
   departure_date,
   arrival_date,
-  travel_type,
+  booking_type,
   ...data
 }) => {
   const formattedData = {
@@ -47,7 +47,7 @@ export const formatDataForApi = ({
     });
   }
 
-  if (hasReturn(travel_type)) {
+  if (hasReturn(booking_type)) {
     Object.assign(formattedData, {
       arrival_date: formatDate(arrival_date),
     });
@@ -55,7 +55,7 @@ export const formatDataForApi = ({
 
   return {
     ...formattedData,
-    travel_type,
+    booking_type,
   };
 };
 
