@@ -2,16 +2,16 @@ import React from "react";
 import { extractStyles } from "evergreen-ui";
 
 export default () => ({
-  headElements: elements => {
+  headElements: () => {
     const { css, hydrationScript } = extractStyles();
     const formattedCss = `@charset "utf-8";${css}`;
 
-    console.log("---- elements ----");
-    console.log(elements);
+    Object.assign(hydrationScript, {
+      key: "evergreen-hydratation-script",
+    });
 
     return [
       <meta key="meta-charset" charSet="UTF-8" />,
-      ...elements,
       hydrationScript,
       <style
         key="evergreen-css"
