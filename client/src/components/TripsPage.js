@@ -162,7 +162,7 @@ const TripsPage = ({ location }) => {
   const isSearchFormLoading =
     canFetch && !hasFailed && (isFetchingDepTrips || isFetchingRetTrips);
 
-  const displayRetTrips = (isRoundTrip && depTicket) || retTicket;
+  const displayRetTrips = isRoundTrip && depTicket;
 
   const fromName = from && getLocationName(from);
   const toName = to && getLocationName(to);
