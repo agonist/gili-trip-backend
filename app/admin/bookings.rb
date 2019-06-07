@@ -13,7 +13,7 @@ ActiveAdmin.register Booking do
 # end
 action_item :confirm,  only: [ :show ] do
 
-  link_to 'Sned comfirmation', intern_bookings_validate_path(:id => resource.id), :method=> :post
+  link_to 'Send comfirmation', intern_bookings_validate_path(:id => resource.id), :method=> :post
 
 end
 
