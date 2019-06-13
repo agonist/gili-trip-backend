@@ -45,7 +45,15 @@ export default {
       template: "src/pages/wahana.js",
     },
   ],
-  plugins: ["react-static-plugin-reach-router"],
+  plugins: [
+    [
+      "react-static-plugin-google-tag-manager",
+      {
+        id: "UA-142049353-1",
+      },
+    ],
+    ["react-static-plugin-reach-router"],
+  ],
   Document: ({ Html, Head, Body, children }) => (
     <Html lang="en-US">
       <Head>
