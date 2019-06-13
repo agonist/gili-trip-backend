@@ -71,7 +71,7 @@ const BookingFormInner = ({ quantity, tickets }) => {
       {departureTicket.has_pickup && (
         <BookingFormOptionalField path="tickets[0]" isShown={withPickup}>
           <Checkbox
-            label={`I need a pickup from ${departureTicket.from.name}`}
+            label={`I need a pickup for my departure trip from ${departureTicket.from.name}`}
             checked={withPickup}
             onChange={handleWithPickupChange}
             marginBottom={0}
@@ -82,7 +82,7 @@ const BookingFormInner = ({ quantity, tickets }) => {
       {returnTicket && returnTicket.has_dropoff && (
         <BookingFormOptionalField path="tickets[1]" isShown={withDropoff}>
           <Checkbox
-            label={`I need a dropoff in ${returnTicket.from.name}`}
+            label={`I need a dropoff for my return trip in ${returnTicket.to.name}`}
             checked={withDropoff}
             onChange={handleWithDropoffChange}
             marginBottom={0}
