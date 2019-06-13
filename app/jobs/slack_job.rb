@@ -25,7 +25,7 @@ class SlackJob
         "
 
     @slack ||= Slack::Web::Client.new
-    @slack.chat_postMessage(channel: '#orders', text: "\n#{msg}", as_user: true)
+    @slack.chat_postMessage(channel: ENV['ORDER_SLACK_CHANNEL'], text: "\n#{msg}", as_user: true)
 
   end
 end
