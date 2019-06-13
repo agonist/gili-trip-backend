@@ -2,8 +2,8 @@ class Api::V1::TripsController < ApiController
 
   def get_trips
     @trips = Trip.where(:from_id => params[:from], :to_id => params[:to])
-    type = params[:travel_type]
-
+    type = params[:booking_type]
+    p type
     date = Date.parse(params[:date])
     res = @trips.select {|trip| is_high_season?(trip, date, type)}
                 .select{|trip| is_available?(trip, date)}
