@@ -33,6 +33,7 @@
     "react-hot-loader": "^4.8.4",
     "react-loadable": "^5.5.0",
     "react-static": "^7.0.10",
+    "react-static-plugin-google-tag-manager": "^1.0.1",
     "react-static-plugin-reach-router": "^7.0.10"
   },
   "devDependencies": {
