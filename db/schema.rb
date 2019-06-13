@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_30_031207) do
+ActiveRecord::Schema.define(version: 2019_06_12_195638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -124,6 +124,8 @@ ActiveRecord::Schema.define(version: 2019_05_30_031207) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "return_price"
+    t.decimal "idr_price"
+    t.decimal "idr_return_price"
     t.index ["from_id"], name: "index_trips_on_from_id"
     t.index ["operator_id"], name: "index_trips_on_operator_id"
     t.index ["to_id"], name: "index_trips_on_to_id"
