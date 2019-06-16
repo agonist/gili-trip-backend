@@ -3,6 +3,7 @@ class Trip < ApplicationRecord
   belongs_to :to, class_name: "Location", foreign_key: "to_id"
   belongs_to :operator, class_name: "Operator", foreign_key: "operator_id"
   belongs_to :vehicle, class_name: "Vehicle", foreign_key: "vehicle_id"
+  belongs_to :trips_group, class_name: "TripsGroup", foreign_key: "trips_group_id"
   has_many :unavailable, class_name: "Unavailable"
 
   validates :name, presence: true

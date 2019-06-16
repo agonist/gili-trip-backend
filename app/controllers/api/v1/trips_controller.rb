@@ -32,7 +32,7 @@ private
   end
 
   def is_available?(trip, date)
-    res = Unavailable.where(:trip_id => trip.id, :date => date)
+    res = Unavailable.where(:trips_group_id => trip.trips_group_id, :date => date)
     return !res.present?
   end
 

@@ -1,0 +1,4 @@
+
+class TripsGroup < ApplicationRecord
+
+end

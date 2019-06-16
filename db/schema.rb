@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_12_195638) do
+ActiveRecord::Schema.define(version: 2019_06_16_084307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -126,16 +126,22 @@ ActiveRecord::Schema.define(version: 2019_06_12_195638) do
     t.decimal "return_price"
     t.decimal "idr_price"
     t.decimal "idr_return_price"
+    t.uuid "trips_group_id"
     t.index ["from_id"], name: "index_trips_on_from_id"
     t.index ["operator_id"], name: "index_trips_on_operator_id"
     t.index ["to_id"], name: "index_trips_on_to_id"
+    t.index ["trips_group_id"], name: "index_trips_on_trips_group_id"
     t.index ["vehicle_id"], name: "index_trips_on_vehicle_id"
   end
 
+  create_table "trips_groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+  end
+
   create_table "unavailables", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.bigint "trip_id"
     t.date "date"
-    t.index ["trip_id"], name: "index_unavailables_on_trip_id"
+    t.uuid "trips_group_id"
+    t.index ["trips_group_id"], name: "index_unavailables_on_trips_group_id"
   end
 
   create_table "vehicles", force: :cascade do |t|
@@ -148,4 +154,6 @@ ActiveRecord::Schema.define(version: 2019_06_12_195638) do
 
   add_foreign_key "bookings", "coupons"
   add_foreign_key "tickets", "bookings"
+  add_foreign_key "trips", "trips_groups"
+  add_foreign_key "unavailables", "trips_groups"
 end
