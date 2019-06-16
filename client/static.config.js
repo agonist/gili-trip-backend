@@ -54,6 +54,7 @@ export default {
     ],
     ["react-static-plugin-reach-router"],
   ],
+  productionSourceMaps: true,
   Document: ({ Html, Head, Body, children }) => (
     <Html lang="en-US">
       <Head>
