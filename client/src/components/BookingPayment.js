@@ -57,6 +57,10 @@ const BookingPayment = ({ bookingId, final_price, onSuccess }) => {
           client: BraintreeClient,
           paypalCheckout: BraintreePaypalCheckout,
         },
+        inputfields: {
+          noShipping: 1,
+          addressOverride: 0,
+        },
         client: {
           [ENV]: paymentToken,
         },
