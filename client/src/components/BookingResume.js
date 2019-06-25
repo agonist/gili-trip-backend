@@ -53,11 +53,7 @@ const BookingResume = ({ booking_email, passengers, tickets }) => {
           ticket={returnTicket}
           formFieldProps={formFieldProps}
         >
-          <Checkbox
-            label={`I need a dropoff in ${returnTicket.from.name}`}
-            disabled
-            checked={withDropoff}
-          />
+        <FormField label={`Dropoff in ${returnTicket.to.name}`} />
         </BookingResumePickupField>
       )}
     </div>
