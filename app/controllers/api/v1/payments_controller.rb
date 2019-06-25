@@ -78,6 +78,7 @@ class Api::V1::PaymentsController < ApiController
   def get_booking_infos(booking)
     infos = BookingInfos.new
     infos.id = booking.id
+    infos.booking_type = booking.booking_type
     infos.tickets_size = booking.tickets.size
     infos.booking_email = booking.booking_email
     infos.final_price =  booking.final_price.to_s.concat(booking.tickets[0].trip.currency)

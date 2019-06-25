@@ -18,6 +18,9 @@ class MailingJob
         departure_operator: infos.departure_operator,
         passengers: passengers
       }
+      if infos.booking_type == "open-round"
+        template_id = "d-cb953bb28e4e4a829c7221a4b1c0c75c"
+      end
     else
       datas = {
         departure_trip_name: infos.departure_trip_name,

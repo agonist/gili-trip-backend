@@ -1,4 +1,6 @@
 class BookingInfos
+  attr_accessor :booking_type
+
   attr_accessor :booking_email
   attr_accessor :tickets_size
   attr_accessor :id
