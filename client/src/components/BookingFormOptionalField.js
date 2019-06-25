@@ -15,7 +15,7 @@ const BookingFormOptionalField = ({ children, path, isShown, ...props }) => (
           <TextInputField
             {...input}
             label="Name"
-            placeholder="Hotel name"
+            placeholder="Hotel or Villa name"
             width="100%"
           />
         )}
@@ -26,7 +26,7 @@ const BookingFormOptionalField = ({ children, path, isShown, ...props }) => (
           <TextInputField
             {...input}
             label="Address"
-            placeholder="Hotel address"
+            placeholder="Hotel or Villa address"
             width="100%"
           />
         )}
@@ -37,7 +37,7 @@ const BookingFormOptionalField = ({ children, path, isShown, ...props }) => (
           <TextInputField
             {...input}
             label="Phone number"
-            placeholder="00336..."
+            placeholder="Your Whatsapp, local number or hotel number"
             width="100%"
             type="tel"
           />
