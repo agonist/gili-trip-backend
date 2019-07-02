@@ -4,26 +4,19 @@ import PropTypes from "prop-types";
 import LoadingState from "./LoadingState";
 import Trips from "./Trips";
 
-const TripsContainer = ({ isFetching, trips, ticket, handleSelect }) =>
+const TripsContainer = ({ isFetching, ticket, ...props }) =>
   isFetching ? (
     <LoadingState />
   ) : (
-    <Trips
-      trips={trips}
-      selected={ticket && ticket.id}
-      handleSelect={handleSelect}
-    />
+    <Trips selected={ticket && ticket.id} {...props} />
   );
 
 TripsContainer.propTypes = {
   isFetching: PropTypes.bool.isRequired,
-  trips: PropTypes.arrayOf(PropTypes.shape()),
   ticket: PropTypes.shape(),
-  handleSelect: PropTypes.func.isRequired,
 };
 
 TripsContainer.defaultProps = {
-  trips: [],
   ticket: {},
 };
 

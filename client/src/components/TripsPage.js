@@ -14,7 +14,12 @@ import TripsContainer from "./TripsContainer";
 import TripsEmptyState from "./TripsEmptyState";
 import TripsTitle from "./TripsTitle";
 
-import { ITEM_HEIGHT, ITEM_SPACE, BOOKING_TYPES } from "../constants";
+import {
+  ITEM_HEIGHT,
+  ITEM_SPACE,
+  BOOKING_TYPES,
+  OPEN_RETURN_TRIP_ID,
+} from "../constants";
 import { fetchTrips } from "../api";
 
 import {
@@ -70,6 +75,7 @@ const TripsPage = ({ location }) => {
   const [isFetchingRetTrips, setIsFetchingRetTrips] = React.useState(false);
 
   const isRoundTrip = booking_type === BOOKING_TYPES.ROUND;
+  const isOpenReturn = retTicket && retTicket.id === OPEN_RETURN_TRIP_ID;
 
   const canFetch =
     !!departure_date &&
@@ -81,7 +87,7 @@ const TripsPage = ({ location }) => {
 
   const handleBookTickets = () => {
     const data = {
-      booking_type,
+      booking_type: isOpenReturn ? BOOKING_TYPES.OPEN_RETURN : booking_type,
       quantity: +quantity,
       tickets: [
         {
@@ -94,7 +100,8 @@ const TripsPage = ({ location }) => {
     if (isRoundTrip) {
       data.tickets.push({
         ...formatTicket(retTicket),
-        date: formatDate(arrival_date, retTicket.departure_time),
+        date:
+          !isOpenReturn && formatDate(arrival_date, retTicket.departure_time),
       });
     }
 
@@ -149,7 +156,7 @@ const TripsPage = ({ location }) => {
   ]);
 
   React.useEffect(() => {
-    if (canFetch && retTrips.length === 0) {
+    if (depTicket && canFetch && retTrips.length === 0) {
       setIsFetchingRetTrips(true);
       fetchRetTrips();
     }
@@ -219,6 +226,7 @@ const TripsPage = ({ location }) => {
                 trips={retTrips}
                 ticket={retTicket}
                 handleSelect={setRetTicket}
+                withOpenOption
               />
             </Pane>
           )}
