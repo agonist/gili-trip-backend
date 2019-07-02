@@ -28,6 +28,8 @@ export const flattenTickets = tickets => tickets.map(flattenTicket);
 
 export const hasReturn = type => type === BOOKING_TYPES.ROUND;
 
+export const hasOpenReturn = type => type === BOOKING_TYPES.OPEN_RETURN;
+
 export const hasPickup = ({ pickup_name, pickup_address, pickup_phone } = {}) =>
   !!pickup_name || !!pickup_address || !!pickup_phone;
 
