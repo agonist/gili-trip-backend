@@ -5,7 +5,7 @@ import { Badge, Pane, Table, Text } from "evergreen-ui";
 
 import Item from "./Item";
 import Price from "./Price";
-import { ITEM_SPACE } from "../constants";
+import { OPEN_RETURN_TRIP_ID, ITEM_SPACE } from "../constants";
 
 const dateFormat = "dddd DD MMMM YYYY [at] hh[:]mma";
 
@@ -48,23 +48,35 @@ const TicketsTable = ({
       </Table.Head>
 
       <Table.Body>
-        {tickets.map(({ id, trip_id, from, to, date, price, operator }) => (
-          <Table.Row key={id || trip_id} {...rowProps}>
-            <Table.TextCell flexGrow={1}>
-              {`${from.name} -> ${to.name}`}
-              <br />
-              <strong>{dateFns.format(date, dateFormat)}</strong>
-            </Table.TextCell>
-            <Table.TextCell {...mediumColProps}>{operator.name}</Table.TextCell>
-            <Table.TextCell {...smallColProps}>x{quantity}</Table.TextCell>
-            <Table.TextCell {...smallColProps}>
-              <Price value={price} />
-            </Table.TextCell>
-            <Table.TextCell {...smallColProps}>
-              <Price value={price * quantity} />
-            </Table.TextCell>
-          </Table.Row>
-        ))}
+        {tickets.map(({ id, trip_id, from, to, date, price, operator }) => {
+          const isOpenReturn = trip_id === OPEN_RETURN_TRIP_ID;
+
+          return (
+            <Table.Row key={id || trip_id} {...rowProps}>
+              <Table.TextCell flexGrow={1}>
+                {isOpenReturn ? (
+                  <p>Open return</p>
+                ) : (
+                  <>
+                    {`${from.name} -> ${to.name}`}
+                    <br />
+                    <strong>{dateFns.format(date, dateFormat)}</strong>
+                  </>
+                )}
+              </Table.TextCell>
+              <Table.TextCell {...mediumColProps}>
+                {isOpenReturn ? "/" : operator.name}
+              </Table.TextCell>
+              <Table.TextCell {...smallColProps}>x{quantity}</Table.TextCell>
+              <Table.TextCell {...smallColProps}>
+                <Price value={price} />
+              </Table.TextCell>
+              <Table.TextCell {...smallColProps}>
+                <Price value={price * quantity} />
+              </Table.TextCell>
+            </Table.Row>
+          );
+        })}
 
         <Table.Row {...rowProps}>
           <Table.TextCell textAlign="right">

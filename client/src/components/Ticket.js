@@ -75,7 +75,7 @@ const Ticket = ({
       alignItems="center"
       justifyContent="center"
     >
-      <Heading {...headingProps} fontWeight={600} marginBottom={ITEM_SPACE}>
+      <Heading {...headingProps} fontWeight={600} marginBottom={ITEM_SPACE / 2}>
         <Price value={price} />
       </Heading>
 
@@ -98,6 +98,7 @@ const Ticket = ({
         paddingY={spacingY}
         textAlign={!isMobile ? "left" : "center"}
         alignItems="center"
+        borderRight={BORDER}
       >
         {!isMobile && (
           <Pane paddingRight={ITEM_SPACE}>{renderOperatorLogo()}</Pane>
@@ -118,8 +119,8 @@ const Ticket = ({
       </Pane>
 
       <Pane
-        width={isMobile ? 120 : 150}
-        borderLeft={BORDER}
+        width={isMobile ? 100 : 150}
+        flexShrink={0}
         display="flex"
         alignItems="center"
         justifyContent="center"
