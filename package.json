@@ -2,7 +2,7 @@
   "name": "gili-trip-web",
   "license": "MIT",
   "engines": {
-    "node": "11.6.0"
+    "node": ">=11.6.0"
   },
   "scripts": {
     "build": "yarn --cwd client install --production && yarn --cwd client build",

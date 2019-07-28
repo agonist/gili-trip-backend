@@ -4,6 +4,7 @@ import DayPicker from "react-day-picker";
 import { Form, Field } from "react-final-form";
 import dateFns from "date-fns";
 import {
+  Checkbox,
   IconButton,
   Pane,
   Popover,
@@ -40,7 +41,7 @@ const inputProps = {
 };
 
 const paneProps = {
-  flexGrow: 1,
+  flex: 1,
   marginRight: SPACING,
 };
 
@@ -159,38 +160,55 @@ const renderDepartureDate = (booking_type, arrival_date) => (
   </Field>
 );
 
-const renderArrivalDate = departure_date => (
-  <Field name="arrival_date" validate={required}>
-    {({ input: { value, ...input }, meta }) => (
-      <Popover
-        content={({ close }) => (
-          <DayPicker
-            selectedDays={[value, departure_date]}
-            disabledDays={{
-              before: departure_date || baseDate,
-            }}
-            onDayClick={day => {
-              if (dateFns.isBefore(day, departure_date || baseDate)) return;
-              input.onChange(day);
-              close();
-            }}
-          />
+const renderArrivalDate = (departure_date, open_return) => (
+  <Pane {...paneProps}>
+    {open_return ? (
+      <TextInputField {...inputProps} label="Return" disabled value="-" />
+    ) : (
+      <Field name="arrival_date" validate={required}>
+        {({ input: { value, ...input }, meta }) => (
+          <Popover
+            content={({ close }) => (
+              <DayPicker
+                selectedDays={[value, departure_date]}
+                disabledDays={{
+                  before: departure_date || baseDate,
+                }}
+                onDayClick={day => {
+                  if (dateFns.isBefore(day, departure_date || baseDate)) return;
+                  input.onChange(day);
+                  close();
+                }}
+              />
+            )}
+          >
+            <TextInputField
+              {...inputProps}
+              label="Return"
+              placeholder={formatDate(dateFns.addDays(baseDate, 7))}
+              required
+              readOnly
+              isInvalid={meta.error && meta.touched}
+              value={value && formatDate(value)}
+            />
+          </Popover>
         )}
-      >
-        <Pane {...paneProps}>
-          <TextInputField
-            {...inputProps}
-            label="Return"
-            placeholder={formatDate(dateFns.addDays(baseDate, 7))}
-            required
-            readOnly
-            isInvalid={meta.error && meta.touched}
-            value={value && formatDate(value)}
-          />
-        </Pane>
-      </Popover>
+      </Field>
     )}
-  </Field>
+
+    <Field name="open_return" type="checkbox">
+      {({ input }) => (
+        <Checkbox
+          {...input}
+          value={String(input.value)}
+          label="I don’t know my return date yet"
+          flexShrink={0}
+          marginTop={ITEM_SPACE}
+          marginBottom={0}
+        />
+      )}
+    </Field>
+  </Pane>
 );
 
 const renderQuantity = () => (
@@ -234,7 +252,7 @@ const renderSubmit = (submitting, isLoading) => (
 );
 
 const SearchForm = ({ formData, isLoading, onSubmit }) => {
-  const { isMobile, isTablet, isDesktop } = useMedia();
+  const { isMobile } = useMedia();
 
   return (
     <Form
@@ -252,70 +270,41 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => {
         form,
         handleSubmit,
         submitting,
-        values: { arrival_date, departure_date, booking_type },
+        values: { arrival_date, departure_date, booking_type, open_return },
       }) => (
         <form onSubmit={handleSubmit} style={{ width: "100%" }}>
           {renderTravelType()}
 
-          {isDesktop && (
-            <Pane display="flex" alignItems="flex-end">
-              {renderFrom()}
-              {renderLocationSwapper(form)}
-              {renderTo()}
+          <Pane display="flex" marginBottom={ITEM_SPACE} alignItems="flex-end">
+            {renderFrom()}
+            {!isMobile && renderLocationSwapper(form)}
+            {renderTo()}
+          </Pane>
 
-              {renderDepartureDate(booking_type, arrival_date)}
-              {hasReturn(booking_type) && renderArrivalDate(departure_date)}
-
-              {renderQuantity()}
-              {renderSubmit(submitting, isLoading)}
-            </Pane>
-          )}
-
-          {isTablet && (
+          {isMobile ? (
             <>
-              <Pane
-                display="flex"
-                alignItems="flex-end"
-                marginBottom={ITEM_SPACE}
-              >
-                {renderFrom()}
-                {renderLocationSwapper(form)}
-                {renderTo()}
+              <Pane display="flex">
+                {renderDepartureDate(booking_type, arrival_date)}
+                {hasReturn(booking_type) &&
+                  renderArrivalDate(departure_date, open_return)}
               </Pane>
 
               <Pane display="flex" alignItems="flex-end">
-                {renderDepartureDate(booking_type, arrival_date)}
-                {hasReturn(booking_type) && renderArrivalDate(departure_date)}
-
-                {renderQuantity()}
-                {renderSubmit(submitting, isLoading)}
+                <Pane flex={1}>{renderQuantity()}</Pane>
+                <Pane flex={1}>{renderSubmit(submitting, isLoading)}</Pane>
               </Pane>
             </>
-          )}
-
-          {isMobile && (
+          ) : (
             <>
-              <Pane
-                display="flex"
-                alignItems="flex-end"
-                marginBottom={ITEM_SPACE}
-              >
-                {renderFrom()}
-                {renderTo()}
-              </Pane>
-
-              <Pane
-                display="flex"
-                alignItems="flex-end"
-                marginBottom={ITEM_SPACE}
-              >
+              <Pane display="flex">
                 {renderDepartureDate(booking_type, arrival_date)}
-                {hasReturn(booking_type) && renderArrivalDate(departure_date)}
-              </Pane>
+                {hasReturn(booking_type) &&
+                  renderArrivalDate(departure_date, open_return)}
+                {renderQuantity()}
 
-              <Pane display="flex" alignItems="flex-end">
-                <Pane width="50%">{renderQuantity()}</Pane>
-                <Pane width="50%">{renderSubmit(submitting, isLoading)}</Pane>
+                <Pane flex={1} marginTop={24}>
+                  {renderSubmit(submitting, isLoading)}
+                </Pane>
               </Pane>
             </>
           )}

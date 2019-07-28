@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Checkbox, FormField, Heading } from "evergreen-ui";
+import { FormField, Heading } from "evergreen-ui";
 
 import BookingResumePickupField from "./BookingResumePickupField";
 import { ITEM_SPACE } from "../constants";
@@ -53,7 +53,7 @@ const BookingResume = ({ booking_email, passengers, tickets }) => {
           ticket={returnTicket}
           formFieldProps={formFieldProps}
         >
-        <FormField label={`Dropoff in ${returnTicket.to.name}`} />
+          <FormField label={`Dropoff in ${returnTicket.to.name}`} />
         </BookingResumePickupField>
       )}
     </div>
