@@ -18,7 +18,7 @@ class MailingBookingConfirmedJob
         departure_operator: infos.departure_operator,
         passengers: passengers
       }
-      if infos.booking_type == "open-round"
+      if infos.booking_type == "open-return"
         template_id = "d-5db34f74c70246e7bebba594bda29a4d"
       end
     else

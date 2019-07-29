@@ -11,7 +11,7 @@ class Ticket < ApplicationRecord
     ranges.each do |range|
        if date.between?(range.from, range.to)
          price = trip.price
-         if type == "round" || type == "open-round"
+         if type == "round" || type == "open-return"
            price = trip.return_price
          end
          increase = price * (trip.high_season_percentage_multiplier.to_f/100.0)
@@ -20,7 +20,7 @@ class Ticket < ApplicationRecord
        end
     end
     price = trip.price
-    if type == "round"|| type == "open-round"
+    if type == "round"|| type == "open-return"
       price = trip.return_price
     end
     return price

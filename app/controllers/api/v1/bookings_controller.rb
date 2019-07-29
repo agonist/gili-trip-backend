@@ -16,7 +16,7 @@ class Api::V1::BookingsController < ApiController
       full_price += @trips_price
     end
 
-    if @booking.booking_type == "open-round"
+    if @booking.booking_type == "open-return"
       full_price *= 2
     end
 
