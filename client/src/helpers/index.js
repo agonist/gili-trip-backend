@@ -41,6 +41,7 @@ export const formatDataForApi = ({
   ...data
 }) => {
   const formattedData = {
+    open_return,
     ...data,
   };
 

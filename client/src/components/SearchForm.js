@@ -25,7 +25,13 @@ import {
 } from "../constants";
 
 import useMedia from "../hooks/useMedia";
-import { formatDate, formValidations, hasReturn } from "../helpers";
+
+import {
+  formatDate,
+  formValidations,
+  hasOpenReturn,
+  hasReturn,
+} from "../helpers";
 
 const DEFAULT_DEPARTURE_ID = "1";
 const DEFAULT_ARRIVAL_ID = "3";
@@ -67,13 +73,20 @@ const swapMutator = (_, { fields, formState }) => {
   from.change(values.to);
 };
 
-const renderTravelType = () => (
+const renderTravelType = booking_type => (
   <Pane display="flex" alignItems="flex-end">
     <Field name="booking_type" type="radio" value={BOOKING_TYPES.ONE_WAY}>
       {({ input }) => <Radio label="One way" {...input} {...radioProps} />}
     </Field>
     <Field name="booking_type" type="radio" value={BOOKING_TYPES.ROUND}>
-      {({ input }) => <Radio label="Return" {...input} {...radioProps} />}
+      {({ input }) => (
+        <Radio
+          label="Return"
+          {...input}
+          {...radioProps}
+          checked={input.checked || booking_type === BOOKING_TYPES.OPEN_RETURN}
+        />
+      )}
     </Field>
   </Pane>
 );
@@ -273,7 +286,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => {
         values: { arrival_date, departure_date, booking_type, open_return },
       }) => (
         <form onSubmit={handleSubmit} style={{ width: "100%" }}>
-          {renderTravelType()}
+          {renderTravelType(booking_type)}
 
           <Pane display="flex" marginBottom={ITEM_SPACE} alignItems="flex-end">
             {renderFrom()}
@@ -285,7 +298,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => {
             <>
               <Pane display="flex">
                 {renderDepartureDate(booking_type, arrival_date)}
-                {hasReturn(booking_type) &&
+                {(hasOpenReturn(booking_type) || hasReturn(booking_type)) &&
                   renderArrivalDate(departure_date, open_return)}
               </Pane>
 
@@ -298,7 +311,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => {
             <>
               <Pane display="flex">
                 {renderDepartureDate(booking_type, arrival_date)}
-                {hasReturn(booking_type) &&
+                {(hasOpenReturn(booking_type) || hasReturn(booking_type)) &&
                   renderArrivalDate(departure_date, open_return)}
                 {renderQuantity()}
 

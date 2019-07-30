@@ -14,6 +14,7 @@ const IndexPage = () => {
   const formatData = ({ booking_type, open_return, ...data }) => ({
     ...data,
     booking_type: open_return ? BOOKING_TYPES.OPEN_RETURN : booking_type,
+    open_return,
   });
 
   const onSubmit = data =>
