@@ -37,11 +37,10 @@ export const formatDataForApi = ({
   departure_date,
   arrival_date,
   booking_type,
-  open_return,
   ...data
 }) => {
   const formattedData = {
-    open_return,
+    booking_type,
     ...data,
   };
 
@@ -57,10 +56,7 @@ export const formatDataForApi = ({
     });
   }
 
-  return {
-    ...formattedData,
-    booking_type: open_return ? BOOKING_TYPES.OPEN_RETURN : booking_type,
-  };
+  return formattedData;
 };
 
 export const formatDataForBrowser = ({

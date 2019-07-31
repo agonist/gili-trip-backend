@@ -7,22 +7,21 @@ import ButtonPrimary from "./ButtonPrimary";
 import Container from "./Container";
 import ErrorState from "./ErrorState";
 import Header from "./Header";
+import Item from "./Item";
 import PageFooter from "./PageFooter";
 import SearchForm from "./SearchForm";
 import Small from "./Small";
+import TicketOpen from "./TicketOpen";
 import TripsContainer from "./TripsContainer";
 import TripsEmptyState from "./TripsEmptyState";
 import TripsTitle from "./TripsTitle";
 
-import {
-  ITEM_HEIGHT,
-  ITEM_SPACE,
-  BOOKING_TYPES,
-  OPEN_RETURN_TRIP_ID,
-} from "../constants";
+import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { fetchTrips } from "../api";
 
 import {
+  hasReturn as _hasReturn,
+  hasOpenReturn as _hasOpenReturn,
   formatDataForBrowser,
   getLocationName,
   navigateWithData,
@@ -74,20 +73,24 @@ const TripsPage = ({ location }) => {
   const [retTrips, setRetTrips] = React.useState([]);
   const [isFetchingRetTrips, setIsFetchingRetTrips] = React.useState(false);
 
-  const isRoundTrip = booking_type === BOOKING_TYPES.ROUND;
-  const isOpenReturn = retTicket && retTicket.id === OPEN_RETURN_TRIP_ID;
+  const hasReturn = _hasReturn(booking_type);
+  const hasOpenReturn = _hasOpenReturn(booking_type);
 
   const canFetch =
     !!departure_date &&
-    (!isRoundTrip ? true : !!arrival_date) &&
+    (!hasReturn ? true : !!arrival_date) &&
     !!from &&
     !!to &&
     !!quantity &&
     !!booking_type;
 
+  const canBookTickets =
+    (!hasReturn && !hasOpenReturn && !!depTicket) ||
+    (hasOpenReturn && !!depTicket) ||
+    (hasReturn && !!depTicket && !!retTicket);
+
   const handleBookTickets = () => {
     const data = {
-      booking_type: isOpenReturn ? BOOKING_TYPES.OPEN_RETURN : booking_type,
       quantity: +quantity,
       tickets: [
         {
@@ -97,11 +100,11 @@ const TripsPage = ({ location }) => {
       ],
     };
 
-    if (isRoundTrip) {
+    if (hasReturn) {
       data.tickets.push({
         ...formatTicket(retTicket),
         date:
-          !isOpenReturn && formatDate(arrival_date, retTicket.departure_time),
+          !hasOpenReturn && formatDate(arrival_date, retTicket.departure_time),
       });
     }
 
@@ -145,6 +148,10 @@ const TripsPage = ({ location }) => {
     if (canFetch) {
       setHasFailed(false);
       fetchDepTrips();
+
+      if (hasReturn) {
+        fetchRetTrips();
+      }
     }
   }, [
     arrival_date && arrival_date.toDateString(),
@@ -155,21 +162,8 @@ const TripsPage = ({ location }) => {
     booking_type,
   ]);
 
-  React.useEffect(() => {
-    if (depTicket && canFetch && retTrips.length === 0) {
-      setIsFetchingRetTrips(true);
-      fetchRetTrips();
-    }
-  }, [depTicket && depTicket.id]);
-
-  const hasSelectedAllTickets = isRoundTrip
-    ? depTicket && retTicket
-    : depTicket;
-
   const isSearchFormLoading =
     canFetch && !hasFailed && (isFetchingDepTrips || isFetchingRetTrips);
-
-  const displayRetTrips = isRoundTrip && depTicket;
 
   const fromName = from && getLocationName(from);
   const toName = to && getLocationName(to);
@@ -177,7 +171,7 @@ const TripsPage = ({ location }) => {
   const submitButtonProps = {
     height: ITEM_HEIGHT,
     onClick: handleBookTickets,
-    disabled: !hasSelectedAllTickets,
+    disabled: hasReturn ? !depTicket || !retTicket : !depTicket,
   };
 
   return (
@@ -216,18 +210,26 @@ const TripsPage = ({ location }) => {
             handleSelect={setDepTicket}
           />
 
-          {displayRetTrips && (
+          {!isFetchingDepTrips && (hasReturn || hasOpenReturn) && (
             <Pane paddingTop={ITEM_SPACE}>
               <Small>Arrival trip</Small>
               <TripsTitle from={toName} to={fromName} />
 
-              <TripsContainer
-                isFetching={isFetchingRetTrips}
-                trips={retTrips}
-                ticket={retTicket}
-                handleSelect={setRetTicket}
-                withOpenOption
-              />
+              {hasOpenReturn ? (
+                <Item flexDirection="column" padding={0}>
+                  <TicketOpen
+                    isSelected
+                    price={depTrips[0] ? depTrips[0].price : 0}
+                  />
+                </Item>
+              ) : (
+                <TripsContainer
+                  isFetching={isFetchingRetTrips}
+                  trips={retTrips}
+                  ticket={retTicket}
+                  handleSelect={setRetTicket}
+                />
+              )}
             </Pane>
           )}
         </Container>
@@ -244,13 +246,13 @@ const TripsPage = ({ location }) => {
                 </ButtonPrimary>
               )}
 
-              {depTicket && (isRoundTrip && !retTicket) && (
+              {depTicket && hasReturn && !retTicket && (
                 <ButtonPrimary {...submitButtonProps}>
                   Select a return ticket
                 </ButtonPrimary>
               )}
 
-              {depTicket && (!isRoundTrip || (isRoundTrip && retTicket)) && (
+              {canBookTickets && (
                 <ButtonPrimary {...submitButtonProps} iconAfter="arrow-right">
                   Confirm and continue
                 </ButtonPrimary>

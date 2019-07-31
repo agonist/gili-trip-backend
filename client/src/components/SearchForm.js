@@ -266,10 +266,27 @@ const renderSubmit = (submitting, isLoading) => (
 
 const SearchForm = ({ formData, isLoading, onSubmit }) => {
   const { isMobile } = useMedia();
+  const _onSubmit = (_formData, ...props) => {
+    const { booking_type, open_return, ...restFormData } = _formData;
+    const submitData = {
+      booking_type,
+      ...restFormData,
+    };
+
+    if (open_return) {
+      Object.assign(submitData, {
+        booking_type: BOOKING_TYPES.OPEN_RETURN,
+      });
+
+      delete submitData.arrival_date;
+    }
+
+    return onSubmit(submitData, ...props);
+  };
 
   return (
     <Form
-      onSubmit={onSubmit}
+      onSubmit={_onSubmit}
       mutators={{ swap: swapMutator }}
       initialValues={{
         from: DEFAULT_DEPARTURE_ID,
@@ -302,7 +319,7 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => {
                   renderArrivalDate(departure_date, open_return)}
               </Pane>
 
-              <Pane display="flex" alignItems="flex-end">
+              <Pane display="flex" alignItems="flex-end" marginTop={SPACING}>
                 <Pane flex={1}>{renderQuantity()}</Pane>
                 <Pane flex={1}>{renderSubmit(submitting, isLoading)}</Pane>
               </Pane>

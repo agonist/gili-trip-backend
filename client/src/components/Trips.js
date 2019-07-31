@@ -4,12 +4,9 @@ import { Pane } from "evergreen-ui";
 
 import Item from "./Item";
 import Ticket from "./Ticket";
-import TicketOpen from "./TicketOpen";
 import TripsEmptyState from "./TripsEmptyState";
 
-import { OPEN_RETURN_TRIP_ID } from "../constants";
-
-const Trips = ({ handleSelect, selected, trips, withOpenOption }) => (
+const Trips = ({ handleSelect, selected, trips }) => (
   <Pane className="Trips">
     {trips.length === 0 ? (
       <TripsEmptyState />
@@ -30,16 +27,6 @@ const Trips = ({ handleSelect, selected, trips, withOpenOption }) => (
             />
           );
         })}
-
-        {withOpenOption && (
-          <TicketOpen
-            isSelected={selected === OPEN_RETURN_TRIP_ID}
-            handleSelect={() =>
-              handleSelect({ id: OPEN_RETURN_TRIP_ID, price: trips[0].price })
-            }
-            price={trips[0].price}
-          />
-        )}
       </Item>
     )}
   </Pane>
@@ -53,13 +40,11 @@ Trips.propTypes = {
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     }),
   ),
-  withOpenOption: PropTypes.bool,
 };
 
 Trips.defaultProps = {
   selected: null,
   trips: [],
-  withOpenOption: false,
 };
 
 export default Trips;

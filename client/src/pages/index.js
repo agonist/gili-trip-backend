@@ -5,21 +5,14 @@ import Popular from "../components/Popular";
 import SearchForm from "../components/SearchForm";
 import Tagline from "../components/Tagline";
 
-import { BOOKING_TYPES } from "../constants";
 import { navigateWithData } from "../helpers";
 
 const IndexPage = () => {
   const [formData, setFormData] = React.useState({});
 
-  const formatData = ({ booking_type, open_return, ...data }) => ({
-    ...data,
-    booking_type: open_return ? BOOKING_TYPES.OPEN_RETURN : booking_type,
-    open_return,
-  });
-
   const onSubmit = data =>
     navigateWithData("/trips", {
-      data: formatData(data),
+      data,
       withParams: true,
     });
 
