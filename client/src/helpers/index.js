@@ -50,7 +50,7 @@ export const formatDataForApi = ({
     });
   }
 
-  if (hasReturn(booking_type)) {
+  if (arrival_date) {
     Object.assign(formattedData, {
       arrival_date: formatDate(arrival_date),
     });

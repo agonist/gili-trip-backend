@@ -10,8 +10,6 @@ export const CURRENCY = "USD";
 
 export const DATE_FORMAT = "YYYY-MM-DD";
 
-export const OPEN_RETURN_TRIP_ID = "open-return-id";
-
 export const ITEM_HEIGHT = majorScale(5);
 export const ITEM_SPACE = majorScale(2);
 

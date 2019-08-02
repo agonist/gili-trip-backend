@@ -91,6 +91,7 @@ const TripsPage = ({ location }) => {
 
   const handleBookTickets = () => {
     const data = {
+      booking_type,
       quantity: +quantity,
       tickets: [
         {
@@ -103,8 +104,7 @@ const TripsPage = ({ location }) => {
     if (hasReturn) {
       data.tickets.push({
         ...formatTicket(retTicket),
-        date:
-          !hasOpenReturn && formatDate(arrival_date, retTicket.departure_time),
+        date: formatDate(arrival_date, retTicket.departure_time),
       });
     }
 

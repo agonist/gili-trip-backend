@@ -1,13 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import dateFns from "date-fns";
+
 import { Badge, Pane, Table, Text } from "evergreen-ui";
 
 import Item from "./Item";
 import Price from "./Price";
-import { OPEN_RETURN_TRIP_ID, ITEM_SPACE } from "../constants";
+import TicketsTableRow from "./TicketsTableRow";
 
-const dateFormat = "dddd DD MMMM YYYY [at] hh[:]mma";
+import { hasOpenReturn } from "../helpers";
+import { ITEM_SPACE } from "../constants";
 
 const rowProps = {
   height: "auto",
@@ -28,91 +29,84 @@ const mediumColProps = {
 };
 
 const TicketsTable = ({
+  booking_type,
   final_price,
   full_price,
   quantity,
   tickets,
   coupon,
   ...props
-}) => (
-  <Item padding={0} overflow="hidden" {...props}>
-    <Table width="100%" backgroundColor="#fff">
-      <Table.Head paddingX={rowProps.padding} paddingY={rowProps.padding * 1.5}>
-        <Table.TextHeaderCell flexGrow={1}>Your tickets</Table.TextHeaderCell>
-        <Table.TextHeaderCell {...mediumColProps}>
-          Operator
-        </Table.TextHeaderCell>
-        <Table.TextHeaderCell {...smallColProps}>Quantity</Table.TextHeaderCell>
-        <Table.TextHeaderCell {...smallColProps}>Price</Table.TextHeaderCell>
-        <Table.TextHeaderCell {...smallColProps}>Subtotal</Table.TextHeaderCell>
-      </Table.Head>
+}) => {
+  return (
+    <Item padding={0} overflow="hidden" {...props}>
+      <Table width="100%" backgroundColor="#fff">
+        <Table.Head
+          paddingX={rowProps.padding}
+          paddingY={rowProps.padding * 1.5}
+        >
+          <Table.TextHeaderCell flexGrow={1}>Your tickets</Table.TextHeaderCell>
+          <Table.TextHeaderCell {...mediumColProps}>
+            Operator
+          </Table.TextHeaderCell>
+          <Table.TextHeaderCell {...smallColProps}>
+            Quantity
+          </Table.TextHeaderCell>
+          <Table.TextHeaderCell {...smallColProps}>Price</Table.TextHeaderCell>
+          <Table.TextHeaderCell {...smallColProps}>
+            Subtotal
+          </Table.TextHeaderCell>
+        </Table.Head>
 
-      <Table.Body>
-        {tickets.map(({ id, trip_id, from, to, date, price, operator }) => {
-          const isOpenReturn = trip_id === OPEN_RETURN_TRIP_ID;
+        <Table.Body>
+          {tickets.map(ticket => (
+            <TicketsTableRow
+              key={ticket.id || ticket.trip_id}
+              {...ticket}
+              quantity={quantity}
+            />
+          ))}
 
-          return (
-            <Table.Row key={id || trip_id} {...rowProps}>
-              <Table.TextCell flexGrow={1}>
-                {isOpenReturn ? (
-                  <p>Open return</p>
-                ) : (
-                  <>
-                    {`${from.name} -> ${to.name}`}
-                    <br />
-                    <strong>{dateFns.format(date, dateFormat)}</strong>
-                  </>
+          {hasOpenReturn(booking_type) && (
+            <TicketsTableRow {...tickets[0]} quantity={quantity} isOpenReturn />
+          )}
+
+          <Table.Row {...rowProps}>
+            <Table.TextCell textAlign="right">
+              <Pane>
+                Total:{" "}
+                {final_price !== full_price && (
+                  <span
+                    style={{
+                      display: "inline-block",
+                      textDecoration: "line-through",
+                      margin: "0 4px",
+                    }}
+                  >
+                    <Price value={full_price} />
+                  </span>
                 )}
-              </Table.TextCell>
-              <Table.TextCell {...mediumColProps}>
-                {isOpenReturn ? "/" : operator.name}
-              </Table.TextCell>
-              <Table.TextCell {...smallColProps}>x{quantity}</Table.TextCell>
-              <Table.TextCell {...smallColProps}>
-                <Price value={price} />
-              </Table.TextCell>
-              <Table.TextCell {...smallColProps}>
-                <Price value={price * quantity} />
-              </Table.TextCell>
-            </Table.Row>
-          );
-        })}
+                <Text>
+                  <strong>
+                    <Price value={final_price} />
+                  </strong>
+                </Text>
+              </Pane>
 
-        <Table.Row {...rowProps}>
-          <Table.TextCell textAlign="right">
-            <Pane>
-              Total:{" "}
-              {final_price !== full_price && (
-                <span
-                  style={{
-                    display: "inline-block",
-                    textDecoration: "line-through",
-                    margin: "0 4px",
-                  }}
-                >
-                  <Price value={full_price} />
-                </span>
+              {coupon && (
+                <Badge color="green" isSolid marginTop={4}>
+                  {coupon.code}
+                </Badge>
               )}
-              <Text>
-                <strong>
-                  <Price value={final_price} />
-                </strong>
-              </Text>
-            </Pane>
-
-            {coupon && (
-              <Badge color="green" isSolid marginTop={4}>
-                {coupon.code}
-              </Badge>
-            )}
-          </Table.TextCell>
-        </Table.Row>
-      </Table.Body>
-    </Table>
-  </Item>
-);
+            </Table.TextCell>
+          </Table.Row>
+        </Table.Body>
+      </Table>
+    </Item>
+  );
+};
 
 TicketsTable.propTypes = {
+  booking_type: PropTypes.string.isRequired,
   final_price: PropTypes.string.isRequired,
   full_price: PropTypes.string.isRequired,
   tickets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
