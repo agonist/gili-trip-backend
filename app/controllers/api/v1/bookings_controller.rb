@@ -49,6 +49,14 @@ class Api::V1::BookingsController < ApiController
 
   def get
     @booking = Booking.find(params[:id])
+
+    @booking.tickets.each do |ticketparams|
+      date = ticketparams.date
+      trip = Trip.find(ticketparams.trip_id)
+      price = Ticket.get_price(date, trip, @booking.booking_type)
+      ticketparams.trip.price = price
+    end
+
     render json: @booking
   end
 
