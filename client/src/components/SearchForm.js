@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import DayPicker from "react-day-picker";
 import { Form, Field } from "react-final-form";
+import createDecorator from "final-form-calculate";
 import dateFns from "date-fns";
 import {
   Checkbox,
@@ -72,6 +73,14 @@ const swapMutator = (_, { fields, formState }) => {
   to.change(values.from);
   from.change(values.to);
 };
+
+const formDecorators = createDecorator({
+  field: "open_return",
+  updates: {
+    booking_type: open_return =>
+      open_return ? BOOKING_TYPES.OPEN_RETURN : BOOKING_TYPES.ROUND,
+  },
+});
 
 const renderTravelType = booking_type => (
   <Pane display="flex" alignItems="flex-end">
@@ -218,6 +227,7 @@ const renderArrivalDate = (departure_date, open_return) => (
           flexShrink={0}
           marginTop={ITEM_SPACE}
           marginBottom={0}
+          checked={open_return}
         />
       )}
     </Field>
@@ -288,11 +298,13 @@ const SearchForm = ({ formData, isLoading, onSubmit }) => {
     <Form
       onSubmit={_onSubmit}
       mutators={{ swap: swapMutator }}
+      decorators={[formDecorators]}
       initialValues={{
         from: DEFAULT_DEPARTURE_ID,
         to: DEFAULT_ARRIVAL_ID,
         quantity: DEFAULT_QUANTITY,
         booking_type: BOOKING_TYPES.ROUND,
+        open_return: formData.booking_type === BOOKING_TYPES.OPEN_RETURN,
         ...formData,
       }}
     >
