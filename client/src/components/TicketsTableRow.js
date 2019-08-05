@@ -48,9 +48,7 @@ const TicketsTableRow = ({
           : dateFns.format(date, dateFormat)}
       </strong>
     </Table.TextCell>
-    <Table.TextCell {...mediumColProps}>
-      {operator.name}
-    </Table.TextCell>
+    <Table.TextCell {...mediumColProps}>{operator.name}</Table.TextCell>
     <Table.TextCell {...smallColProps}>x{quantity}</Table.TextCell>
     <Table.TextCell {...smallColProps}>
       <Price value={price} />

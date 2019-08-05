@@ -13,7 +13,7 @@ import TicketsTable from "./TicketsTable";
 
 import { ITEM_HEIGHT, ITEM_SPACE } from "../constants";
 import { postBooking } from "../api";
-import { captureException } from "../helpers";
+import { captureException, hasOpenReturn } from "../helpers";
 
 const formatTicket = ({ date, ...data }) => ({
   ...data,
@@ -31,11 +31,14 @@ const mergeTickets = (tickets, ticketsExtras = []) =>
     ...ticketsExtras[i],
   }));
 
-const calculateFinalPrice = (tickets, quantity) =>
-  String(
+const calculateFinalPrice = ({ booking_type, tickets, quantity }) => {
+  const price = String(
     tickets.reduce((total, ticket) => total + Number(ticket.price), 0) *
       quantity,
   );
+
+  return hasOpenReturn(booking_type) ? price * 2 : price;
+};
 
 const PreBookingPage = ({ location, navigate }) => {
   const { state } = location;
@@ -58,7 +61,7 @@ const PreBookingPage = ({ location, navigate }) => {
       .catch(captureException);
   };
 
-  const finalPrice = calculateFinalPrice(tickets, quantity);
+  const finalPrice = calculateFinalPrice({ booking_type, tickets, quantity });
 
   return (
     <div className="Page Page--preBooking">
