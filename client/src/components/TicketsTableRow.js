@@ -44,7 +44,7 @@ const TicketsTableRow = ({
       <br />
       <strong>
         {isOpenReturn
-          ? "Date to comfirm with the boat company"
+          ? "Date to confirm with the boat company"
           : dateFns.format(date, dateFormat)}
       </strong>
     </Table.TextCell>
@@ -68,7 +68,7 @@ TicketsTableRow.propTypes = {
   to: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
-  date: PropTypes.string.isRequired,
+  date: PropTypes.instanceOf(Date).isRequired,
   operator: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,

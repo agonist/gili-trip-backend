@@ -107,8 +107,10 @@ const TicketsTable = ({
 
 TicketsTable.propTypes = {
   booking_type: PropTypes.string.isRequired,
-  final_price: PropTypes.string.isRequired,
-  full_price: PropTypes.string.isRequired,
+  final_price: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    .isRequired,
+  full_price: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    .isRequired,
   tickets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   quantity: PropTypes.number.isRequired,
   coupon: PropTypes.shape({

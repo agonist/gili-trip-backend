@@ -75,10 +75,19 @@ const swapMutator = (_, { fields, formState }) => {
 };
 
 const formDecorators = createDecorator({
-  field: "open_return",
+  field: /(booking_type|open_return)/,
   updates: {
-    booking_type: open_return =>
-      open_return ? BOOKING_TYPES.OPEN_RETURN : BOOKING_TYPES.ROUND,
+    booking_type: (value, values, prevValues) => {
+      const hasOpenReturnChanged =
+        values.open_return !== prevValues.open_return;
+
+      if (hasOpenReturnChanged) {
+        // value === open_return
+        return value ? BOOKING_TYPES.OPEN_RETURN : BOOKING_TYPES.ROUND;
+      }
+
+      return value;
+    },
   },
 });
 
@@ -276,22 +285,15 @@ const renderSubmit = (submitting, isLoading) => (
 
 const SearchForm = ({ formData, isLoading, onSubmit }) => {
   const { isMobile } = useMedia();
+
   const _onSubmit = (_formData, ...props) => {
-    const { booking_type, open_return, ...restFormData } = _formData;
-    const submitData = {
-      booking_type,
-      ...restFormData,
-    };
+    const { open_return, ...restFormData } = _formData;
 
     if (open_return) {
-      Object.assign(submitData, {
-        booking_type: BOOKING_TYPES.OPEN_RETURN,
-      });
-
-      delete submitData.arrival_date;
+      delete restFormData.arrival_date;
     }
 
-    return onSubmit(submitData, ...props);
+    return onSubmit(restFormData, ...props);
   };
 
   return (

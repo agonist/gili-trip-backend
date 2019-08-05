@@ -61,7 +61,8 @@ const BookingResume = ({ booking_email, passengers, tickets }) => {
 };
 
 BookingResume.propTypes = {
-  final_price: PropTypes.string.isRequired,
+  final_price: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    .isRequired,
   booking_email: PropTypes.string.isRequired,
   passengers: PropTypes.arrayOf(PropTypes.string).isRequired,
   quantity: PropTypes.number.isRequired,

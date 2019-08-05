@@ -130,7 +130,8 @@ const BookingPayment = ({ bookingId, final_price, onSuccess }) => {
 
 BookingPayment.propTypes = {
   bookingId: PropTypes.string.isRequired,
-  final_price: PropTypes.string.isRequired,
+  final_price: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    .isRequired,
   onSuccess: PropTypes.func.isRequired,
 };
 
