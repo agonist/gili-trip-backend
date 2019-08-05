@@ -58,8 +58,7 @@ const Ticket = ({ handleSelect, isSelected, price }) => {
       >
         <Heading {...headingProps}>Open return</Heading>
         <Paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit
-          amet lacus porta, imperdiet mauris vitae, ultricies quam.
+          You can choose your return date with the boat company as soon as you know it.
         </Paragraph>
       </Pane>
 

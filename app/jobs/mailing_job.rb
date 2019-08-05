@@ -19,6 +19,21 @@ class MailingJob
         passengers: passengers
       }
       if infos.booking_type == "open-return"
+        datas = {
+          departure_trip_name: infos.departure_trip_name,
+          quantity: infos.quantity,
+          departure_date: infos.departure_date,
+          departure_time_departure: infos.departure_time_departure,
+          departure_time_arrival: infos.departure_time_arrival,
+          total_price: infos.final_price,
+          departure: infos.departure,
+          destination: infos.destination,
+          return_date: "Open return",
+          return_trip_name: "The name",
+          departure_operator: infos.departure_operator,
+          return_operator: infos.departure_operator,
+          passengers: passengers
+        }
         template_id = "d-cb953bb28e4e4a829c7221a4b1c0c75c"
       end
     else

@@ -44,12 +44,12 @@ const TicketsTableRow = ({
       <br />
       <strong>
         {isOpenReturn
-          ? "To be defined with your company"
+          ? "Date to comfirm with the boat company"
           : dateFns.format(date, dateFormat)}
       </strong>
     </Table.TextCell>
     <Table.TextCell {...mediumColProps}>
-      {isOpenReturn ? "/" : operator.name}
+      {operator.name}
     </Table.TextCell>
     <Table.TextCell {...smallColProps}>x{quantity}</Table.TextCell>
     <Table.TextCell {...smallColProps}>
