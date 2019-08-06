@@ -29,7 +29,7 @@ class MailingJob
           departure: infos.departure,
           destination: infos.destination,
           return_date: "Open return",
-          return_trip_name: "The name",
+          return_trip_name: "The nameq",
           departure_operator: infos.departure_operator,
           return_operator: infos.departure_operator,
           passengers: passengers
