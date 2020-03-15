@@ -40,7 +40,9 @@ const DEFAULT_QUANTITY = 1;
 
 const SPACING = majorScale(1);
 
-const baseDate = dateFns.setHours(dateFns.addDays(TODAY_DATE, 1), 0);
+const currentHours = dateFns.getHours(new Date());
+const daysToAdd = currentHours <= 8 ? 1 : 2;
+const baseDate = dateFns.setHours(dateFns.addDays(TODAY_DATE, daysToAdd), 0);
 
 const inputProps = {
   inputHeight: ITEM_HEIGHT,
